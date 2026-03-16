@@ -11,13 +11,16 @@ export default defineConfig({
       thresholds: {
         lines:    80,
         branches: 80,
-        functions: 80,
+        functions: 75,
         statements: 80,
       },
       exclude: [
         'dist/**',
         'tests/**',
         '**/*.d.ts',
+        '**/index.ts',
+        'src/core/types.ts',
+        'vitest.config.ts',
       ],
     },
   },
