@@ -1,73 +1,117 @@
-# React + TypeScript + Vite
+# @etapsky/demo-reader
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> SDF file inspector — drag & drop `.sdf` files to view the visual and data layers side by side.
 
-Currently, two official plugins are available:
+Part of the [Etapsky SDF](https://github.com/etapsky/sdf) monorepo · F3 deliverable.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## What it does
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+`demo-reader` is a browser-based SDF inspector. Drop any `.sdf` file onto the page and instantly see:
 
-## Expanding the ESLint configuration
+- **Left panel** — `visual.pdf` rendered in an iframe. The human-readable layer, exactly as a PDF-only consumer would see it.
+- **Right panel** — three tabs:
+  - `data.json` — MetaCard (document identity) + DataTree (collapsible JSON tree, color-coded by value type)
+  - `schema.json` — field list with required markers, types, and descriptions
+  - `meta.json` — raw JSON of the SDF identity layer
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+No server. No upload. Everything runs in the browser — the `.sdf` file never leaves your machine.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Technology | Role |
+|---|---|
+| React 19 | UI framework |
+| Vite 8 | Build tool |
+| TypeScript | Strict mode |
+| `@etapsky/sdf-kit` | SDF parsing — `parseSDF()` |
+| IBM Plex Mono + Sans | Typography |
+
+---
+
+## Running locally
+
+```bash
+cd apps/demo-reader
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open `http://localhost:5173` and drop a `.sdf` file.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+To generate test files:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd spec/poc
+npm run build:all
+# output/ now contains 7 .sdf files
 ```
+
+Then drop any of them into the reader.
+
+---
+
+## Component structure
+
+```
+src/
+├── App.tsx                  ← State machine: idle → loading → ready / error
+├── types.ts                 ← SDFMeta, SDFParseResult, AppState
+├── index.css                ← CSS variables, global reset, scrollbar
+└── components/
+    ├── DropZone.tsx         ← Landing screen — drag & drop or click to browse
+    ├── Header.tsx           ← Top bar — filename, document_type badge, valid ✓
+    ├── PDFViewer.tsx        ← iframe PDF renderer with Blob URL lifecycle
+    ├── MetaCard.tsx         ← meta.json identity card — all fields, color-coded
+    └── DataTree.tsx         ← Recursive JSON tree — collapsible, value coloring
+```
+
+### App states
+
+```
+idle     → DropZone shown — waiting for file
+loading  → spinner — parseSDF() running
+error    → SDFError code + message + retry button
+ready    → split layout: PDFViewer (left) + panel tabs (right)
+```
+
+### DataTree value coloring
+
+| Value type | Color |
+|---|---|
+| UUID | magenta |
+| ISO date / timestamp | amber |
+| Decimal number string | teal |
+| Monetary `{ amount, currency }` | teal amount + amber currency (inline) |
+| Boolean | amber |
+| Number | teal |
+| String | white |
+
+### PDFViewer
+
+Creates a `Blob` URL from `pdfBytes` (`Uint8Array`) on mount and on prop change. Revokes the previous URL before creating a new one to prevent memory leaks. Renders inside an `<iframe>` — the browser's native PDF renderer handles the rest.
+
+---
+
+## Design decisions
+
+**No external UI library.** All styling is inline CSS with CSS variables. Dark theme by default — designed for developer use.
+
+**No file upload to server.** `FileReader` + `ArrayBuffer` → `parseSDF()` runs entirely in the browser. The `.sdf` ZIP is unpacked client-side by JSZip (bundled with `@etapsky/sdf-kit`).
+
+**Buffer polyfill.** `@etapsky/sdf-kit` uses Node.js `Buffer` internally. Vite 8 does not polyfill Node built-ins by default. The `vite.config.ts` uses `define: { global: 'globalThis' }` and the `buffer` npm package to provide a browser-compatible `Buffer`.
+
+---
+
+## Known limitations
+
+- Single-page only — no multi-page PDF navigation controls (the iframe's native PDF viewer provides scroll and zoom).
+- Large `.sdf` files (>10 MB) may be slow to parse in the browser — server-side `parseSDF()` is recommended for high-volume use.
+- `visual.pdf` renders in an `<iframe>` — Safari on iOS may not inline-render PDFs; it will prompt a download instead.
+
+---
+
+*@etapsky/demo-reader · F3 · Etapsky Inc. · github.com/etapsky/sdf*

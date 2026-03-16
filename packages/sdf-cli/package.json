@@ -1,0 +1,30 @@
+{
+  "name": "@etapsky/sdf-cli",
+  "version": "0.1.0",
+  "description": "SDF command-line tool — inspect, validate, convert .sdf files",
+  "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/etapsky/sdf.git",
+    "directory": "packages/sdf-cli"
+  },
+  "type": "module",
+  "bin": {
+    "sdf": "./dist/index.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "dev": "tsc --project tsconfig.build.json --watch",
+    "typecheck": "tsc --noEmit",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@etapsky/sdf-kit": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.3"
+  }
+}
