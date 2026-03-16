@@ -155,7 +155,7 @@ export default function App() {
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-      <Header filename={filename} meta={result.meta} onReset={reset} theme={theme} onToggleTheme={toggleTheme} />
+      <Header filename={filename} meta={result.meta} pdfBytes={result.pdfBytes} onReset={reset} theme={theme} onToggleTheme={toggleTheme} isPlainPDF={isPlainPDF} />
 
       <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px', background: 'var(--border)', overflow: 'hidden' }}>
 

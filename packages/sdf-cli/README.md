@@ -1,6 +1,6 @@
 # @etapsky/sdf-cli
 
-> SDF command-line tool — inspect, validate, and convert `.sdf` files.
+> SDF command-line tool — inspect, validate, convert, and wrap `.sdf` files.
 
 [![npm](https://img.shields.io/npm/v/@etapsky/sdf-cli)](https://www.npmjs.com/package/@etapsky/sdf-cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -29,7 +29,7 @@ npx @etapsky/sdf-cli inspect invoice.sdf
 
 Full inspection report — meta, schema summary, data tree, layer sizes.
 
-```
+```bash
 sdf inspect invoice.sdf
 ```
 
@@ -69,14 +69,9 @@ sdf inspect invoice.sdf
 ────────────────────────────────────────────────────────────
   document_type         invoice
   invoice_number        INV-2026-00142
-  issue_date            2026-03-15
-  issuer
-    name                Acme Supplies GmbH
-    ...
   line_items [2]
     unit_price          24.00 EUR
     subtotal            1200.00 EUR
-    … +1 more
   totals
     gross               1713.60 EUR
 ────────────────────────────────────────────────────────────
@@ -159,13 +154,63 @@ sdf convert \
 
 ---
 
+### `sdf wrap <file.pdf>`
+
+Wraps an existing PDF into a valid `.sdf` container. The PDF becomes `visual.pdf` — no structured data is extracted from it.
+
+Use this to bring existing PDFs into the SDF ecosystem. The resulting file can be opened in SDF Reader or any ZIP tool. `data.json` will contain a stub indicating the file was wrapped rather than produced with structured data.
+
+```bash
+sdf wrap document.pdf \
+  --issuer "Acme Corp" \
+  --out    document.sdf
+```
+
+**All flags:**
+
+| Flag | Required | Description |
+|---|---|---|
+| `<file.pdf>` | ✓ | Path to the input PDF file |
+| `--issuer` | ✓ | Issuing entity name (written to `meta.json`) |
+| `--out` | ✓ | Output `.sdf` file path |
+| `--issuer-id` | | Machine-readable issuer ID |
+| `--document-type` | | Document type label (default: `wrapped_pdf`) |
+| `--recipient` | | Recipient name |
+| `--recipient-id` | | Machine-readable recipient ID |
+
+**Output:**
+
+```
+  SDF — Smart Document Format  @etapsky/sdf-cli
+────────────────────────────────────────────────────────────
+  wrap  document.pdf  →  document.sdf
+────────────────────────────────────────────────────────────
+  ·  Reading PDF: document.pdf
+  ·  PDF size:    142.3 KB
+  ·  Packing SDF...
+  ✓  SDF file written
+
+  output        document.sdf
+  size          145.1 KB  (PDF: 142.3 KB)
+  issuer        Acme Corp
+  document_id   f47ac10b-58cc-4372-a567-0e02b2c3d479
+  data layer    stub only — no structured data extracted
+────────────────────────────────────────────────────────────
+  ✓  document.sdf created
+     Open in SDF Reader to view the PDF. Structured data panel will show a notice.
+```
+
+**Note:** `sdf wrap` is also available directly in `demo-reader` — drop a `.pdf` file and click `↓ sdf` in the header.
+
+---
+
 ## Global flags
 
 | Flag | Short | Description |
 |---|---|---|
 | `--help` | `-h` | Print help and exit |
 | `--version` | `-v` | Print version and exit |
-| `--quiet` | `-q` | Suppress output — exit code only (validate only) |
+| `--quiet` | `-q` | Suppress output — exit code only (`validate` only) |
 
 ---
 
@@ -188,7 +233,7 @@ All errors follow the canonical SDF error code registry from `SDF_FORMAT.md` Sec
 
 ## How it works
 
-`sdf-cli` is a thin command router built on top of `@etapsky/sdf-kit`. It adds no parsing or validation logic of its own — all SDF operations delegate to the kit.
+`sdf-cli` is a thin command router built on top of `@etapsky/sdf-kit`. It adds no parsing or validation logic of its own — all SDF operations delegate to the kit. `sdf wrap` is the only command that works directly with JSZip, since wrapping a plain PDF bypasses the kit's producer flow (there is no structured data to validate).
 
 ```
 src/
@@ -196,7 +241,8 @@ src/
 ├── commands/
 │   ├── inspect.ts        ← Full report — calls parseSDF(), formats output
 │   ├── validate.ts       ← CI-friendly — calls parseSDF(), exits 0 or 1
-│   └── convert.ts        ← Reads JSON files, calls buildSDF(), writes .sdf
+│   ├── convert.ts        ← Reads JSON files, calls buildSDF(), writes .sdf
+│   └── wrap.ts           ← Reads PDF, packs stub .sdf with JSZip directly
 └── ui/
     ├── print.ts          ← ANSI color helpers, no external dependency
     └── table.ts          ← Terminal table renderer
