@@ -8,7 +8,7 @@ import { SDFParseResult } from '../core/index.js';
 
 export type JSONOnlyResult = Omit<SDFParseResult, 'pdfBytes'>;
 
-export async function extractJSON(buffer: Buffer): Promise<JSONOnlyResult> {
+export async function extractJSON(buffer: Buffer | Uint8Array): Promise<JSONOnlyResult> {
   const { meta, data, schema } = await parseSDF(buffer);
   return { meta, data, schema };
 }

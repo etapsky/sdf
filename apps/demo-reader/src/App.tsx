@@ -18,7 +18,7 @@ export default function App() {
     setState({ status: 'loading' })
     try {
       const buffer = await file.arrayBuffer()
-      const result = await parseSDF(Buffer.from(buffer)) as SDFParseResult
+      const result = await parseSDF(new Uint8Array(buffer)) as SDFParseResult
       setState({ status: 'ready', result, filename: file.name })
     } catch (err) {
       if (err instanceof SDFError) {

@@ -14,7 +14,7 @@ export interface GeneratePDFOptions {
   data: Record<string, unknown>;
 }
 
-export async function generatePDF(options: GeneratePDFOptions): Promise<Buffer> {
+export async function generatePDF(options: GeneratePDFOptions): Promise<Uint8Array> {
   const { meta, data } = options;
 
   const doc  = await PDFDocument.create();
@@ -107,7 +107,7 @@ export async function generatePDF(options: GeneratePDFOptions): Promise<Buffer> 
     { x: margin, y: 12, size: 7, font, color: rgb(0.6, 0.6, 0.6) },
   );
 
-  return Buffer.from(await doc.save());
+  return doc.save();
 }
 
 // ─── Recursive object renderer ────────────────────────────────────────────────

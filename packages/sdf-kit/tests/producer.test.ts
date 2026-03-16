@@ -46,7 +46,7 @@ const PRODUCER_OPTIONS = {
 describe('buildSDF', () => {
   it('produces a non-empty buffer', async () => {
     const buffer = await buildSDF(PRODUCER_OPTIONS);
-    expect(buffer).toBeInstanceOf(Buffer);
+    expect(buffer).toBeInstanceOf(Uint8Array);
     expect(buffer.length).toBeGreaterThan(0);
   });
 

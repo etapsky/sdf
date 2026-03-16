@@ -16,7 +16,7 @@ import {
 } from '../core/index.js';
 
 export interface ContainerContents {
-  visualPdf:  Buffer;
+  visualPdf:  Uint8Array;
   dataJson:   string;
   schemaJson: string;
   metaJson:   string;
@@ -27,7 +27,7 @@ const ALLOWED_ROOT = new Set([...REQUIRED_FILES, 'signature.sig']);
 
 // ─── Pack ─────────────────────────────────────────────────────────────────────
 
-export async function packContainer(contents: ContainerContents): Promise<Buffer> {
+export async function packContainer(contents: ContainerContents): Promise<Uint8Array> {
   const zip = new JSZip();
 
   zip.file('visual.pdf',  contents.visualPdf,  { binary: true });
@@ -36,7 +36,7 @@ export async function packContainer(contents: ContainerContents): Promise<Buffer
   zip.file('meta.json',   contents.metaJson,    { binary: false });
 
   return zip.generateAsync({
-    type: 'nodebuffer',
+    type: 'uint8array',
     compression: 'DEFLATE',
     compressionOptions: { level: 6 },
   });
@@ -44,7 +44,7 @@ export async function packContainer(contents: ContainerContents): Promise<Buffer
 
 // ─── Unpack ───────────────────────────────────────────────────────────────────
 
-export async function unpackContainer(buffer: Buffer): Promise<ContainerContents> {
+export async function unpackContainer(buffer: Buffer | Uint8Array): Promise<ContainerContents> {
   // Open ZIP (SDF_FORMAT.md Section 6, Step 1)
   let zip: JSZip;
   try {
@@ -69,7 +69,7 @@ export async function unpackContainer(buffer: Buffer): Promise<ContainerContents
   let totalSize = 0;
   for (const [filePath, entry] of Object.entries(zip.files)) {
     if (entry.dir) continue;
-    const raw = await entry.async('nodebuffer');
+    const raw = await entry.async('uint8array');
     if (raw.length > MAX_FILE_SIZE_BYTES) {
       throw new SDFError(
         SDF_ERRORS.ARCHIVE_TOO_LARGE,
@@ -116,7 +116,7 @@ export async function unpackContainer(buffer: Buffer): Promise<ContainerContents
   }
 
   return {
-    visualPdf:  await zip.file('visual.pdf')!.async('nodebuffer'),
+    visualPdf:  await zip.file('visual.pdf')!.async('uint8array'),
     dataJson:   await zip.file('data.json')!.async('string'),
     schemaJson: await zip.file('schema.json')!.async('string'),
     metaJson:   await zip.file('meta.json')!.async('string'),

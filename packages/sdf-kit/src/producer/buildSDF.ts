@@ -13,7 +13,7 @@ import {
   SDF_VERSION,
 } from '../core/index.js';
 
-export async function buildSDF(options: SDFProducerOptions): Promise<Buffer> {
+export async function buildSDF(options: SDFProducerOptions): Promise<Uint8Array> {
   const {
     data, schema,
     issuer, issuerId,

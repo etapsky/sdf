@@ -14,7 +14,7 @@ import {
   isPlainObject,
 } from '../core/index.js';
 
-export async function parseSDF(buffer: Buffer): Promise<SDFParseResult> {
+export async function parseSDF(buffer: Buffer | Uint8Array): Promise<SDFParseResult> {
   // Step 1 — Open ZIP archive
   // TODO: container-decision — currently ZIP via unpackContainer()
   const contents = await unpackContainer(buffer);
