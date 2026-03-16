@@ -1,0 +1,154 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://etapsky.github.io/sdf/schemas/gov-permit-application/v0.1.json",
+    "title": "SDF Government Permit Application",
+    "description": "Schema for SDF government permit application documents. Version: 0.1.",
+    "type": "object",
+    "required": ["document_type", "permit_type", "application_number", "application_date", "applicant", "authority", "project", "declaration"],
+    "properties": {
+      "document_type":      { "type": "string", "const": "gov_permit_application" },
+      "permit_type":        {
+        "type": "string",
+        "enum": ["construction_permit", "operating_permit", "environmental_permit", "import_license", "export_license", "business_registration"]
+      },
+      "application_number": { "type": "string", "minLength": 1 },
+      "application_date":   { "type": "string", "format": "date" },
+      "applicant":          { "$ref": "#/$defs/applicant" },
+      "architect":          { "$ref": "#/$defs/professional" },
+      "authority":          { "$ref": "#/$defs/party" },
+      "project":            { "$ref": "#/$defs/project" },
+      "documents_ref": {
+        "type": "array",
+        "items": { "$ref": "#/$defs/document_ref" }
+      },
+      "declaration":        { "$ref": "#/$defs/declaration" }
+    },
+    "additionalProperties": false,
+    "$defs": {
+      "monetary_amount": {
+        "type": "object",
+        "required": ["amount", "currency"],
+        "properties": {
+          "amount":   { "type": "string", "pattern": "^\\d+(\\.\\d{1,4})?$" },
+          "currency": { "type": "string", "pattern": "^[A-Z]{3}$" }
+        },
+        "additionalProperties": false
+      },
+      "coordinates": {
+        "type": "object",
+        "properties": {
+          "latitude":  { "type": "string" },
+          "longitude": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "address": {
+        "type": "object",
+        "required": ["city", "country"],
+        "properties": {
+          "street":      { "type": "string" },
+          "city":        { "type": "string" },
+          "postal_code": { "type": "string" },
+          "country":     { "type": "string", "pattern": "^[A-Z]{2}$" }
+        },
+        "additionalProperties": false
+      },
+      "contact": {
+        "type": "object",
+        "properties": {
+          "name":  { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "phone": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "party": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name":    { "type": "string" },
+          "id":      { "type": "string" },
+          "address": { "$ref": "#/$defs/address" },
+          "contact": { "$ref": "#/$defs/contact" }
+        },
+        "additionalProperties": false
+      },
+      "applicant": {
+        "type": "object",
+        "required": ["name", "id"],
+        "properties": {
+          "name":       { "type": "string" },
+          "id":         { "type": "string" },
+          "legal_form": { "type": "string" },
+          "address":    { "$ref": "#/$defs/address" },
+          "contact":    { "$ref": "#/$defs/contact" }
+        },
+        "additionalProperties": false
+      },
+      "professional": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name":           { "type": "string" },
+          "id":             { "type": "string" },
+          "license_number": { "type": "string" },
+          "contact":        { "$ref": "#/$defs/contact" }
+        },
+        "additionalProperties": false
+      },
+      "project_location": {
+        "type": "object",
+        "required": ["city", "country"],
+        "properties": {
+          "street":      { "type": "string" },
+          "city":        { "type": "string" },
+          "postal_code": { "type": "string" },
+          "country":     { "type": "string", "pattern": "^[A-Z]{2}$" },
+          "parcel_id":   { "type": "string" },
+          "coordinates": { "$ref": "#/$defs/coordinates" }
+        },
+        "additionalProperties": false
+      },
+      "project": {
+        "type": "object",
+        "required": ["title", "description", "location", "construction_type", "estimated_start"],
+        "properties": {
+          "title":                  { "type": "string" },
+          "description":            { "type": "string" },
+          "location":               { "$ref": "#/$defs/project_location" },
+          "zone":                   { "type": "string" },
+          "construction_type":      { "type": "string", "enum": ["new_build", "renovation", "extension", "demolition", "change_of_use"] },
+          "estimated_start":        { "type": "string", "format": "date" },
+          "estimated_completion":   { "type": "string", "format": "date" },
+          "estimated_cost":         { "$ref": "#/$defs/monetary_amount" },
+          "floor_area_m2":          { "type": "string" },
+          "height_m":               { "type": "string" },
+          "floors_above_ground":    { "type": "integer", "minimum": 0 },
+          "floors_below_ground":    { "type": "integer", "minimum": 0 },
+          "parking_spaces":         { "type": "integer", "minimum": 0 }
+        },
+        "additionalProperties": false
+      },
+      "document_ref": {
+        "type": "object",
+        "required": ["type", "title", "ref"],
+        "properties": {
+          "type":  { "type": "string" },
+          "title": { "type": "string" },
+          "ref":   { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "declaration": {
+        "type": "object",
+        "required": ["text", "signatory", "date"],
+        "properties": {
+          "text":           { "type": "string" },
+          "signatory":      { "type": "string" },
+          "signatory_role": { "type": "string" },
+          "date":           { "type": "string", "format": "date" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }

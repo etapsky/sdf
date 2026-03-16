@@ -1,0 +1,84 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://etapsky.github.io/sdf/schemas/base/v0.1.json",
+    "title": "SDF Data — Base Schema",
+    "description": "Base schema for data.json inside an SDF file. Document-type schemas extend this. Version: 0.1.",
+    "type": "object",
+    "properties": {
+      "document_type": {
+        "type": "string",
+        "description": "Class of document. Should match meta.json document_type. E.g. 'invoice', 'nomination', 'gov_tax_declaration'."
+      },
+      "nomination_ref": {
+        "type": "string",
+        "description": "Nomination reference identifier. Used for automated matching on the consumer side."
+      },
+      "purchase_order_ref": {
+        "type": "string",
+        "description": "Purchase order number in the recipient's system."
+      },
+      "contract_ref": {
+        "type": "string",
+        "description": "Contract identifier."
+      },
+      "delivery_note_ref": {
+        "type": "string",
+        "description": "Delivery note number."
+      },
+      "period": {
+        "type": "string",
+        "description": "Reporting period in ISO 8601 date range format (e.g. '2026-01-01/2026-03-31')."
+      }
+    },
+    "$comment": "Document-type-specific schemas (invoice, nomination, etc.) are defined separately under schemas/{document_type}/. They may $ref this base schema or define their own structure independently. The base schema does not use additionalProperties: false — document schemas define their own constraints.",
+    "$defs": {
+      "monetary_amount": {
+        "type": "object",
+        "required": ["amount", "currency"],
+        "properties": {
+          "amount": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d{1,4})?$",
+            "description": "Decimal string. Never a bare number. E.g. '1250.00'."
+          },
+          "currency": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "description": "ISO 4217 currency code. E.g. 'EUR', 'USD', 'CHF'."
+          }
+        },
+        "additionalProperties": false
+      },
+      "address": {
+        "type": "object",
+        "required": ["street", "city", "country"],
+        "properties": {
+          "street":      { "type": "string" },
+          "city":        { "type": "string" },
+          "postal_code": { "type": "string" },
+          "country":     { "type": "string", "pattern": "^[A-Z]{2}$", "description": "ISO 3166-1 alpha-2 country code." }
+        },
+        "additionalProperties": false
+      },
+      "party": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name":       { "type": "string" },
+          "id":         { "type": "string", "description": "Machine-readable identifier (VAT ID, GLN, government entity code, UUID)." },
+          "address":    { "$ref": "#/$defs/address" },
+          "contact":    { "$ref": "#/$defs/contact" }
+        },
+        "additionalProperties": false
+      },
+      "contact": {
+        "type": "object",
+        "properties": {
+          "name":  { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "phone": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }

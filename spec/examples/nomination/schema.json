@@ -1,0 +1,120 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://etapsky.github.io/sdf/schemas/nomination/v0.1.json",
+    "title": "SDF Nomination",
+    "description": "Schema for SDF cargo nomination documents. Version: 0.1.",
+    "type": "object",
+    "required": ["document_type", "nomination_number", "issue_date", "cargo_owner", "agent", "vessel", "laycan", "port_of_loading", "port_of_discharge", "cargo"],
+    "properties": {
+      "document_type":     { "type": "string", "const": "nomination" },
+      "nomination_number": { "type": "string", "minLength": 1 },
+      "issue_date":        { "type": "string", "format": "date" },
+      "contract_ref":      { "type": "string" },
+      "cargo_owner":       { "$ref": "#/$defs/party" },
+      "agent":             { "$ref": "#/$defs/party" },
+      "vessel":            { "$ref": "#/$defs/vessel" },
+      "laycan":            { "$ref": "#/$defs/laycan" },
+      "port_of_loading":   { "$ref": "#/$defs/port" },
+      "port_of_discharge": { "$ref": "#/$defs/port" },
+      "cargo":             { "$ref": "#/$defs/cargo" },
+      "freight":           { "$ref": "#/$defs/freight" },
+      "notes":             { "type": "string" }
+    },
+    "additionalProperties": false,
+    "$defs": {
+      "monetary_amount": {
+        "type": "object",
+        "required": ["amount", "currency"],
+        "properties": {
+          "amount":   { "type": "string", "pattern": "^\\d+(\\.\\d{1,4})?$" },
+          "currency": { "type": "string", "pattern": "^[A-Z]{3}$" }
+        },
+        "additionalProperties": false
+      },
+      "address": {
+        "type": "object",
+        "required": ["city", "country"],
+        "properties": {
+          "street":      { "type": "string" },
+          "city":        { "type": "string" },
+          "postal_code": { "type": "string" },
+          "country":     { "type": "string", "pattern": "^[A-Z]{2}$" }
+        },
+        "additionalProperties": false
+      },
+      "contact": {
+        "type": "object",
+        "properties": {
+          "name":  { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "phone": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "party": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name":    { "type": "string" },
+          "id":      { "type": "string" },
+          "address": { "$ref": "#/$defs/address" },
+          "contact": { "$ref": "#/$defs/contact" }
+        },
+        "additionalProperties": false
+      },
+      "vessel": {
+        "type": "object",
+        "required": ["name", "imo"],
+        "properties": {
+          "name": { "type": "string" },
+          "imo":  { "type": "string", "pattern": "^\\d{7}$" },
+          "flag": { "type": "string", "pattern": "^[A-Z]{2}$" },
+          "dwt":  { "type": "string" },
+          "eta":  { "type": "string", "format": "date-time" }
+        },
+        "additionalProperties": false
+      },
+      "laycan": {
+        "type": "object",
+        "required": ["start", "end"],
+        "properties": {
+          "start": { "type": "string", "format": "date" },
+          "end":   { "type": "string", "format": "date" }
+        },
+        "additionalProperties": false
+      },
+      "port": {
+        "type": "object",
+        "required": ["name", "country"],
+        "properties": {
+          "name":     { "type": "string" },
+          "locode":   { "type": "string" },
+          "terminal": { "type": "string" },
+          "country":  { "type": "string", "pattern": "^[A-Z]{2}$" }
+        },
+        "additionalProperties": false
+      },
+      "cargo": {
+        "type": "object",
+        "required": ["description", "quantity", "unit"],
+        "properties": {
+          "description":    { "type": "string" },
+          "quantity":       { "type": "string" },
+          "unit":           { "type": "string" },
+          "tolerance":      { "type": "string" },
+          "tolerance_unit": { "type": "string" },
+          "quality_ref":    { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "freight": {
+        "type": "object",
+        "properties": {
+          "rate":      { "$ref": "#/$defs/monetary_amount" },
+          "rate_unit": { "type": "string" },
+          "terms":     { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }

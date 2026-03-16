@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://etapsky.github.io/sdf/schemas/meta.schema.json",
+  "title": "SDF Meta",
+  "description": "Normative schema for meta.json inside an SDF file. Version: 0.1.",
+  "type": "object",
+  "required": ["sdf_version", "document_id", "issuer", "created_at"],
+  "properties": {
+    "sdf_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$",
+      "description": "SDF spec version this file was produced against. Format: MAJOR.MINOR (e.g. '0.1')."
+    },
+    "document_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID v4. Globally unique identifier for this document instance. MUST NOT change across re-exports."
+    },
+    "issuer": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Name or unique identifier of the producing entity."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp of when this SDF file was produced."
+    },
+    "document_type": {
+      "type": "string",
+      "description": "Class of document. Recommended. E.g. 'invoice', 'nomination', 'purchase_order', 'gov_tax_declaration'."
+    },
+    "document_version": {
+      "type": "string",
+      "description": "Version of this document if it has been amended. Semver string (e.g. '1.0.0')."
+    },
+    "issuer_id": {
+      "type": "string",
+      "description": "Machine-readable identifier for the issuer (e.g. GLN, VAT ID, UUID, government entity code)."
+    },
+    "recipient": {
+      "type": "string",
+      "description": "Name or identifier of the intended recipient."
+    },
+    "recipient_id": {
+      "type": "string",
+      "description": "Machine-readable identifier for the recipient."
+    },
+    "schema_id": {
+      "type": "string",
+      "format": "uri",
+      "description": "URI of the schema.json $id. Allows external validation without unpacking the archive."
+    },
+    "signature_algorithm": {
+      "type": ["string", "null"],
+      "description": "Algorithm used for signature.sig. Reserved for Phase 4. Set to null as forward-compatibility marker."
+    },
+    "parent_document_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID of the document this file amends or supersedes."
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp after which the document should be considered stale."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Free-form tags for routing or categorisation."
+    }
+  },
+  "additionalProperties": false
+}

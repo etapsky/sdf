@@ -1,0 +1,123 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://etapsky.github.io/sdf/schemas/gov-customs-declaration/v0.1.json",
+    "title": "SDF Government Customs Declaration",
+    "description": "Schema for SDF import/export customs declaration documents. Version: 0.1.",
+    "type": "object",
+    "required": ["document_type", "declaration_number", "declaration_type", "declaration_date", "declarant", "importer", "exporter", "customs_office", "goods", "totals"],
+    "properties": {
+      "document_type":      { "type": "string", "const": "gov_customs_declaration" },
+      "declaration_number": { "type": "string", "minLength": 1 },
+      "declaration_type":   { "type": "string", "enum": ["import", "export", "transit"] },
+      "declaration_date":   { "type": "string", "format": "date" },
+      "invoice_ref":        { "type": "string" },
+      "declarant":          { "$ref": "#/$defs/declarant" },
+      "importer":           { "$ref": "#/$defs/party" },
+      "exporter":           { "$ref": "#/$defs/party" },
+      "customs_office":     { "$ref": "#/$defs/party" },
+      "transport":          { "$ref": "#/$defs/transport" },
+      "goods": {
+        "type": "array",
+        "minItems": 1,
+        "items": { "$ref": "#/$defs/goods_line" }
+      },
+      "totals": { "$ref": "#/$defs/totals" }
+    },
+    "additionalProperties": false,
+    "$defs": {
+      "monetary_amount": {
+        "type": "object",
+        "required": ["amount", "currency"],
+        "properties": {
+          "amount":   { "type": "string", "pattern": "^\\d+(\\.\\d{1,4})?$" },
+          "currency": { "type": "string", "pattern": "^[A-Z]{3}$" }
+        },
+        "additionalProperties": false
+      },
+      "address": {
+        "type": "object",
+        "required": ["city", "country"],
+        "properties": {
+          "street":      { "type": "string" },
+          "city":        { "type": "string" },
+          "postal_code": { "type": "string" },
+          "country":     { "type": "string", "pattern": "^[A-Z]{2}$" }
+        },
+        "additionalProperties": false
+      },
+      "contact": {
+        "type": "object",
+        "properties": {
+          "name":  { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "phone": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "party": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name":    { "type": "string" },
+          "id":      { "type": "string" },
+          "address": { "$ref": "#/$defs/address" },
+          "contact": { "$ref": "#/$defs/contact" }
+        },
+        "additionalProperties": false
+      },
+      "declarant": {
+        "type": "object",
+        "required": ["name", "id", "role"],
+        "properties": {
+          "name":    { "type": "string" },
+          "id":      { "type": "string" },
+          "role":    { "type": "string", "enum": ["importer_of_record", "customs_broker", "freight_forwarder"] },
+          "address": { "$ref": "#/$defs/address" },
+          "contact": { "$ref": "#/$defs/contact" }
+        },
+        "additionalProperties": false
+      },
+      "transport": {
+        "type": "object",
+        "required": ["mode"],
+        "properties": {
+          "mode":                    { "type": "string", "enum": ["road", "rail", "sea", "air", "multimodal"] },
+          "vehicle_id":              { "type": "string" },
+          "vessel_name":             { "type": "string" },
+          "vessel_imo":              { "type": "string" },
+          "flight_number":           { "type": "string" },
+          "country_of_departure":    { "type": "string", "pattern": "^[A-Z]{2}$" },
+          "country_of_destination":  { "type": "string", "pattern": "^[A-Z]{2}$" }
+        },
+        "additionalProperties": false
+      },
+      "goods_line": {
+        "type": "object",
+        "required": ["line_number", "description", "hs_code", "country_of_origin", "quantity", "unit", "customs_value"],
+        "properties": {
+          "line_number":       { "type": "integer", "minimum": 1 },
+          "description":       { "type": "string" },
+          "hs_code":           { "type": "string", "description": "Harmonized System code." },
+          "country_of_origin": { "type": "string", "pattern": "^[A-Z]{2}$" },
+          "quantity":          { "type": "number", "minimum": 0 },
+          "unit":              { "type": "string" },
+          "gross_weight_kg":   { "type": "string" },
+          "customs_value":     { "$ref": "#/$defs/monetary_amount" },
+          "duty_rate":         { "type": "string", "pattern": "^0(\\.\\d+)?$" },
+          "duty_amount":       { "$ref": "#/$defs/monetary_amount" }
+        },
+        "additionalProperties": false
+      },
+      "totals": {
+        "type": "object",
+        "required": ["customs_value", "total_duty"],
+        "properties": {
+          "customs_value": { "$ref": "#/$defs/monetary_amount" },
+          "total_duty":    { "$ref": "#/$defs/monetary_amount" },
+          "vat_base":      { "$ref": "#/$defs/monetary_amount" },
+          "vat_amount":    { "$ref": "#/$defs/monetary_amount" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }

@@ -1,0 +1,163 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://etapsky.github.io/sdf/schemas/gov-health-report/v0.1.json",
+    "title": "SDF Government Health Report",
+    "description": "Schema for SDF mandatory health and epidemiological report documents. Version: 0.1.",
+    "type": "object",
+    "required": ["document_type", "report_type", "report_number", "reporting_period", "report_date", "reporter", "authority", "disease", "cases", "summary", "declaration"],
+    "properties": {
+      "document_type":    { "type": "string", "const": "gov_health_report" },
+      "report_type": {
+        "type": "string",
+        "enum": [
+          "notifiable_disease",
+          "outbreak",
+          "occupational_injury",
+          "food_poisoning",
+          "vaccination_adverse_event",
+          "antimicrobial_resistance"
+        ]
+      },
+      "report_number":      { "type": "string", "minLength": 1 },
+      "reporting_period":   { "type": "string", "description": "ISO 8601 date range. E.g. '2026-03-08/2026-03-14'." },
+      "report_date":        { "type": "string", "format": "date" },
+      "reporter":           { "$ref": "#/$defs/reporter" },
+      "authority":          { "$ref": "#/$defs/authority" },
+      "disease":            { "$ref": "#/$defs/disease" },
+      "laboratory":         { "$ref": "#/$defs/laboratory" },
+      "cases": {
+        "type": "array",
+        "minItems": 1,
+        "items": { "$ref": "#/$defs/case_record" }
+      },
+      "summary":            { "$ref": "#/$defs/summary" },
+      "declaration":        { "$ref": "#/$defs/declaration" }
+    },
+    "additionalProperties": false,
+    "$defs": {
+      "address": {
+        "type": "object",
+        "required": ["city", "country"],
+        "properties": {
+          "street":      { "type": "string" },
+          "city":        { "type": "string" },
+          "postal_code": { "type": "string" },
+          "country":     { "type": "string", "pattern": "^[A-Z]{2}$" }
+        },
+        "additionalProperties": false
+      },
+      "contact": {
+        "type": "object",
+        "properties": {
+          "name":  { "type": "string" },
+          "role":  { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "phone": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "reporter": {
+        "type": "object",
+        "required": ["name", "id", "facility_type", "address", "contact"],
+        "properties": {
+          "name":          { "type": "string" },
+          "id":            { "type": "string" },
+          "facility_type": {
+            "type": "string",
+            "enum": ["hospital", "clinic", "laboratory", "gp_practice", "pharmacy", "public_health_unit"]
+          },
+          "address":  { "$ref": "#/$defs/address" },
+          "contact":  { "$ref": "#/$defs/contact" }
+        },
+        "additionalProperties": false
+      },
+      "authority": {
+        "type": "object",
+        "required": ["name", "id"],
+        "properties": {
+          "name":     { "type": "string" },
+          "id":       { "type": "string" },
+          "division": { "type": "string" },
+          "address":  { "$ref": "#/$defs/address" }
+        },
+        "additionalProperties": false
+      },
+      "disease": {
+        "type": "object",
+        "required": ["name", "icd10_code", "notification_category"],
+        "properties": {
+          "name":                  { "type": "string" },
+          "icd10_code":            { "type": "string", "description": "ICD-10 code. E.g. 'J11', 'A00', 'B34.9'." },
+          "pathogen":              { "type": "string" },
+          "notification_category": {
+            "type": "string",
+            "enum": ["mandatory_within_24h", "mandatory_within_1_week", "mandatory_annual", "voluntary"]
+          },
+          "outbreak_suspected":    { "type": "boolean" }
+        },
+        "additionalProperties": false
+      },
+      "laboratory": {
+        "type": "object",
+        "required": ["name", "confirmation_method"],
+        "properties": {
+          "name":                { "type": "string" },
+          "id":                  { "type": "string" },
+          "confirmation_method": {
+            "type": "string",
+            "enum": ["PCR", "culture", "serology", "rapid_antigen", "clinical_diagnosis", "other"]
+          },
+          "confirmation_date":   { "type": "string", "format": "date" },
+          "contact":             { "$ref": "#/$defs/contact" }
+        },
+        "additionalProperties": false
+      },
+      "case_record": {
+        "type": "object",
+        "required": ["case_ref", "age_group", "sex", "outcome", "onset_date", "diagnosis_date", "hospitalised"],
+        "properties": {
+          "case_ref":              { "type": "string", "description": "Pseudonymised case reference. MUST NOT contain patient name or national ID." },
+          "age_group":             {
+            "type": "string",
+            "enum": ["0-4", "5-14", "15-24", "25-34", "35-44", "45-54", "55-64", "65-74", "75+", "unknown"]
+          },
+          "sex":                   { "type": "string", "enum": ["male", "female", "other", "unknown"] },
+          "outcome":               { "type": "string", "enum": ["recovered", "hospitalised", "deceased", "unknown"] },
+          "onset_date":            { "type": "string", "format": "date" },
+          "diagnosis_date":        { "type": "string", "format": "date" },
+          "hospitalised":          { "type": "boolean" },
+          "icu_admission":         { "type": "boolean" },
+          "vaccination_status":    { "type": "string", "enum": ["vaccinated", "partially_vaccinated", "unvaccinated", "unknown"] },
+          "vaccination_doses":     { "type": "integer", "minimum": 0 },
+          "last_vaccination_date": { "type": "string", "format": "date" },
+          "country_of_exposure":   { "type": "string", "pattern": "^[A-Z]{2}$" },
+          "region_of_exposure":    { "type": "string", "description": "ISO 3166-2 subdivision code or equivalent regional code." }
+        },
+        "additionalProperties": false
+      },
+      "summary": {
+        "type": "object",
+        "required": ["total_cases"],
+        "properties": {
+          "total_cases":   { "type": "integer", "minimum": 0 },
+          "hospitalised":  { "type": "integer", "minimum": 0 },
+          "icu_admissions":{ "type": "integer", "minimum": 0 },
+          "deaths":        { "type": "integer", "minimum": 0 },
+          "recovered":     { "type": "integer", "minimum": 0 }
+        },
+        "additionalProperties": false
+      },
+      "declaration": {
+        "type": "object",
+        "required": ["text", "signatory", "signatory_role", "date"],
+        "properties": {
+          "text":           { "type": "string" },
+          "signatory":      { "type": "string" },
+          "signatory_role": { "type": "string" },
+          "signatory_id":   { "type": "string", "description": "Medical license number or GLN." },
+          "date":           { "type": "string", "format": "date" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }

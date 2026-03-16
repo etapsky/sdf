@@ -1,0 +1,73 @@
+{
+    "document_type": "nomination",
+    "nomination_number": "NOM-2026-0042",
+    "issue_date": "2026-03-10",
+    "contract_ref": "CT-2025-NE-0017",
+    "cargo_owner": {
+      "name": "Nordic Energy Trading AS",
+      "id": "NO-987654321",
+      "address": {
+        "street": "Strandveien 18",
+        "city": "Oslo",
+        "postal_code": "0250",
+        "country": "NO"
+      },
+      "contact": {
+        "name": "Ingrid Larsen",
+        "email": "i.larsen@nordic-energy.no",
+        "phone": "+47 21 00 00 00"
+      }
+    },
+    "agent": {
+      "name": "Baltic Ship Agents Ltd",
+      "id": "EE-123456789",
+      "address": {
+        "street": "Sadama 1",
+        "city": "Tallinn",
+        "postal_code": "10111",
+        "country": "EE"
+      },
+      "contact": {
+        "name": "Andrei Kask",
+        "email": "ops@baltic-agents.ee",
+        "phone": "+372 600 1234"
+      }
+    },
+    "vessel": {
+      "name": "MV Nordic Star",
+      "imo": "9876543",
+      "flag": "NO",
+      "dwt": "75000",
+      "eta": "2026-03-22T06:00:00+02:00"
+    },
+    "laycan": {
+      "start": "2026-03-21",
+      "end": "2026-03-24"
+    },
+    "port_of_loading": {
+      "name": "Port of Primorsk",
+      "locode": "RU PRI",
+      "terminal": "SPG Terminal 3",
+      "country": "RU"
+    },
+    "port_of_discharge": {
+      "name": "Port of Rotterdam",
+      "locode": "NL RTM",
+      "terminal": "Europoort Oil Terminal",
+      "country": "NL"
+    },
+    "cargo": {
+      "description": "Urals Crude Oil",
+      "quantity": "75000",
+      "unit": "MT",
+      "tolerance": "5",
+      "tolerance_unit": "%",
+      "quality_ref": "GOST R 51858-2002"
+    },
+    "freight": {
+      "rate": { "amount": "8.50", "currency": "USD" },
+      "rate_unit": "per MT",
+      "terms": "CFR Rotterdam"
+    },
+    "notes": "NOR to be tendered on arrival. Free pratique and customs clearance at owner's account."
+  }
