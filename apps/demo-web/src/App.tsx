@@ -85,6 +85,11 @@ export default function App() {
         top:          0,
         zIndex:       10,
       }}>
+        <a href="https://etapsky.com" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: 'inherit' }}>
+          <img src="/etapsky_mark.svg" alt="Etapsky Inc." width="24" height="24" style={{ verticalAlign: 'middle' }} />
+          <span style={{ fontFamily: 'var(--mono)', fontSize: '12px', color: 'var(--text3)', fontWeight: 500 }}>Etapsky Inc.</span>
+        </a>
+        <div style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
         <span style={{
           fontFamily: 'var(--mono)',
           fontSize:   '14px',
@@ -102,18 +107,8 @@ export default function App() {
 
         <div style={{ flex: 1 }} />
 
-        <a
-          href="https://github.com/etapsky/sdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            fontFamily:   'var(--mono)',
-            fontSize:     '11px',
-            color:        'var(--text3)',
-            textDecoration: 'none',
-          }}
-        >
-          github.com/etapsky/sdf
+        <a href="https://github.com/etapsky/sdf" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center' }}>
+          <img src="https://img.shields.io/badge/GitHub-etapsky%2Fsdf-181717?style=flat-square&logo=github" alt="github.com/etapsky/sdf" style={{ verticalAlign: 'middle', height: 20 }} />
         </a>
       </div>
 

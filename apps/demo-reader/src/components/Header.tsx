@@ -80,6 +80,10 @@ export default function Header({ filename, meta, pdfBytes, onReset, theme, onTog
       display: 'flex', alignItems: 'center', padding: '0 20px', gap: '16px', flexShrink: 0,
     }}>
 
+      <a href="https://etapsky.com" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', lineHeight: 0 }}>
+        <img src="/etapsky_mark.svg" alt="Etapsky Inc." width="24" height="24" />
+      </a>
+      <div style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
       <span style={{ fontFamily: 'var(--mono)', fontSize: '13px', fontWeight: 500, color: 'var(--text)', letterSpacing: '-0.3px' }}>
         SDF <span style={{ color: 'var(--text3)' }}>reader</span>
       </span>
@@ -150,6 +154,9 @@ export default function Header({ filename, meta, pdfBytes, onReset, theme, onTog
         </button>
       )}
 
+      <a href="https://github.com/etapsky/sdf" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center' }}>
+        <img src="https://img.shields.io/badge/GitHub-etapsky%2Fsdf-181717?style=flat-square&logo=github" alt="github.com/etapsky/sdf" style={{ height: 20 }} />
+      </a>
       <div style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
       <ThemeToggle theme={theme} onToggle={onToggleTheme} />
       <div style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
