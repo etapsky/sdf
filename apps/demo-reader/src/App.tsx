@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { parseSDF } from '@etapsky/sdf-kit/reader'
 import { SDFError } from '@etapsky/sdf-kit'
 import type { AppState, SDFParseResult } from './types'
@@ -7,12 +7,26 @@ import Header from './components/Header'
 import PDFViewer from './components/PDFViewer'
 import MetaCard from './components/MetaCard'
 import DataTree from './components/DataTree'
+import ThemeToggle from './components/ThemeToggle'
 
 type Panel = 'data' | 'schema' | 'raw'
+type Theme = 'dark' | 'light'
+
+const THEME_KEY = 'sdf-reader-theme'
 
 export default function App() {
   const [state, setState] = useState<AppState>({ status: 'idle' })
   const [activePanel, setActivePanel] = useState<Panel>('data')
+  const [theme, setTheme] = useState<Theme>(() =>
+    (localStorage.getItem(THEME_KEY) as Theme) ?? 'dark'
+  )
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem(THEME_KEY, theme)
+  }, [theme])
+
+  const toggleTheme = useCallback(() => setTheme(t => t === 'dark' ? 'light' : 'dark'), [])
 
   const handleFile = useCallback(async (file: File) => {
     setState({ status: 'loading' })
@@ -39,6 +53,9 @@ export default function App() {
   if (state.status === 'idle') {
     return (
       <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ position: 'fixed', top: 12, right: 12, zIndex: 10 }}>
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+        </div>
         <DropZone onFile={handleFile} />
       </div>
     )
@@ -54,6 +71,9 @@ export default function App() {
         flexDirection: 'column',
         gap: '16px',
       }}>
+        <div style={{ position: 'fixed', top: 12, right: 12, zIndex: 10 }}>
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+        </div>
         <div style={{
           width: '32px',
           height: '32px',
@@ -81,6 +101,9 @@ export default function App() {
         gap: '20px',
         padding: '40px',
       }}>
+        <div style={{ position: 'fixed', top: 12, right: 12, zIndex: 10 }}>
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+        </div>
         <div style={{
           background: 'rgba(216,90,48,0.08)',
           border: '1px solid rgba(216,90,48,0.25)',
@@ -135,8 +158,7 @@ export default function App() {
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-
-      <Header filename={filename} meta={result.meta} onReset={reset} />
+      <Header filename={filename} meta={result.meta} onReset={reset} theme={theme} onToggleTheme={toggleTheme} />
 
       {/* Main layout */}
       <div style={{

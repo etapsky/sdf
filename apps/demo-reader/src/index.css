@@ -23,6 +23,23 @@
   --sans:      'IBM Plex Sans', sans-serif;
 }
 
+[data-theme="light"] {
+  --bg:        #f8f7f4;
+  --bg2:       #efeeea;
+  --bg3:       #e6e4df;
+  --border:    rgba(0,0,0,0.08);
+  --border2:   rgba(0,0,0,0.14);
+  --text:      #1a1917;
+  --text2:     #4a4844;
+  --text3:     #6e6c66;
+  --accent:    #5B52C7;
+  --accent2:   #6F66D4;
+  --teal:      #2D9D78;
+  --teal2:     #4AB892;
+  --amber:     #C77D0A;
+  --coral:     #B84820;
+}
+
 html, body, #root {
   height: 100%;
   width: 100%;

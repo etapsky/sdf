@@ -1,12 +1,15 @@
 import type { SDFMeta } from '../types'
+import ThemeToggle from './ThemeToggle'
 
 interface Props {
   filename: string;
   meta: SDFMeta;
   onReset: () => void;
+  theme: 'dark' | 'light';
+  onToggleTheme: () => void;
 }
 
-export default function Header({ filename, meta, onReset }: Props) {
+export default function Header({ filename, meta, onReset, theme, onToggleTheme }: Props) {
   return (
     <div style={{
       height: '48px',
@@ -77,6 +80,10 @@ export default function Header({ filename, meta, onReset }: Props) {
         </svg>
         valid
       </div>
+
+      <div style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
+
+      <ThemeToggle theme={theme} onToggle={onToggleTheme} />
 
       <div style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
 
