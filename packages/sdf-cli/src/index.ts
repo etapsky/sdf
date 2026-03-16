@@ -6,6 +6,7 @@
 //   sdf inspect  <file.sdf>                        Full inspection report
 //   sdf validate <file.sdf>                        Validate only (CI-friendly)
 //   sdf convert  --data <f> --schema <f> --issuer <s> --out <f>
+//   sdf wrap     <file.pdf> --issuer <s> --out <f>  Wrap PDF into .sdf
 //
 // Flags:
 //   --quiet   (-q)  Suppress output, exit code only
@@ -15,11 +16,10 @@
 import { inspect }  from './commands/inspect.js'
 import { validate } from './commands/validate.js'
 import { convert }  from './commands/convert.js'
+import { wrap }     from './commands/wrap.js'
 import { print, blank, clr, divider } from './ui/print.js'
 
-const VERSION = '0.1.0'
-
-// ─── Parse args ───────────────────────────────────────────────────────────────
+const VERSION = '0.1.2'
 
 const args = process.argv.slice(2)
 
@@ -29,18 +29,13 @@ const flags = {
   help:    args.includes('--help')    || args.includes('-h'),
 }
 
-// Remove flags from positional args
 const positional = args.filter(a => !a.startsWith('-'))
 const [command, ...rest] = positional
-
-// ─── --version ────────────────────────────────────────────────────────────────
 
 if (flags.version) {
   print(`@etapsky/sdf-cli ${VERSION}`)
   process.exit(0)
 }
-
-// ─── --help / no command ──────────────────────────────────────────────────────
 
 if (flags.help || !command) {
   blank()
@@ -59,6 +54,10 @@ if (flags.help || !command) {
   print(`  ${clr.cyan}sdf convert${clr.reset}  ${clr.gray}--data <f> --schema <f> --issuer <s> --out <f>${clr.reset}`)
   print(`  ${clr.gray}             Convert JSON data + schema into a .sdf archive${clr.reset}`)
   blank()
+  print(`  ${clr.cyan}sdf wrap${clr.reset}     ${clr.gray}<file.pdf> --issuer <s> --out <f>${clr.reset}`)
+  print(`  ${clr.gray}             Wrap an existing PDF into a .sdf container${clr.reset}`)
+  print(`  ${clr.gray}             The PDF becomes visual.pdf — no structured data is extracted${clr.reset}`)
+  blank()
   print(`  ${clr.white}Flags${clr.reset}`)
   blank()
   print(`  ${clr.gray}--quiet    -q   Suppress output (exit code only)${clr.reset}`)
@@ -71,17 +70,15 @@ if (flags.help || !command) {
   print(`  ${clr.dim}sdf validate invoice.sdf --quiet && echo "ok"${clr.reset}`)
   print(`  ${clr.dim}sdf convert --data invoice.json --schema invoice.schema.json \\${clr.reset}`)
   print(`  ${clr.dim}            --issuer "Acme Corp" --out invoice.sdf${clr.reset}`)
+  print(`  ${clr.dim}sdf wrap document.pdf --issuer "Acme Corp" --out document.sdf${clr.reset}`)
   blank()
   divider()
   blank()
   process.exit(flags.help ? 0 : 1)
 }
 
-// ─── Route commands ───────────────────────────────────────────────────────────
-
 switch (command) {
 
-  // ── inspect ────────────────────────────────────────────────────────────────
   case 'inspect': {
     const file = rest[0]
     if (!file) {
@@ -92,7 +89,6 @@ switch (command) {
     break
   }
 
-  // ── validate ───────────────────────────────────────────────────────────────
   case 'validate': {
     const file = rest[0]
     if (!file) {
@@ -103,29 +99,23 @@ switch (command) {
     break
   }
 
-  // ── convert ────────────────────────────────────────────────────────────────
   case 'convert': {
     const getArg = (flag: string) => {
       const i = args.indexOf(flag)
       return i !== -1 ? args[i + 1] : undefined
     }
-
     const dataPath   = getArg('--data')
     const schemaPath = getArg('--schema')
     const issuer     = getArg('--issuer')
     const out        = getArg('--out')
-
     if (!dataPath || !schemaPath || !issuer || !out) {
       print(`  ${clr.red}✗${clr.reset}  Usage: sdf convert --data <f> --schema <f> --issuer <s> --out <f>`)
       blank()
       print(`  ${clr.gray}Optional: --issuer-id --document-type --recipient --recipient-id --schema-id${clr.reset}`)
       process.exit(1)
     }
-
     await convert({
-      data:         dataPath,
-      schema:       schemaPath,
-      issuer,
+      data: dataPath, schema: schemaPath, issuer,
       issuerId:     getArg('--issuer-id'),
       documentType: getArg('--document-type'),
       recipient:    getArg('--recipient'),
@@ -136,7 +126,31 @@ switch (command) {
     break
   }
 
-  // ── unknown ────────────────────────────────────────────────────────────────
+  case 'wrap': {
+    const getArg = (flag: string) => {
+      const i = args.indexOf(flag)
+      return i !== -1 ? args[i + 1] : undefined
+    }
+    const pdfPath = rest[0]
+    const issuer  = getArg('--issuer')
+    const out     = getArg('--out')
+    if (!pdfPath || !issuer || !out) {
+      print(`  ${clr.red}✗${clr.reset}  Usage: sdf wrap <file.pdf> --issuer <s> --out <f>`)
+      blank()
+      print(`  ${clr.gray}Optional: --issuer-id --document-type --recipient --recipient-id${clr.reset}`)
+      process.exit(1)
+    }
+    await wrap({
+      pdf: pdfPath, issuer,
+      issuerId:     getArg('--issuer-id'),
+      documentType: getArg('--document-type'),
+      recipient:    getArg('--recipient'),
+      recipientId:  getArg('--recipient-id'),
+      out,
+    })
+    break
+  }
+
   default: {
     print(`  ${clr.red}✗${clr.reset}  Unknown command: ${clr.cyan}${command}${clr.reset}`)
     print(`  ${clr.gray}Run ${clr.white}sdf --help${clr.gray} for usage${clr.reset}`)
