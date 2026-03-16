@@ -9,8 +9,8 @@ export default function DropZone({ onFile }: Props) {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handle = (file: File) => {
-    if (!file.name.endsWith('.sdf')) {
-      alert('Please drop a .sdf file')
+    if (!file.name.endsWith('.sdf') && !file.name.endsWith('.pdf')) {
+      alert('Please drop a .sdf or .pdf file')
       return
     }
     onFile(file)
@@ -113,7 +113,7 @@ export default function DropZone({ onFile }: Props) {
         </div>
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontFamily: 'var(--sans)', fontSize: '14px', fontWeight: 500, color: 'var(--text)', marginBottom: '4px' }}>
-            Drop a .sdf file here
+            Drop a .sdf or .pdf file here
           </div>
           <div style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--text3)' }}>
             or click to browse
@@ -122,39 +122,36 @@ export default function DropZone({ onFile }: Props) {
         <input
           ref={inputRef}
           type="file"
-          accept=".sdf"
+          accept=".sdf,.pdf"
           onChange={onChange}
           style={{ display: 'none' }}
         />
       </div>
 
       {/* Format description */}
-      <div style={{
-        display: 'flex',
-        gap: '32px',
-        opacity: 0.6,
-      }}>
+      <div style={{ display: 'flex', gap: '32px', opacity: 0.6 }}>
         {[
-          { label: 'visual.pdf', color: 'var(--coral)', desc: 'Human layer' },
-          { label: 'data.json',  color: 'var(--teal)',  desc: 'Machine layer' },
-          { label: 'schema.json',color: 'var(--amber)', desc: 'Validation' },
-          { label: 'meta.json',  color: 'var(--accent2)', desc: 'Identity' },
+          { label: 'visual.pdf',  color: 'var(--coral)',   desc: 'Human layer' },
+          { label: 'data.json',   color: 'var(--teal)',    desc: 'Machine layer' },
+          { label: 'schema.json', color: 'var(--amber)',   desc: 'Validation' },
+          { label: 'meta.json',   color: 'var(--accent2)', desc: 'Identity' },
         ].map(({ label, color, desc }) => (
           <div key={label} style={{ textAlign: 'center' }}>
-            <div style={{
-              fontFamily: 'var(--mono)',
-              fontSize: '10px',
-              color,
-              marginBottom: '2px',
-              fontWeight: 500,
-            }}>{label}</div>
-            <div style={{
-              fontFamily: 'var(--sans)',
-              fontSize: '11px',
-              color: 'var(--text3)',
-            }}>{desc}</div>
+            <div style={{ fontFamily: 'var(--mono)', fontSize: '10px', color, marginBottom: '2px', fontWeight: 500 }}>{label}</div>
+            <div style={{ fontFamily: 'var(--sans)', fontSize: '11px', color: 'var(--text3)' }}>{desc}</div>
           </div>
         ))}
+      </div>
+
+      {/* PDF hint */}
+      <div style={{
+        fontFamily: 'var(--mono)',
+        fontSize: '10px',
+        color: 'var(--text3)',
+        textAlign: 'center',
+        opacity: 0.6,
+      }}>
+        .pdf files open in visual-only mode — no structured data layer
       </div>
 
     </div>
