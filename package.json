@@ -1,0 +1,31 @@
+{
+  "name": "@etapsky/sdf",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Open-source smart document format — spec, core kit, CLI, and demos",
+  "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/etapsky/sdf.git"
+  },
+  "bugs": {
+    "url": "https://github.com/etapsky/sdf/issues"
+  },
+  "homepage": "https://github.com/etapsky/sdf#readme",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "turbo build",
+    "test": "turbo test",
+    "lint": "turbo lint",
+    "dev": "turbo dev"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.30.0",
+    "turbo": "^2.8.17"
+  }
+}
