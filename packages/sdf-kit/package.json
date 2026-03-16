@@ -6,7 +6,7 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/etapsky/sdf.git",
+        "url": "git+https://github.com/etapsky/sdf.git",
         "directory": "packages/sdf-kit"
     },
     "type": "module",
