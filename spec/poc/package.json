@@ -1,0 +1,41 @@
+{
+  "name": "@etapsky/sdf-poc",
+  "version": "0.1.0",
+  "description": "SDF F1 proof of concept — produce and read .sdf files",
+  "private": true,
+  "type": "module",
+  "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/etapsky/sdf.git"
+  },
+  "bugs": {
+    "url": "https://github.com/etapsky/sdf/issues"
+  },
+  "homepage": "https://github.com/etapsky/sdf",
+  "scripts": {
+    "build:invoice": "tsx bin/build.ts invoice",
+    "build:nomination": "tsx bin/build.ts nomination",
+    "build:purchase-order": "tsx bin/build.ts purchase-order",
+    "build:gov-tax": "tsx bin/build.ts gov-tax-declaration",
+    "build:gov-customs": "tsx bin/build.ts gov-customs-declaration",
+    "build:gov-permit": "tsx bin/build.ts gov-permit-application",
+    "build:gov-health": "tsx bin/build.ts gov-health-report",
+    "build:all": "npm run build:invoice && npm run build:nomination && npm run build:purchase-order && npm run build:gov-tax && npm run build:gov-customs && npm run build:gov-permit && npm run build:gov-health",
+    "read:invoice": "tsx bin/read.ts invoice",
+    "read:nomination": "tsx bin/read.ts nomination",
+    "read:gov-tax": "tsx bin/read.ts gov-tax-declaration",
+    "read:gov-health": "tsx bin/read.ts gov-health-report"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "jszip": "^3.10.1",
+    "pdf-lib": "^1.17.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

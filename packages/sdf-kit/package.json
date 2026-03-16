@@ -1,0 +1,57 @@
+{
+    "name": "@etapsky/sdf-kit",
+    "version": "0.1.0",
+    "description": "SDF core library — producer, reader, validator",
+    "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/etapsky/sdf.git",
+        "directory": "packages/sdf-kit"
+    },
+    "type": "module",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        },
+        "./producer": {
+            "import": "./dist/producer/index.js",
+            "types": "./dist/producer/index.d.ts"
+        },
+        "./reader": {
+            "import": "./dist/reader/index.js",
+            "types": "./dist/reader/index.d.ts"
+        },
+        "./validator": {
+            "import": "./dist/validator/index.js",
+            "types": "./dist/validator/index.d.ts"
+        }
+    },
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsc --project tsconfig.build.json",
+        "dev": "tsc --project tsconfig.build.json --watch",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "test:coverage": "vitest run --coverage",
+        "typecheck": "tsc --noEmit",
+        "lint": "tsc --noEmit"
+    },
+    "dependencies": {
+        "ajv": "^8.17.1",
+        "ajv-formats": "^3.0.1",
+        "jszip": "^3.10.1",
+        "pdf-lib": "^1.17.1"
+    },
+    "devDependencies": {
+        "@types/node": "^25.5.0",
+        "@vitest/coverage-v8": "^3.0.0",
+        "typescript": "^5.7.3",
+        "vitest": "^3.0.0"
+    }
+}

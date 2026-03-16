@@ -1,0 +1,60 @@
+{
+    "document_type": "invoice",
+    "invoice_number": "INV-2026-00142",
+    "issue_date": "2026-03-15",
+    "due_date": "2026-04-15",
+    "nomination_ref": "NOM-2026-0042",
+    "issuer": {
+      "name": "Acme Supplies GmbH",
+      "id": "DE123456789",
+      "address": {
+        "street": "Hauptstraße 12",
+        "city": "Berlin",
+        "postal_code": "10115",
+        "country": "DE"
+      },
+      "contact": {
+        "name": "Hans Müller",
+        "email": "h.mueller@acme-supplies.de",
+        "phone": "+49 30 12345678"
+      }
+    },
+    "recipient": {
+      "name": "Global Logistics AG",
+      "id": "CH-123.456.789",
+      "address": {
+        "street": "Bahnhofstrasse 4",
+        "city": "Zürich",
+        "postal_code": "8001",
+        "country": "CH"
+      }
+    },
+    "line_items": [
+      {
+        "description": "Industrial valve Type-A",
+        "quantity": 50,
+        "unit": "pcs",
+        "unit_price": { "amount": "24.00", "currency": "EUR" },
+        "vat_rate": "0.19",
+        "subtotal": { "amount": "1200.00", "currency": "EUR" }
+      },
+      {
+        "description": "Gasket set Type-A compatible",
+        "quantity": 50,
+        "unit": "pcs",
+        "unit_price": { "amount": "4.80", "currency": "EUR" },
+        "vat_rate": "0.19",
+        "subtotal": { "amount": "240.00", "currency": "EUR" }
+      }
+    ],
+    "totals": {
+      "net":   { "amount": "1440.00", "currency": "EUR" },
+      "vat":   { "amount": "273.60", "currency": "EUR" },
+      "gross": { "amount": "1713.60", "currency": "EUR" }
+    },
+    "payment": {
+      "iban": "DE89370400440532013000",
+      "bic": "COBADEFFXXX",
+      "reference": "INV-2026-00142"
+    }
+  }

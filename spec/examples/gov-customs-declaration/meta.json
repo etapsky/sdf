@@ -1,0 +1,14 @@
+{
+    "sdf_version": "0.1",
+    "document_id": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a",
+    "issuer": "Global Logistics AG",
+    "issuer_id": "CHE-123.456.789",
+    "created_at": "2026-03-14T08:30:00+01:00",
+    "document_type": "gov_customs_declaration",
+    "document_version": "1.0.0",
+    "recipient": "Swiss Federal Customs Administration",
+    "recipient_id": "CHE-SFCA",
+    "schema_id": "https://etapsky.github.io/sdf/schemas/gov-customs-declaration/v0.1.json",
+    "signature_algorithm": null,
+    "tags": ["import", "de-ch", "q1-2026"]
+  }

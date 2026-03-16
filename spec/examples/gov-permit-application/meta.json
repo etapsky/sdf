@@ -1,0 +1,15 @@
+{
+    "sdf_version": "0.1",
+    "document_id": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b",
+    "issuer": "Global Logistics AG",
+    "issuer_id": "CHE-123.456.789",
+    "created_at": "2026-03-05T11:00:00+01:00",
+    "document_type": "gov_permit_application",
+    "document_version": "1.0.0",
+    "recipient": "City of Basel — Building and Planning Department",
+    "recipient_id": "CH-BS-BPD",
+    "schema_id": "https://etapsky.github.io/sdf/schemas/gov-permit-application/v0.1.json",
+    "signature_algorithm": null,
+    "expires_at": "2026-09-05T23:59:59Z",
+    "tags": ["construction-permit", "basel", "warehouse"]
+  }

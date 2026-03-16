@@ -1,0 +1,101 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://etapsky.github.io/sdf/schemas/invoice/v0.1.json",
+    "title": "SDF Invoice",
+    "description": "Schema for SDF invoice documents. Version: 0.1.",
+    "type": "object",
+    "required": ["document_type", "invoice_number", "issue_date", "issuer", "recipient", "line_items", "totals"],
+    "properties": {
+      "document_type":    { "type": "string", "const": "invoice" },
+      "invoice_number":   { "type": "string", "minLength": 1 },
+      "issue_date":       { "type": "string", "format": "date" },
+      "due_date":         { "type": "string", "format": "date" },
+      "nomination_ref":   { "type": "string" },
+      "purchase_order_ref": { "type": "string" },
+      "contract_ref":     { "type": "string" },
+      "issuer":           { "$ref": "#/$defs/party" },
+      "recipient":        { "$ref": "#/$defs/party" },
+      "line_items": {
+        "type": "array",
+        "minItems": 1,
+        "items": { "$ref": "#/$defs/line_item" }
+      },
+      "totals":   { "$ref": "#/$defs/totals" },
+      "payment":  { "$ref": "#/$defs/payment" }
+    },
+    "additionalProperties": false,
+    "$defs": {
+      "monetary_amount": {
+        "type": "object",
+        "required": ["amount", "currency"],
+        "properties": {
+          "amount":   { "type": "string", "pattern": "^\\d+(\\.\\d{1,4})?$" },
+          "currency": { "type": "string", "pattern": "^[A-Z]{3}$" }
+        },
+        "additionalProperties": false
+      },
+      "address": {
+        "type": "object",
+        "required": ["street", "city", "country"],
+        "properties": {
+          "street":      { "type": "string" },
+          "city":        { "type": "string" },
+          "postal_code": { "type": "string" },
+          "country":     { "type": "string", "pattern": "^[A-Z]{2}$" }
+        },
+        "additionalProperties": false
+      },
+      "contact": {
+        "type": "object",
+        "properties": {
+          "name":  { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "phone": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "party": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name":    { "type": "string" },
+          "id":      { "type": "string" },
+          "address": { "$ref": "#/$defs/address" },
+          "contact": { "$ref": "#/$defs/contact" }
+        },
+        "additionalProperties": false
+      },
+      "line_item": {
+        "type": "object",
+        "required": ["description", "quantity", "unit_price", "subtotal"],
+        "properties": {
+          "description": { "type": "string" },
+          "quantity":    { "type": "number", "minimum": 0 },
+          "unit":        { "type": "string" },
+          "unit_price":  { "$ref": "#/$defs/monetary_amount" },
+          "vat_rate":    { "type": "string", "pattern": "^0(\\.\\d+)?$" },
+          "subtotal":    { "$ref": "#/$defs/monetary_amount" }
+        },
+        "additionalProperties": false
+      },
+      "totals": {
+        "type": "object",
+        "required": ["gross"],
+        "properties": {
+          "net":   { "$ref": "#/$defs/monetary_amount" },
+          "vat":   { "$ref": "#/$defs/monetary_amount" },
+          "gross": { "$ref": "#/$defs/monetary_amount" }
+        },
+        "additionalProperties": false
+      },
+      "payment": {
+        "type": "object",
+        "properties": {
+          "iban":      { "type": "string" },
+          "bic":       { "type": "string" },
+          "reference": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
