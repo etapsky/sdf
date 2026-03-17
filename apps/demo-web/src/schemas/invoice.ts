@@ -13,31 +13,31 @@ export const invoiceConfig: DocTypeConfig = {
   schemaId:    'https://etapsky.github.io/sdf/schemas/invoice/v0.1.json',
 
   fields: [
-    { key: 'invoice_number', label: 'Invoice number', type: 'text',   placeholder: 'INV-2026-001', required: true,  group: 'Invoice details' },
-    { key: 'issue_date',     label: 'Issue date',     type: 'date',                                 required: true,  group: 'Invoice details' },
-    { key: 'due_date',       label: 'Due date',       type: 'date',                                 required: false, group: 'Invoice details' },
-    { key: 'nomination_ref', label: 'Nomination ref', type: 'text',   placeholder: 'NOM-2026-001',  required: false, group: 'Invoice details' },
+    { key: 'invoice_number', label: 'Invoice number', type: 'text',   placeholder: 'INV-2026-001', required: true,  group: 'Invoice details', width: 'half' },
+    { key: 'order_ref', label: 'Order ref', type: 'text',   placeholder: 'PO-2026-001',  required: false, group: 'Invoice details', width: 'half' },
+    { key: 'issue_date',     label: 'Issue date',     type: 'date',                                 required: true,  group: 'Invoice details', width: 'half' },
+    { key: 'due_date',       label: 'Due date',       type: 'date',                                 required: false, group: 'Invoice details', width: 'half' },
 
     { key: 'issuer_name',    label: 'Supplier name',  type: 'text',   placeholder: 'Acme Supplies GmbH', required: true, group: 'Supplier' },
-    { key: 'issuer_id',      label: 'Supplier VAT ID',type: 'text',   placeholder: 'DE123456789',   required: false, group: 'Supplier' },
-    { key: 'issuer_street',  label: 'Street',         type: 'text',   placeholder: 'Hauptstraße 12',required: false, group: 'Supplier' },
-    { key: 'issuer_city',    label: 'City',           type: 'text',   placeholder: 'Berlin',        required: false, group: 'Supplier' },
-    { key: 'issuer_country', label: 'Country code',   type: 'text',   placeholder: 'DE',            required: false, group: 'Supplier' },
+    { key: 'issuer_id',      label: 'Supplier VAT ID',type: 'text',   placeholder: 'DE123456789',   required: false, group: 'Supplier', width: 'half' },
+    { key: 'issuer_street',  label: 'Street',         type: 'text',   placeholder: 'Hauptstraße 12',required: false, group: 'Supplier', width: 'half' },
+    { key: 'issuer_city',    label: 'City',           type: 'text',   placeholder: 'Berlin',        required: false, group: 'Supplier', width: 'half' },
+    { key: 'issuer_country', label: 'Country code',   type: 'text',   placeholder: 'DE',            required: false, group: 'Supplier', width: 'half' },
 
     { key: 'recipient_name',   label: 'Buyer name',   type: 'text',   placeholder: 'Global Logistics AG', required: true, group: 'Buyer' },
-    { key: 'recipient_id',     label: 'Buyer VAT ID', type: 'text',   placeholder: 'CH-123.456.789',required: false, group: 'Buyer' },
-    { key: 'recipient_city',   label: 'City',         type: 'text',   placeholder: 'Zürich',        required: false, group: 'Buyer' },
-    { key: 'recipient_country',label: 'Country code', type: 'text',   placeholder: 'CH',            required: false, group: 'Buyer' },
+    { key: 'recipient_id',     label: 'Buyer VAT ID', type: 'text',   placeholder: 'CH-123.456.789',required: false, group: 'Buyer', width: 'half' },
+    { key: 'recipient_city',   label: 'City',         type: 'text',   placeholder: 'Zürich',        required: false, group: 'Buyer', width: 'half' },
+    { key: 'recipient_country',label: 'Country code', type: 'text',   placeholder: 'CH',            required: false, group: 'Buyer', width: 'half' },
 
     { key: 'item_description', label: 'Item description', type: 'text',   placeholder: 'Industrial valve Type-A', required: true, group: 'Line item' },
-    { key: 'item_quantity',    label: 'Quantity',          type: 'number', placeholder: '50',             required: true, group: 'Line item' },
-    { key: 'item_unit',        label: 'Unit',              type: 'text',   placeholder: 'pcs',            required: false, group: 'Line item' },
-    { key: 'item_unit_price',  label: 'Unit price',        type: 'money',  placeholder: '24.00',          required: true, group: 'Line item' },
-    { key: 'item_currency',    label: 'Currency',          type: 'text',   placeholder: 'EUR',            required: true, group: 'Line item' },
+    { key: 'item_quantity',    label: 'Quantity',          type: 'number', placeholder: '50',             required: true, group: 'Line item', width: 'half' },
+    { key: 'item_unit',        label: 'Unit',              type: 'text',   placeholder: 'pcs',            required: false, group: 'Line item', width: 'half' },
+    { key: 'item_unit_price',  label: 'Unit price',        type: 'money',  placeholder: '24.00',          required: true, group: 'Line item', width: 'half' },
+    { key: 'item_currency',    label: 'Currency',          type: 'text',   placeholder: 'EUR',            required: true, group: 'Line item', width: 'half' },
     { key: 'item_vat_rate',    label: 'VAT rate',          type: 'text',   placeholder: '0.19',           required: false, group: 'Line item' },
 
-    { key: 'payment_iban',   label: 'IBAN',            type: 'text',   placeholder: 'DE89370400440532013000', required: false, group: 'Payment' },
-    { key: 'payment_bic',    label: 'BIC',             type: 'text',   placeholder: 'COBADEFFXXX',    required: false, group: 'Payment' },
+    { key: 'payment_iban',   label: 'IBAN',            type: 'text',   placeholder: 'DE89370400440532013000', required: false, group: 'Payment', width: 'half' },
+    { key: 'payment_bic',    label: 'BIC',             type: 'text',   placeholder: 'COBADEFFXXX',    required: false, group: 'Payment', width: 'half' },
   ],
 
   buildData: (v) => {
@@ -59,8 +59,8 @@ export const invoiceConfig: DocTypeConfig = {
       issue_date:     v.issue_date     || new Date().toISOString().slice(0, 10),
     }
 
-    if (v.due_date)       data.due_date       = v.due_date
-    if (v.nomination_ref) data.nomination_ref = v.nomination_ref
+    if (v.due_date)    data.due_date    = v.due_date
+    if (v.order_ref)   data.order_ref   = v.order_ref
 
     data.issuer = {
       name: v.issuer_name || 'Issuer',
@@ -118,7 +118,7 @@ export const invoiceConfig: DocTypeConfig = {
       invoice_number: { type: 'string' },
       issue_date:     { type: 'string', format: 'date' },
       due_date:       { type: 'string', format: 'date' },
-      nomination_ref: { type: 'string' },
+      order_ref: { type: 'string' },
       issuer:         { type: 'object', required: ['name'], properties: { name: { type: 'string' }, id: { type: 'string' }, address: { type: 'object' } }, additionalProperties: true },
       recipient:      { type: 'object', required: ['name'], properties: { name: { type: 'string' }, id: { type: 'string' }, address: { type: 'object' } }, additionalProperties: true },
       line_items:     { type: 'array', minItems: 1, items: { type: 'object' } },

@@ -9,13 +9,13 @@
         "type": "string",
         "description": "Class of document. Should match meta.json document_type. E.g. 'invoice', 'nomination', 'gov_tax_declaration'."
       },
+      "order_ref": {
+        "type": "string",
+        "description": "Reference to the order/sale this document relates to (e.g. PO number, sales order). Used for automated matching on the consumer side."
+      },
       "nomination_ref": {
         "type": "string",
-        "description": "Nomination reference identifier. Used for automated matching on the consumer side."
-      },
-      "purchase_order_ref": {
-        "type": "string",
-        "description": "Purchase order number in the recipient's system."
+        "description": "Nomination reference identifier (shipping/cargo context). Used for automated matching on the consumer side."
       },
       "contract_ref": {
         "type": "string",

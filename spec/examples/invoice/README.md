@@ -23,16 +23,11 @@ human review.
 | `line_items` | Goods or services billed — description, quantity, unit price, VAT, subtotal |
 | `totals` | Net, VAT, and gross amounts |
 | `payment` | IBAN, BIC, and payment reference |
-| `nomination_ref` | Optional — links this invoice to an internal nomination record |
-| `purchase_order_ref` | Optional — links this invoice to the originating purchase order |
+| `order_ref` | Optional — reference to the order/sale this invoice relates to (e.g. PO number, sales order) |
 
 ## Matching
 
-The `nomination_ref` field links this invoice to a nomination record on the
-recipient side. The `purchase_order_ref` field links it to the originating
-purchase order. When both parties use SDF, the recipient's ERP performs
-automated three-way matching (PO → delivery → invoice) by reading these
-reference fields directly from `data.json` — no OCR, no manual lookup.
+The `order_ref` field links this invoice to the originating order (purchase order, sales order, etc.) on the recipient side. When both parties use SDF, the recipient's ERP performs automated matching (PO → invoice) by reading this reference directly from `data.json` — no OCR, no manual lookup.
 
 ## Monetary amounts
 

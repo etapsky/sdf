@@ -21,7 +21,13 @@ export default function FormRenderer({ fields, values, onChange }: Props) {
   }
 
   const renderField = (field: FormField) => (
-    <div key={field.key} style={{ marginBottom: '14px' }}>
+    <div
+      key={field.key}
+      style={{
+        marginBottom: '14px',
+        gridColumn: field.width === 'half' ? undefined : 'span 2',
+      }}
+    >
       <label style={{
         display:      'block',
         fontFamily:   'var(--sans)',
@@ -69,7 +75,16 @@ export default function FormRenderer({ fields, values, onChange }: Props) {
 
   return (
     <div>
-      {ungrouped.map(renderField)}
+      {ungrouped.length > 0 && (
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '0 16px',
+          marginBottom: '8px',
+        }}>
+          {ungrouped.map(renderField)}
+        </div>
+      )}
 
       {Object.entries(groups).map(([groupName, groupFields]) => (
         <div key={groupName} style={{ marginBottom: '8px' }}>
@@ -87,7 +102,13 @@ export default function FormRenderer({ fields, values, onChange }: Props) {
           }}>
             {groupName}
           </div>
-          {groupFields.map(renderField)}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '0 16px',
+          }}>
+            {groupFields.map(renderField)}
+          </div>
         </div>
       ))}
     </div>

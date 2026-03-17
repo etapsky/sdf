@@ -5,6 +5,8 @@ export interface FormField {
     placeholder?: string;
     required?:   boolean;
     group?:      string; // section grouping label
+    /** 'half' = two fields per row; 'full' = one per row (default) */
+    width?:      'full' | 'half';
   }
   
   export interface DocTypeConfig {
@@ -20,6 +22,8 @@ export interface FormField {
     recipient?:  string;
     recipientId?: string;
     schemaId?:   string;
+    /** Canonical document_type for meta.json (e.g. gov_tax_declaration). Defaults to id when omitted. */
+    documentType?: string;
   }
   
   export type GenerateState =

@@ -2,20 +2,33 @@ import { useState, useMemo, useCallback, useEffect } from 'react'
 import { buildSDF } from '@etapsky/sdf-kit/producer'
 import type { GenerateState, DocTypeConfig } from './types'
 import { invoiceConfig }    from './schemas/invoice'
-import { nominationConfig } from './schemas/nomination'
+// import { nominationConfig } from './schemas/nomination'     // Uncomment to re-enable when ready
+import { purchaseOrderConfig } from './schemas/purchase-order'
+import { govTaxDeclarationConfig } from './schemas/gov-tax-declaration'
+import { govCustomsDeclarationConfig } from './schemas/gov-customs-declaration'
+import { govHealthReportConfig } from './schemas/gov-health-report'
+import { govPermitApplicationConfig } from './schemas/gov-permit-application'
 import DocTypeSelector from './components/DocTypeSelector'
 import FormRenderer    from './components/FormRenderer'
 import GenerateButton  from './components/GenerateButton'
 import JsonPreview     from './components/JsonPreview'
 import ThemeToggle     from './components/ThemeToggle'
 
-const CONFIGS: DocTypeConfig[] = [invoiceConfig, nominationConfig]
+const CONFIGS: DocTypeConfig[] = [
+  invoiceConfig,
+  purchaseOrderConfig,
+  govTaxDeclarationConfig,
+  govCustomsDeclarationConfig,
+  govHealthReportConfig,
+  govPermitApplicationConfig,
+  // nominationConfig,  // Uncomment to re-enable when ready
+]
 const THEME_KEY = 'sdf-producer-theme'
 
 type Theme = 'dark' | 'light'
 
 export default function App() {
-  const [docTypeId, setDocTypeId]   = useState<string>('invoice')
+  const [docTypeId, setDocTypeId]   = useState<string>('purchase-order')
   const [values, setValues]         = useState<Record<string, string>>({})
   const [genState, setGenState]     = useState<GenerateState>({ status: 'idle' })
   const [theme, setTheme]           = useState<Theme>(() =>
@@ -57,7 +70,7 @@ export default function App() {
         schema:       config.schema,
         issuer:       config.issuer,
         issuerId:     config.issuerId,
-        documentType: config.id,
+        documentType: config.documentType ?? config.id,
         recipient:    config.recipient,
         recipientId:  config.recipientId,
         schemaId:     config.schemaId,
@@ -132,7 +145,7 @@ export default function App() {
       <div style={{
         flex:    1,
         display: 'grid',
-        gridTemplateColumns: '420px 1fr',
+        gridTemplateColumns: 'minmax(520px, 1.2fr) minmax(320px, 0.8fr)',
         minHeight: 0,
       }}>
 

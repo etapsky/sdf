@@ -3,7 +3,7 @@
     "invoice_number": "INV-2026-00142",
     "issue_date": "2026-03-15",
     "due_date": "2026-04-15",
-    "nomination_ref": "NOM-2026-0042",
+    "order_ref": "PO-2026-0042",
     "issuer": {
       "name": "Acme Supplies GmbH",
       "id": "DE123456789",

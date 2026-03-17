@@ -11,8 +11,8 @@ Part of the [Etapsky SDF](https://github.com/etapsky/sdf) monorepo · F3 deliver
 `demo-web` is a browser-based SDF producer. It demonstrates the complete SDF production flow — from structured form input to a downloadable `.sdf` file — without any server involvement.
 
 **Left panel — Form:**
-- Select a document type (Invoice, Nomination)
-- Fill in the fields — grouped by logical section (Invoice details, Supplier, Buyer, Line item, Payment)
+- Select a document type (Invoice, Purchase Order, Tax Declaration, Customs Declaration, Health Report, Permit Application)
+- Fill in the fields — grouped by logical section (Invoice details, PO details, Buyer, Supplier, Line item, Payment, etc.)
 - Required fields marked with `*`
 
 **Right panel — Live preview:**
@@ -86,7 +86,12 @@ src/
 ├── main.tsx                     ← React entry point
 ├── schemas/
 │   ├── invoice.ts               ← Invoice form config + JSON Schema
-│   └── nomination.ts            ← Nomination form config + JSON Schema
+│   ├── purchase-order.ts        ← Purchase Order form config + JSON Schema
+│   ├── gov-tax-declaration.ts   ← Tax declaration sample
+│   ├── gov-customs-declaration.ts  ← Customs declaration sample
+│   ├── gov-health-report.ts     ← Health report sample
+│   ├── gov-permit-application.ts   ← Permit application sample
+│   └── nomination.ts            ← Kept for future display (currently not rendered)
 └── components/
     ├── DocTypeSelector.tsx      ← Pill buttons for document type selection
     ├── FormRenderer.tsx         ← Dynamic form — renders any DocTypeConfig.fields
@@ -123,9 +128,10 @@ Each document type's `buildData(values)` function transforms flat key-value form
 
 ```
 values = {
-  invoice_number: 'INV-2026-001',
-  issue_date:     '2026-03-16',
-  issuer_name:    'Acme Supplies GmbH',
+  invoice_number:  'INV-2026-001',
+  issue_date:      '2026-03-16',
+  issuer_name:     'Acme Supplies GmbH',
+  recipient_name:  'Global Logistics AG',
   item_unit_price: '24.00',
   item_currency:   'EUR',
   item_quantity:   '50',
@@ -140,9 +146,8 @@ Becomes:
   "document_type": "invoice",
   "invoice_number": "INV-2026-001",
   "issue_date": "2026-03-16",
-  "issuer": {
-    "name": "Acme Supplies GmbH"
-  },
+  "issuer": { "name": "Acme Supplies GmbH" },
+  "recipient": { "name": "Global Logistics AG" },
   "line_items": [{
     "unit_price": { "amount": "24.00", "currency": "EUR" },
     "quantity": 50,
@@ -215,7 +220,7 @@ If validation fails (required fields missing, wrong types), `buildSDF()` throws 
 
 ```typescript
 import { mytypeConfig } from './schemas/mytype'
-const CONFIGS = [invoiceConfig, nominationConfig, mytypeConfig]
+const CONFIGS = [invoiceConfig, purchaseOrderConfig, govTaxDeclarationConfig, mytypeConfig]
 ```
 
 The form, live preview, and generate flow all work automatically — no other changes needed.

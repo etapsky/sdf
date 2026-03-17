@@ -748,7 +748,7 @@ insufficient:
 
 | Field | Description |
 |---|---|
-| `purchase_order_ref` | Purchase order number in the recipient's system |
+| `order_ref` | Reference to the order/sale (e.g. PO number, sales order) — used by invoice for PO–invoice matching |
 | `contract_ref` | Contract identifier |
 | `delivery_note_ref` | Delivery note number |
 | `period` | Reporting period (ISO 8601 date range) |
