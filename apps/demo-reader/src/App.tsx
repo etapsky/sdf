@@ -18,7 +18,7 @@ export default function App() {
   const [state, setState] = useState<AppState>({ status: 'idle' })
   const [activePanel, setActivePanel] = useState<Panel>('data')
   const [theme, setTheme] = useState<Theme>(() =>
-    (localStorage.getItem(THEME_KEY) as Theme) ?? 'dark'
+    (localStorage.getItem(THEME_KEY) as Theme) ?? 'light'
   )
 
   useEffect(() => {
@@ -293,10 +293,10 @@ function SchemaPanel({ schema }: { schema: Record<string, unknown> }) {
     <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: '8px', padding: '14px 16px' }}>
       <div style={{ fontFamily: 'var(--mono)', fontSize: '10px', fontWeight: 500, letterSpacing: '1.5px', color: 'var(--text3)', textTransform: 'uppercase', marginBottom: '12px' }}>schema.json</div>
 
-      {(schema.$id || schema.title) && (
+      {Boolean(schema.$id || schema.title) && (
         <div style={{ marginBottom: '12px', paddingBottom: '10px', borderBottom: '1px solid var(--border)' }}>
-          {schema.title && <div style={{ fontFamily: 'var(--sans)', fontSize: '13px', fontWeight: 500, color: 'var(--text)', marginBottom: '4px' }}>{schema.title as string}</div>}
-          {schema.$id  && <div style={{ fontFamily: 'var(--mono)', fontSize: '10px', color: 'var(--text3)', wordBreak: 'break-all' }}>{schema.$id as string}</div>}
+          {schema.title != null && <div style={{ fontFamily: 'var(--sans)', fontSize: '13px', fontWeight: 500, color: 'var(--text)', marginBottom: '4px' }}>{String(schema.title)}</div>}
+          {schema.$id != null && <div style={{ fontFamily: 'var(--mono)', fontSize: '10px', color: 'var(--text3)', wordBreak: 'break-all' }}>{String(schema.$id)}</div>}
         </div>
       )}
 

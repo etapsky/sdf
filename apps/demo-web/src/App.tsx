@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import { buildSDF } from '@etapsky/sdf-kit/producer'
 import type { GenerateState, DocTypeConfig } from './types'
 import { invoiceConfig }    from './schemas/invoice'
@@ -7,13 +7,27 @@ import DocTypeSelector from './components/DocTypeSelector'
 import FormRenderer    from './components/FormRenderer'
 import GenerateButton  from './components/GenerateButton'
 import JsonPreview     from './components/JsonPreview'
+import ThemeToggle     from './components/ThemeToggle'
 
 const CONFIGS: DocTypeConfig[] = [invoiceConfig, nominationConfig]
+const THEME_KEY = 'sdf-producer-theme'
+
+type Theme = 'dark' | 'light'
 
 export default function App() {
   const [docTypeId, setDocTypeId]   = useState<string>('invoice')
   const [values, setValues]         = useState<Record<string, string>>({})
   const [genState, setGenState]     = useState<GenerateState>({ status: 'idle' })
+  const [theme, setTheme]           = useState<Theme>(() =>
+    (localStorage.getItem(THEME_KEY) as Theme) ?? 'light'
+  )
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem(THEME_KEY, theme)
+  }, [theme])
+
+  const toggleTheme = useCallback(() => setTheme(t => t === 'dark' ? 'light' : 'dark'), [])
 
   const config = CONFIGS.find(c => c.id === docTypeId)!
 
@@ -51,7 +65,7 @@ export default function App() {
 
       // Download
       const filename = `${config.id}-${new Date().toISOString().slice(0, 10)}.sdf`
-      const blob = new Blob([buffer], { type: 'application/vnd.sdf' })
+      const blob = new Blob([new Uint8Array(buffer)], { type: 'application/vnd.sdf' })
       const url  = URL.createObjectURL(blob)
       const a    = document.createElement('a')
       a.href     = url
@@ -74,7 +88,7 @@ export default function App() {
 
       {/* Header */}
       <div style={{
-        background:   'white',
+        background:   'var(--bg2)',
         borderBottom: '1px solid var(--border)',
         padding:      '0 32px',
         height:       '52px',
@@ -86,7 +100,7 @@ export default function App() {
         zIndex:       10,
       }}>
         <a href="https://etapsky.com" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: 'inherit' }}>
-          <img src="/etapsky_mark.svg" alt="Etapsky Inc." width="24" height="24" style={{ verticalAlign: 'middle' }} />
+          <img src={`${import.meta.env.BASE_URL}etapsky_mark.svg`} alt="Etapsky Inc." width="24" height="24" style={{ verticalAlign: 'middle' }} />
           <span style={{ fontFamily: 'var(--mono)', fontSize: '12px', color: 'var(--text3)', fontWeight: 500 }}>Etapsky Inc.</span>
         </a>
         <div style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
@@ -107,8 +121,10 @@ export default function App() {
 
         <div style={{ flex: 1 }} />
 
-        <a href="https://github.com/etapsky/sdf" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center' }}>
-          <img src="https://img.shields.io/badge/GitHub-etapsky%2Fsdf-181717?style=flat-square&logo=github" alt="github.com/etapsky/sdf" style={{ verticalAlign: 'middle', height: 20 }} />
+        <ThemeToggle theme={theme} onToggle={toggleTheme} />
+
+        <a href="https://github.com/etapsky" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center' }}>
+          <img src="https://img.shields.io/badge/GitHub-Etapsky-181717?style=flat-square&logo=github" alt="github.com/etapsky" style={{ verticalAlign: 'middle', height: 20 }} />
         </a>
       </div>
 

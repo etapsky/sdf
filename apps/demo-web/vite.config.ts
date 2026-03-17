@@ -1,7 +1,9 @@
+import path from 'path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  base: mode === 'production' && process.env.VITE_BASE_PATH ? process.env.VITE_BASE_PATH : '/',
   plugins: [react()],
   define: {
     global: 'globalThis',
@@ -12,7 +14,7 @@ export default defineConfig({
   resolve: {
     alias: {
       buffer: 'buffer',
-      crypto: 'crypto-browserify',
+      crypto: path.resolve(__dirname, 'src/shim/crypto.ts'),
     },
   },
-})
+}))

@@ -14,7 +14,7 @@ export default function PDFViewer({ pdfBytes }: Props) {
       URL.revokeObjectURL(urlRef.current)
     }
 
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' })
+    const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' })
     const url = URL.createObjectURL(blob)
     urlRef.current = url
 

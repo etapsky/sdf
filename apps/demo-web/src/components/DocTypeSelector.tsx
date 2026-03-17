@@ -27,7 +27,7 @@ export default function DocTypeSelector({ configs, selected, onChange }: Props) 
             key={cfg.id}
             onClick={() => onChange(cfg.id)}
             style={{
-              background:   active ? 'var(--accent)' : 'white',
+              background:   active ? 'var(--accent)' : 'var(--bg2)',
               border:       `1px solid ${active ? 'var(--accent)' : 'var(--border2)'}`,
               borderRadius: '8px',
               padding:      '10px 16px',

@@ -31,7 +31,7 @@ export default function Header({ filename, meta, pdfBytes, onReset, theme, onTog
   // SDF açıksa → PDF indir
   const downloadPDF = () => {
     const name = filename.replace('.sdf', '.pdf')
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' })
+    const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' })
     const url  = URL.createObjectURL(blob)
     const a    = document.createElement('a')
     a.href = url; a.download = name; a.click()
@@ -67,7 +67,7 @@ export default function Header({ filename, meta, pdfBytes, onReset, theme, onTog
     zip.file('meta.json',   JSON.stringify(meta,   null, 2))
     const buffer = await zip.generateAsync({ type: 'uint8array', compression: 'DEFLATE' })
     const name   = filename.replace('.pdf', '.sdf')
-    const blob   = new Blob([buffer], { type: 'application/vnd.sdf' })
+    const blob   = new Blob([new Uint8Array(buffer)], { type: 'application/vnd.sdf' })
     const url    = URL.createObjectURL(blob)
     const a      = document.createElement('a')
     a.href = url; a.download = name; a.click()
@@ -80,8 +80,9 @@ export default function Header({ filename, meta, pdfBytes, onReset, theme, onTog
       display: 'flex', alignItems: 'center', padding: '0 20px', gap: '16px', flexShrink: 0,
     }}>
 
-      <a href="https://etapsky.com" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', lineHeight: 0 }}>
-        <img src="/etapsky_mark.svg" alt="Etapsky Inc." width="24" height="24" />
+      <a href="https://etapsky.com" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: 'inherit' }}>
+        <img src={`${import.meta.env.BASE_URL}etapsky_mark.svg`} alt="Etapsky Inc." width="24" height="24" style={{ verticalAlign: 'middle' }} />
+        <span style={{ fontFamily: 'var(--mono)', fontSize: '12px', color: 'var(--text3)', fontWeight: 500 }}>Etapsky Inc.</span>
       </a>
       <div style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
       <span style={{ fontFamily: 'var(--mono)', fontSize: '13px', fontWeight: 500, color: 'var(--text)', letterSpacing: '-0.3px' }}>
@@ -154,8 +155,8 @@ export default function Header({ filename, meta, pdfBytes, onReset, theme, onTog
         </button>
       )}
 
-      <a href="https://github.com/etapsky/sdf" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center' }}>
-        <img src="https://img.shields.io/badge/GitHub-etapsky%2Fsdf-181717?style=flat-square&logo=github" alt="github.com/etapsky/sdf" style={{ height: 20 }} />
+      <a href="https://github.com/etapsky" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center' }}>
+        <img src="https://img.shields.io/badge/GitHub-Etapsky-181717?style=flat-square&logo=github" alt="github.com/etapsky" style={{ height: 20 }} />
       </a>
       <div style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
       <ThemeToggle theme={theme} onToggle={onToggleTheme} />

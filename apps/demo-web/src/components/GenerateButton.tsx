@@ -70,7 +70,7 @@ export default function GenerateButton({ genState, onGenerate }: Props) {
         color:      'var(--text3)',
         lineHeight: 1.6,
       }}>
-        The generated file is a ZIP archive containing <code style={{ fontFamily: 'var(--mono)', fontSize: '10px' }}>visual.pdf</code>, <code style={{ fontFamily: 'var(--mono)', fontSize: '10px' }}>data.json</code>, <code style={{ fontFamily: 'var(--mono)', fontSize: '10px' }}>schema.json</code>, and <code style={{ fontFamily: 'var(--mono)', fontSize: '10px' }}>meta.json</code>. Open it in <a href="/demo-reader" style={{ color: 'var(--accent2)', textDecoration: 'none' }}>SDF Reader</a> to inspect all layers.
+        The generated file is a ZIP archive containing <code style={{ fontFamily: 'var(--mono)', fontSize: '10px' }}>visual.pdf</code>, <code style={{ fontFamily: 'var(--mono)', fontSize: '10px' }}>data.json</code>, <code style={{ fontFamily: 'var(--mono)', fontSize: '10px' }}>schema.json</code>, and <code style={{ fontFamily: 'var(--mono)', fontSize: '10px' }}>meta.json</code>. Open it in <a href={import.meta.env.VITE_DEMO_READER_URL || '/sdf/demo-reader/'} style={{ color: 'var(--accent2)', textDecoration: 'none' }}>SDF Reader</a> to inspect all layers.
       </div>
     </div>
   )

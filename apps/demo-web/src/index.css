@@ -4,7 +4,7 @@
   padding: 0;
 }
 
-:root {
+:root, [data-theme="light"] {
   --bg:        #FAFAF8;
   --bg2:       #F4F2EE;
   --bg3:       #EDEAE4;
@@ -22,6 +22,24 @@
   --green:     #3B6D11;
   --mono:      'IBM Plex Mono', monospace;
   --sans:      'IBM Plex Sans', sans-serif;
+}
+
+[data-theme="dark"] {
+  --bg:        #0d0d0c;
+  --bg2:       #131312;
+  --bg3:       #1a1a18;
+  --border:    rgba(255,255,255,0.08);
+  --border2:   rgba(255,255,255,0.14);
+  --text:      #e8e6df;
+  --text2:     #8a887f;
+  --text3:     #6e6c66;
+  --accent:    #7F77DD;
+  --accent2:   #AFA9EC;
+  --teal:      #5DCAA5;
+  --teal2:     #9FE1CB;
+  --amber:     #EF9F27;
+  --coral:     #D85A30;
+  --green:     #6BC44C;
 }
 
 html, body, #root {
@@ -59,6 +77,13 @@ input:focus, select:focus, textarea:focus {
 
 input::placeholder {
   color: var(--text3);
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: var(--bg2);
+  border-color: var(--border2);
 }
 
 ::-webkit-scrollbar { width: 5px; height: 5px; }

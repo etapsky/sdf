@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:etapsky": "export VITE_BASE_PATH=/sdf/demo-reader/ && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

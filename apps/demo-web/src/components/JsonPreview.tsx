@@ -62,7 +62,7 @@ interface Props {
           flex:       1,
           overflowY:  'auto',
           padding:    '16px',
-          background: 'white',
+          background: 'var(--bg3)',
         }}>
           <pre
             style={{

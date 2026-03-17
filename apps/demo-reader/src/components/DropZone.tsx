@@ -1,4 +1,5 @@
-import { useRef, useState, DragEvent, ChangeEvent } from 'react'
+import { useRef, useState } from 'react'
+import type { DragEvent, ChangeEvent } from 'react'
 
 interface Props {
   onFile: (file: File) => void;
@@ -42,7 +43,7 @@ export default function DropZone({ onFile }: Props) {
       {/* Wordmark */}
       <div style={{ textAlign: 'center' }}>
         <a href="https://etapsky.com" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginBottom: '8px', lineHeight: 0 }}>
-          <img src="/etapsky_mark.svg" alt="Etapsky Inc." width="40" height="40" />
+          <img src={`${import.meta.env.BASE_URL}etapsky_mark.svg`} alt="Etapsky Inc." width="40" height="40" />
         </a>
         <div style={{
           fontFamily: 'var(--mono)',
@@ -158,8 +159,8 @@ export default function DropZone({ onFile }: Props) {
       </div>
 
       {/* GitHub badge */}
-      <a href="https://github.com/etapsky/sdf" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', marginTop: '8px', opacity: 0.7 }}>
-        <img src="https://img.shields.io/badge/GitHub-etapsky%2Fsdf-181717?style=flat-square&logo=github" alt="github.com/etapsky/sdf" style={{ height: 20 }} />
+      <a href="https://github.com/etapsky" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', marginTop: '8px', opacity: 0.7 }}>
+        <img src="https://img.shields.io/badge/GitHub-Etapsky-181717?style=flat-square&logo=github" alt="github.com/etapsky" style={{ height: 20 }} />
       </a>
 
     </div>

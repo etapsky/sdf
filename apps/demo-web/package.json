@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:etapsky": "export VITE_BASE_PATH=/sdf/demo-web/ VITE_DEMO_READER_URL=https://etapsky.com/sdf/demo-reader/ && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
