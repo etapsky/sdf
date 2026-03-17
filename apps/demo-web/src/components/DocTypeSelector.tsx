@@ -14,7 +14,7 @@ const scenarioColor: Record<string, string> = {
 
 export default function DocTypeSelector({ configs, selected, onChange }: Props) {
   return (
-    <div style={{
+    <div className="doc-type-selector" style={{
       display: 'grid',
       gridTemplateColumns: 'repeat(3, minmax(120px, 200px))',
       gap: '8px',
