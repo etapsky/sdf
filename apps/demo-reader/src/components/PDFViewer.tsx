@@ -35,7 +35,7 @@ export default function PDFViewer({ pdfBytes }: Props) {
       height: '100%',
       background: 'var(--bg2)',
       borderRadius: '8px',
-      overflow: 'hidden',
+      overflow: 'visible', // required for mobile PDF scroll — hidden blocks touch
       border: '1px solid var(--border)',
     }}>
       <div style={{
