@@ -154,21 +154,24 @@ export default function App() {
   ]
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+    <div className="reader-app" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       <Header filename={filename} meta={result.meta} pdfBytes={result.pdfBytes} onReset={reset} theme={theme} onToggleTheme={toggleTheme} isPlainPDF={isPlainPDF} />
 
-      <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px', background: 'var(--border)', overflow: 'hidden' }}>
+      <div
+        className="reader-main"
+        style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px', background: 'var(--border)', overflow: 'hidden' }}
+      >
 
         {/* Left — PDF viewer */}
-        <div style={{ background: 'var(--bg)', overflow: 'hidden', padding: '16px' }}>
+        <div className="reader-pdf-section" style={{ background: 'var(--bg)', overflow: 'auto', padding: '16px' }}>
           <PDFViewer pdfBytes={result.pdfBytes} />
         </div>
 
         {/* Right — Data panels */}
-        <div style={{ background: 'var(--bg)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div className="reader-data-section" style={{ background: 'var(--bg)', display: 'flex', flexDirection: 'column', overflow: 'hidden', minHeight: 0 }}>
 
           {/* Tab bar */}
-          <div style={{ display: 'flex', background: 'var(--bg2)', borderBottom: '1px solid var(--border)', padding: '0 16px', flexShrink: 0 }}>
+          <div className="reader-tabs" style={{ display: 'flex', background: 'var(--bg2)', borderBottom: '1px solid var(--border)', padding: '0 16px', flexShrink: 0 }}>
             {panelTabs.map(tab => (
               <button
                 key={tab.id}
@@ -191,7 +194,7 @@ export default function App() {
           </div>
 
           {/* Panel content */}
-          <div style={{ flex: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div className="reader-panel-content" style={{ flex: 1, minHeight: 0, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
 
             {activePanel === 'data' && (
               <>
@@ -304,7 +307,7 @@ function SchemaPanel({ schema }: { schema: Record<string, unknown> }) {
         {Object.entries(properties).map(([key, def]) => {
           const isRequired = required.includes(key)
           return (
-            <div key={key} style={{ display: 'grid', gridTemplateColumns: '140px 80px 1fr', gap: '8px', padding: '4px 0', borderBottom: '1px solid var(--border)', alignItems: 'center' }}>
+            <div key={key} className="schema-panel-row" style={{ display: 'grid', gridTemplateColumns: '140px 80px 1fr', gap: '8px', padding: '4px 0', borderBottom: '1px solid var(--border)', alignItems: 'center' }}>
               <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: isRequired ? 'var(--accent2)' : 'var(--text2)' }}>
                 {key}{isRequired && <span style={{ color: 'var(--coral)' }}> *</span>}
               </span>

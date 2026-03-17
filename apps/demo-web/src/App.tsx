@@ -137,20 +137,21 @@ export default function App() {
           zIndex:       10,
         }}
       >
-        <a href="https://etapsky.com" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: 'inherit', flexShrink: 0 }}>
-          <img src={`${import.meta.env.BASE_URL}etapsky_mark.svg`} alt="Etapsky Inc." width="24" height="24" style={{ verticalAlign: 'middle' }} />
-          <span style={{ fontFamily: 'var(--mono)', fontSize: '12px', color: 'var(--text3)', fontWeight: 500 }}>Etapsky Inc.</span>
-        </a>
-        <div style={{ width: '1px', height: '16px', background: 'var(--border2)', flexShrink: 0 }} />
-        <span style={{
-          fontFamily: 'var(--mono)',
-          fontSize:   '14px',
-          fontWeight: 500,
-          color:      'var(--text)',
-          letterSpacing: '-0.3px',
-          flexShrink: 0,
-        }}>SDF <span style={{ color: 'var(--text3)' }}>producer</span></span>
-        <div style={{ width: '1px', height: '16px', background: 'var(--border2)', flexShrink: 0 }} />
+        <div className="app-header-logo" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+          <a href="https://etapsky.com" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: 'inherit' }}>
+            <img src={`${import.meta.env.BASE_URL}etapsky_mark.svg`} alt="Etapsky Inc." width="24" height="24" style={{ verticalAlign: 'middle' }} />
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '12px', color: 'var(--text3)', fontWeight: 500 }}>Etapsky Inc.</span>
+          </a>
+          <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--border2)', fontWeight: 400 }}>|</span>
+          <span style={{
+            fontFamily: 'var(--mono)',
+            fontSize:   '14px',
+            fontWeight: 500,
+            color:      'var(--text)',
+            letterSpacing: '-0.3px',
+          }}>SDF <span style={{ color: 'var(--text3)' }}>producer</span></span>
+        </div>
+        <div className="app-header-divider" style={{ width: '1px', height: '16px', background: 'var(--border2)', flexShrink: 0 }} />
         <span className="app-header-subtitle" style={{
           fontFamily: 'var(--sans)',
           fontSize:   '12px',

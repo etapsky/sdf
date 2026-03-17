@@ -10,7 +10,7 @@ const Row = ({ label, value, mono = false, color }: {
   mono?: boolean;
   color?: string;
 }) => (
-  <div style={{
+  <div className="meta-card-row" style={{
     display: 'grid',
     gridTemplateColumns: '120px 1fr',
     gap: '8px',

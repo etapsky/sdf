@@ -110,6 +110,15 @@ input::placeholder {
     padding-bottom: 10px;
   }
 
+  .app-header-logo {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  .app-header-divider {
+    display: none;
+  }
+
   .app-header-subtitle {
     display: none;
   }

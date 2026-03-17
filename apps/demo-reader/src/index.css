@@ -69,3 +69,142 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text3);
 }
+
+/* ─── Mobile (post-upload view) ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .reader-main {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto 1fr;
+    overflow: auto;
+  }
+
+  .reader-pdf-section {
+    min-height: 320px !important;
+    max-height: 45vh;
+    padding: 12px;
+    overflow: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .reader-data-section {
+    min-height: 280px;
+  }
+
+  .reader-tabs {
+    padding: 0 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .reader-tabs button {
+    white-space: nowrap;
+    font-size: 10px !important;
+    padding: 10px 12px 8px !important;
+  }
+
+  .reader-panel-content {
+    padding: 12px;
+    gap: 10px;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .reader-header {
+    flex-wrap: wrap;
+    min-height: 36px;
+    height: auto !important;
+    padding: 6px 10px;
+    gap: 6px;
+    overflow: visible;
+  }
+
+  .reader-header-logo {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  .reader-header-filename {
+    width: 100%;
+    font-size: 11px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .reader-header-badges {
+    flex-wrap: wrap;
+  }
+
+  .reader-header-valid {
+    display: none;
+  }
+
+  .reader-header-divider {
+    display: none;
+  }
+
+  .reader-header-github {
+    display: none;
+  }
+
+
+  /* Header row 1: logo, title, badges, spacer, actions */
+  .reader-header-row1 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .reader-header-actions {
+    display: flex !important;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .reader-header-actions button,
+  .reader-header-actions a {
+    font-size: 10px !important;
+    padding: 3px 8px !important;
+  }
+
+  /* Sticky header on mobile so it stays visible when scrolling */
+  .reader-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  /* Fixed viewport on mobile — scroll inside PDF + data panels */
+  .reader-app {
+    overflow: hidden;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  /* MetaCard — stacked rows on mobile */
+  .meta-card-row {
+    grid-template-columns: 1fr !important;
+    gap: 2px !important;
+  }
+
+  /* DataTree — stacked rows on mobile */
+  .data-tree-row {
+    flex-direction: column !important;
+    gap: 4px !important;
+  }
+
+  .data-tree-key {
+    min-width: unset !important;
+  }
+
+  /* SchemaPanel — stacked rows on mobile */
+  .schema-panel-row {
+    grid-template-columns: 1fr !important;
+    gap: 2px 0;
+    padding: 8px 0 !important;
+  }
+}

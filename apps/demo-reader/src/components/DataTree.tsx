@@ -147,14 +147,14 @@ export default function DataTree({ data }: Props) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
         {Object.entries(data).map(([key, value]) => (
-          <div key={key} style={{
+          <div key={key} className="data-tree-row" style={{
             display: 'flex',
             gap: '12px',
             alignItems: 'flex-start',
             padding: '4px 0',
             borderBottom: '1px solid var(--border)',
           }}>
-            <span style={{
+            <span className="data-tree-key" style={{
               fontFamily: 'var(--mono)',
               fontSize: '11px',
               color: 'var(--accent2)',

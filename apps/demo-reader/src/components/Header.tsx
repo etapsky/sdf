@@ -26,6 +26,7 @@ const btnStyle: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: '5px',
 }
 
+
 export default function Header({ filename, meta, pdfBytes, onReset, theme, onToggleTheme, isPlainPDF }: Props) {
 
   // SDF açıksa → PDF indir
@@ -75,28 +76,34 @@ export default function Header({ filename, meta, pdfBytes, onReset, theme, onTog
   }
 
   return (
-    <div style={{
-      height: '48px', background: 'var(--bg2)', borderBottom: '1px solid var(--border)',
+    <header
+      className="reader-header"
+      style={{
+      minHeight: '40px', height: '40px', background: 'var(--bg2)', borderBottom: '1px solid var(--border)',
       display: 'flex', alignItems: 'center', padding: '0 20px', gap: '16px', flexShrink: 0,
-    }}>
+      overflow: 'visible',
+    }}
+    >
 
-      <a href="https://etapsky.com" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: 'inherit' }}>
-        <img src={`${import.meta.env.BASE_URL}etapsky_mark.svg`} alt="Etapsky Inc." width="24" height="24" style={{ verticalAlign: 'middle' }} />
-        <span style={{ fontFamily: 'var(--mono)', fontSize: '12px', color: 'var(--text3)', fontWeight: 500 }}>Etapsky Inc.</span>
-      </a>
-      <div style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
-      <span style={{ fontFamily: 'var(--mono)', fontSize: '13px', fontWeight: 500, color: 'var(--text)', letterSpacing: '-0.3px' }}>
-        SDF <span style={{ color: 'var(--text3)' }}>reader</span>
-      </span>
+      <div className="reader-header-logo" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+        <a href="https://etapsky.com" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: 'inherit' }}>
+          <img src={`${import.meta.env.BASE_URL}etapsky_mark.svg`} alt="Etapsky Inc." width="24" height="24" style={{ verticalAlign: 'middle' }} />
+          <span style={{ fontFamily: 'var(--mono)', fontSize: '12px', color: 'var(--text3)', fontWeight: 500 }}>Etapsky Inc.</span>
+        </a>
+        <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--border2)', fontWeight: 400 }}>|</span>
+        <span style={{ fontFamily: 'var(--mono)', fontSize: '14px', fontWeight: 500, color: 'var(--text)', letterSpacing: '-0.3px' }}>
+          SDF <span style={{ color: 'var(--text3)' }}>reader</span>
+        </span>
+      </div>
 
-      <div style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
+      <div className="reader-header-divider" style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
 
-      <span style={{ fontFamily: 'var(--mono)', fontSize: '12px', color: 'var(--accent2)' }}>
+      <span className="reader-header-filename" style={{ fontFamily: 'var(--mono)', fontSize: '12px', color: 'var(--accent2)', flexShrink: 1, minWidth: 0 }} title={filename}>
         {filename}
       </span>
 
       {/* Badges */}
-      <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+      <div className="reader-header-badges" style={{ display: 'flex', gap: '6px', alignItems: 'center', flexShrink: 0 }}>
         {meta.document_type && meta.document_type !== 'plain_pdf' && (
           <span style={{
             fontFamily: 'var(--mono)', fontSize: '10px', color: 'var(--teal)',
@@ -124,17 +131,18 @@ export default function Header({ filename, meta, pdfBytes, onReset, theme, onTog
       {/* Valid badge — SDF only */}
       {!isPlainPDF && (
         <>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--mono)', fontSize: '10px', color: 'var(--teal)' }}>
+          <div className="reader-header-valid" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--mono)', fontSize: '10px', color: 'var(--teal)' }}>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="20 6 9 17 4 12"/>
             </svg>
             valid
           </div>
-          <div style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
+          <div className="reader-header-divider" style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
         </>
       )}
 
-      {/* Download button — context-aware */}
+      {/* Download button + Theme + Open another — keep visible */}
+      <div className="reader-header-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
       {isPlainPDF ? (
         <button
           onClick={saveAsSDF}
@@ -155,12 +163,12 @@ export default function Header({ filename, meta, pdfBytes, onReset, theme, onTog
         </button>
       )}
 
-      <a href="https://github.com/etapsky" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center' }}>
+      <a className="reader-header-github" href="https://github.com/etapsky" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center' }}>
         <img src="https://img.shields.io/badge/GitHub-Etapsky-181717?style=flat-square&logo=github" alt="github.com/etapsky" style={{ height: 20 }} />
       </a>
-      <div style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
+      <div className="reader-header-divider" style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
       <ThemeToggle theme={theme} onToggle={onToggleTheme} />
-      <div style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
+      <div className="reader-header-divider" style={{ width: '1px', height: '16px', background: 'var(--border2)' }} />
 
       <button
         onClick={onReset}
@@ -170,6 +178,7 @@ export default function Header({ filename, meta, pdfBytes, onReset, theme, onTog
       >
         open another
       </button>
-    </div>
+      </div>
+    </header>
   )
 }
