@@ -145,7 +145,7 @@ export default function App() {
       <div style={{
         flex:    1,
         display: 'grid',
-        gridTemplateColumns: 'minmax(520px, 1.2fr) minmax(320px, 0.8fr)',
+        gridTemplateColumns: 'minmax(480px, 1fr) minmax(380px, 1.2fr)',
         minHeight: 0,
       }}>
 
