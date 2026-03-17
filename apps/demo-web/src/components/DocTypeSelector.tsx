@@ -15,9 +15,9 @@ const scenarioColor: Record<string, string> = {
 export default function DocTypeSelector({ configs, selected, onChange }: Props) {
   return (
     <div style={{
-      display: 'flex',
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3, minmax(120px, 200px))',
       gap: '8px',
-      flexWrap: 'wrap',
       marginBottom: '24px',
     }}>
       {configs.map(cfg => {
@@ -34,7 +34,6 @@ export default function DocTypeSelector({ configs, selected, onChange }: Props) 
               cursor:       'pointer',
               textAlign:    'left',
               transition:   'all 0.15s',
-              minWidth:     '140px',
             }}
           >
             <div style={{

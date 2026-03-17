@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback, useEffect } from 'react'
 import { buildSDF } from '@etapsky/sdf-kit/producer'
 import type { GenerateState, DocTypeConfig } from './types'
 import { invoiceConfig }    from './schemas/invoice'
-// import { nominationConfig } from './schemas/nomination'     // Uncomment to re-enable when ready
+import { nominationConfig } from './schemas/nomination'
 import { purchaseOrderConfig } from './schemas/purchase-order'
 import { govTaxDeclarationConfig } from './schemas/gov-tax-declaration'
 import { govCustomsDeclarationConfig } from './schemas/gov-customs-declaration'
@@ -10,18 +10,19 @@ import { govHealthReportConfig } from './schemas/gov-health-report'
 import { govPermitApplicationConfig } from './schemas/gov-permit-application'
 import DocTypeSelector from './components/DocTypeSelector'
 import FormRenderer    from './components/FormRenderer'
+import FormToggle     from './components/FormToggle'
 import GenerateButton  from './components/GenerateButton'
 import JsonPreview     from './components/JsonPreview'
 import ThemeToggle     from './components/ThemeToggle'
 
 const CONFIGS: DocTypeConfig[] = [
-  invoiceConfig,
+  nominationConfig,
   purchaseOrderConfig,
+  invoiceConfig,
   govTaxDeclarationConfig,
   govCustomsDeclarationConfig,
   govHealthReportConfig,
   govPermitApplicationConfig,
-  // nominationConfig,  // Uncomment to re-enable when ready
 ]
 const THEME_KEY = 'sdf-producer-theme'
 
@@ -34,6 +35,7 @@ export default function App() {
   const [theme, setTheme]           = useState<Theme>(() =>
     (localStorage.getItem(THEME_KEY) as Theme) ?? 'light'
   )
+  const [formOpen, setFormOpen]     = useState(true)
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
@@ -59,6 +61,20 @@ export default function App() {
   const previewData = useMemo(() => {
     try { return config.buildData(values) } catch { return {} }
   }, [config, values])
+
+  // Meta preview (actual meta is built at generate time)
+  const previewMeta = useMemo(() => ({
+    sdf_version:         '0.1',
+    document_id:         '(generated on build)',
+    document_type:       config.documentType ?? config.id,
+    issuer:              config.issuer,
+    issuer_id:           config.issuerId,
+    recipient:           config.recipient,
+    recipient_id:        config.recipientId,
+    schema_id:           config.schemaId,
+    created_at:          new Date().toISOString(),
+    signature_algorithm: null,
+  }), [config])
 
   // Generate .sdf
   const handleGenerate = async () => {
@@ -134,6 +150,7 @@ export default function App() {
 
         <div style={{ flex: 1 }} />
 
+        <FormToggle open={formOpen} onToggle={() => setFormOpen(v => !v)} />
         <ThemeToggle theme={theme} onToggle={toggleTheme} />
 
         <a href="https://github.com/etapsky" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center' }}>
@@ -145,58 +162,12 @@ export default function App() {
       <div style={{
         flex:    1,
         display: 'grid',
-        gridTemplateColumns: 'minmax(480px, 1fr) minmax(380px, 1.2fr)',
+        gridTemplateColumns: formOpen ? '1fr minmax(480px, 580px)' : '1fr',
         minHeight: 0,
+        transition: 'grid-template-columns 0.25s ease',
       }}>
 
-        {/* Left — Form */}
-        <div style={{
-          borderRight: '1px solid var(--border)',
-          overflowY:   'auto',
-          padding:     '32px',
-          background:  'var(--bg)',
-        }}>
-
-          {/* Doc type selector */}
-          <div style={{
-            fontFamily:    'var(--mono)',
-            fontSize:      '10px',
-            fontWeight:    500,
-            letterSpacing: '1.5px',
-            color:         'var(--text3)',
-            textTransform: 'uppercase',
-            marginBottom:  '10px',
-          }}>Document type</div>
-
-          <DocTypeSelector
-            configs={CONFIGS}
-            selected={docTypeId}
-            onChange={handleDocTypeChange}
-          />
-
-          <div style={{
-            fontFamily:   'var(--sans)',
-            fontSize:     '12px',
-            color:        'var(--text2)',
-            marginBottom: '24px',
-            fontWeight:   300,
-            lineHeight:   1.6,
-          }}>
-            {config.description}
-          </div>
-
-          {/* Form */}
-          <FormRenderer
-            fields={config.fields}
-            values={values}
-            onChange={handleFieldChange}
-          />
-
-          {/* Generate button */}
-          <GenerateButton genState={genState} onGenerate={handleGenerate} />
-        </div>
-
-        {/* Right — Live JSON preview */}
+        {/* Left — JSON preview (main) */}
         <div style={{
           display:  'flex',
           flexDirection: 'column',
@@ -205,9 +176,62 @@ export default function App() {
           position: 'sticky',
           top:      '52px',
         }}>
-          <JsonPreview data={previewData} />
+          <JsonPreview
+            data={previewData}
+            schema={config.schema as Record<string, unknown>}
+            meta={previewMeta}
+          />
         </div>
 
+        {/* Right — Form panel (sidebar / drawer) */}
+        {formOpen && (
+            <div className={`form-panel is-open`}>
+              {/* Doc type selector */}
+              <div style={{
+                fontFamily:    'var(--mono)',
+                fontSize:      '10px',
+                fontWeight:    500,
+                letterSpacing: '1.5px',
+                color:         'var(--text3)',
+                textTransform: 'uppercase',
+                marginBottom:  '10px',
+              }}>Document type</div>
+
+              <DocTypeSelector
+                configs={CONFIGS}
+                selected={docTypeId}
+                onChange={handleDocTypeChange}
+              />
+
+              <div style={{
+                fontFamily:   'var(--sans)',
+                fontSize:     '12px',
+                color:        'var(--text2)',
+                marginBottom: '24px',
+                fontWeight:   300,
+                lineHeight:   1.6,
+              }}>
+                {config.description}
+              </div>
+
+              <FormRenderer
+                fields={config.fields}
+                values={values}
+                onChange={handleFieldChange}
+              />
+
+              <GenerateButton genState={genState} onGenerate={handleGenerate} />
+            </div>
+        )}
+
+      {/* Mobile drawer overlay */}
+      {formOpen && (
+        <div
+          className="form-drawer-overlay is-visible"
+          onClick={() => setFormOpen(false)}
+          aria-hidden="true"
+        />
+      )}
       </div>
     </div>
   )

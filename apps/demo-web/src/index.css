@@ -89,3 +89,55 @@ input::placeholder {
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* Form panel — desktop: sidebar, mobile: drawer */
+.form-panel {
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 32px;
+  background: var(--bg);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+@media (max-width: 768px) {
+  .form-panel {
+    position: fixed;
+    top: 52px;
+    right: 0;
+    bottom: 0;
+    width: min(420px, 92vw);
+    z-index: 20;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+    transform: translateX(100%);
+  }
+
+  .form-panel.is-open {
+    transform: translateX(0);
+  }
+
+  .form-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    top: 52px;
+    background: rgba(0,0,0,0.3);
+    z-index: 19;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .form-drawer-overlay.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media (min-width: 769px) {
+  .form-panel {
+    box-shadow: none;
+  }
+
+  .form-drawer-overlay {
+    display: none;
+  }
+}
