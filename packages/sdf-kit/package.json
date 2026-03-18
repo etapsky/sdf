@@ -1,6 +1,6 @@
 {
     "name": "@etapsky/sdf-kit",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "SDF core library — producer, reader, validator",
     "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
     "license": "BUSL-1.1",
@@ -30,6 +30,10 @@
         "./validator": {
             "import": "./dist/validator/index.js",
             "types": "./dist/validator/index.d.ts"
+        },
+        "./signer": {
+            "import": "./dist/signer/index.js",
+            "types": "./dist/signer/index.d.ts"
         }
     },
     "files": [

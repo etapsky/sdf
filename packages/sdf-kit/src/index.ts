@@ -46,3 +46,23 @@ export type {
     validateSchemaOrThrow,
     checkVersion,
   } from './validator/index.js';
+
+  // Signer (Phase 4)
+export type {
+  SDFSigningAlgorithm,
+  SDFKeyPair,
+  SDFSignatureResult,
+  SDFVerifyResult,
+  SDFSignOptions,
+  SDFVerifyOptions,
+} from './signer/index.js';
+
+export {
+  generateSDFKeyPair,
+  exportSDFPublicKey,
+  exportSDFPrivateKey,
+  importSDFPublicKey,
+  importSDFPrivateKey,
+  signSDF,
+  verifySig,
+} from './signer/index.js';
