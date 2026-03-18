@@ -5,6 +5,8 @@
   "description": "Source-available smart document format — spec, core kit, CLI, and demos",
   "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
   "license": "BUSL-1.1",
+  "buslChangeDate": "2030-03-17",
+  "buslChangeLicense": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/etapsky/sdf.git"

@@ -5,6 +5,8 @@
   "description": "SDF demo form application — produce .sdf files from structured data",
   "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
   "license": "BUSL-1.1",
+  "buslChangeDate": "2030-03-17",
+  "buslChangeLicense": "Apache-2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
