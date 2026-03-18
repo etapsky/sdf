@@ -14,6 +14,7 @@
 //   sdf keygen   --algorithm ECDSA --out <base>         Generate signing key pair
 //   sdf sign     <file.sdf> --key <private.b64> --out <f>
 //   sdf verify   <file.sdf> --key <public.b64>          Verify signature
+//   sdf schema   list | versions | diff | validate       Schema registry ops
 //
 // Flags:
 //   --quiet        (-q)  Suppress output, exit code only
@@ -28,9 +29,10 @@ import { wrap }     from './commands/wrap.js'
 import { sign }     from './commands/sign.js'
 import { verify }   from './commands/verify.js'
 import { keygen }   from './commands/keygen.js'
+import { schemaList, schemaVersions, schemaDiff, schemaValidate } from './commands/schema.js'
 import { print, blank, clr, divider } from './ui/print.js'
  
-const VERSION = '0.2.0'
+const VERSION = '0.3.0'
  
 const args = process.argv.slice(2)
  
@@ -41,7 +43,7 @@ const flags = {
 }
  
 const positional = args.filter(a => !a.startsWith('-'))
-const [command, ...rest] = positional
+const [command, subcommand, ...rest] = positional
  
 if (flags.version) {
   print(`@etapsky/sdf-cli ${VERSION}`)
@@ -78,6 +80,9 @@ if (flags.help || !command) {
   print(`  ${clr.gray}             Verify the digital signature of an SDF archive${clr.reset}`)
   print(`  ${clr.gray}             Exit 0 = valid · Exit 1 = invalid (CI-friendly)${clr.reset}`)
   blank()
+  print(`  ${clr.cyan}sdf schema${clr.reset}   ${clr.gray}list | versions | diff | validate${clr.reset}`)
+  print(`  ${clr.gray}             Schema registry operations — list, diff, validate${clr.reset}`)
+  blank()
   print(`  ${clr.white}Flags${clr.reset}`)
   blank()
   print(`  ${clr.gray}--quiet    -q   Suppress output (exit code only)${clr.reset}`)
@@ -94,6 +99,8 @@ if (flags.help || !command) {
   print(`  ${clr.dim}sdf keygen --algorithm ECDSA --out mykey${clr.reset}`)
   print(`  ${clr.dim}sdf sign invoice.sdf --key mykey.private.b64 --out invoice.signed.sdf${clr.reset}`)
   print(`  ${clr.dim}sdf verify invoice.signed.sdf --key mykey.public.b64${clr.reset}`)
+  print(`  ${clr.dim}sdf schema diff --from v0.1.schema.json --to v0.2.schema.json${clr.reset}`)
+  print(`  ${clr.dim}sdf schema validate --data invoice.json --schema invoice.schema.json${clr.reset}`)
   blank()
   divider()
   blank()
@@ -108,14 +115,14 @@ const getArg = (flag: string) => {
 switch (command) {
  
   case 'inspect': {
-    const file = rest[0]
+    const file = rest[0] ?? subcommand
     if (!file) { print(`  ${clr.red}✗${clr.reset}  Usage: sdf inspect <file.sdf>`); process.exit(1) }
     await inspect(file)
     break
   }
  
   case 'validate': {
-    const file = rest[0]
+    const file = rest[0] ?? subcommand
     if (!file) { print(`  ${clr.red}✗${clr.reset}  Usage: sdf validate <file.sdf>`); process.exit(1) }
     await validate(file, { quiet: flags.quiet })
     break
@@ -145,7 +152,7 @@ switch (command) {
   }
  
   case 'wrap': {
-    const pdfPath = rest[0]
+    const pdfPath = subcommand
     const issuer  = getArg('--issuer')
     const out     = getArg('--out')
     if (!pdfPath || !issuer || !out) {
@@ -176,7 +183,6 @@ switch (command) {
     }
     if (algorithmRaw !== 'ECDSA' && algorithmRaw !== 'RSASSA-PKCS1-v1_5') {
       print(`  ${clr.red}✗${clr.reset}  Unknown algorithm: ${algorithmRaw}`)
-      print(`  ${clr.gray}Supported: ECDSA, RSASSA-PKCS1-v1_5${clr.reset}`)
       process.exit(1)
     }
     await keygen({ algorithm: algorithmRaw, out })
@@ -184,11 +190,11 @@ switch (command) {
   }
  
   case 'sign': {
-    const file        = rest[0]
-    const keyPath     = getArg('--key')
-    const out         = getArg('--out')
+    const file         = subcommand
+    const keyPath      = getArg('--key')
+    const out          = getArg('--out')
     const algorithmRaw = getArg('--algorithm') ?? 'ECDSA'
-    const includePDF  = args.includes('--include-pdf')
+    const includePDF   = args.includes('--include-pdf')
     if (!file || !keyPath || !out) {
       print(`  ${clr.red}✗${clr.reset}  Usage: sdf sign <file.sdf> --key <private.b64> --out <signed.sdf>`)
       blank()
@@ -196,15 +202,14 @@ switch (command) {
       process.exit(1)
     }
     if (algorithmRaw !== 'ECDSA' && algorithmRaw !== 'RSASSA-PKCS1-v1_5') {
-      print(`  ${clr.red}✗${clr.reset}  Unknown algorithm: ${algorithmRaw}`)
-      process.exit(1)
+      print(`  ${clr.red}✗${clr.reset}  Unknown algorithm: ${algorithmRaw}`); process.exit(1)
     }
     await sign({ file, keyPath, algorithm: algorithmRaw, includePDF, out })
     break
   }
  
   case 'verify': {
-    const file         = rest[0]
+    const file         = subcommand
     const keyPath      = getArg('--key')
     const algorithmRaw = getArg('--algorithm') ?? 'ECDSA'
     if (!file || !keyPath) {
@@ -214,10 +219,73 @@ switch (command) {
       process.exit(1)
     }
     if (algorithmRaw !== 'ECDSA' && algorithmRaw !== 'RSASSA-PKCS1-v1_5') {
-      print(`  ${clr.red}✗${clr.reset}  Unknown algorithm: ${algorithmRaw}`)
-      process.exit(1)
+      print(`  ${clr.red}✗${clr.reset}  Unknown algorithm: ${algorithmRaw}`); process.exit(1)
     }
     await verify({ file, keyPath, algorithm: algorithmRaw, quiet: flags.quiet })
+    break
+  }
+ 
+  // ── schema subcommands ───────────────────────────────────────────────────────
+  case 'schema': {
+    switch (subcommand) {
+ 
+      case 'list': {
+        await schemaList({
+          type:         getArg('--type'),
+          registryPath: getArg('--registry'),
+        })
+        break
+      }
+ 
+      case 'versions': {
+        const type = getArg('--type')
+        if (!type) {
+          print(`  ${clr.red}✗${clr.reset}  Usage: sdf schema versions --type <doctype>`)
+          process.exit(1)
+        }
+        await schemaVersions({ type, registryPath: getArg('--registry') })
+        break
+      }
+ 
+      case 'diff': {
+        const from = getArg('--from')
+        const to   = getArg('--to')
+        if (!from || !to) {
+          print(`  ${clr.red}✗${clr.reset}  Usage: sdf schema diff --from <file|url> --to <file|url>`)
+          process.exit(1)
+        }
+        await schemaDiff({ from, to })
+        break
+      }
+ 
+      case 'validate': {
+        const dataPath   = getArg('--data')
+        const schemaPath = getArg('--schema')
+        if (!dataPath || !schemaPath) {
+          print(`  ${clr.red}✗${clr.reset}  Usage: sdf schema validate --data <f> --schema <f>`)
+          process.exit(1)
+        }
+        await schemaValidate({ dataPath, schemaPath, quiet: flags.quiet })
+        break
+      }
+ 
+      default: {
+        blank()
+        print(`  ${clr.white}sdf schema${clr.reset} — Schema registry operations`)
+        blank()
+        print(`  ${clr.cyan}sdf schema list${clr.reset}      ${clr.gray}[--type <doctype>] [--registry <file>]${clr.reset}`)
+        print(`  ${clr.cyan}sdf schema versions${clr.reset}  ${clr.gray}--type <doctype>${clr.reset}`)
+        print(`  ${clr.cyan}sdf schema diff${clr.reset}      ${clr.gray}--from <file|url> --to <file|url>${clr.reset}`)
+        print(`  ${clr.cyan}sdf schema validate${clr.reset}  ${clr.gray}--data <f> --schema <f>${clr.reset}`)
+        blank()
+        print(`  ${clr.white}Examples${clr.reset}`)
+        blank()
+        print(`  ${clr.dim}sdf schema diff --from v0.1.json --to v0.2.json${clr.reset}`)
+        print(`  ${clr.dim}sdf schema validate --data invoice.json --schema invoice.schema.json${clr.reset}`)
+        blank()
+        process.exit(subcommand ? 1 : 0)
+      }
+    }
     break
   }
  
@@ -228,4 +296,3 @@ switch (command) {
     process.exit(1)
   }
 }
- 
