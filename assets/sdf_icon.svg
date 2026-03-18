@@ -1,0 +1,25 @@
+<svg viewBox="0 0 48 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Document body -->
+  <rect x="0" y="0" width="48" height="60" rx="3" fill="#fff"/>
+  <!-- Folded corner -->
+  <path d="M30 0v14h14L30 0z" fill="#f8f9fa"/>
+  <path d="M30 0v14h14" fill="none" stroke="#e8ecf1" stroke-width="1"/>
+  <!-- Brand gradient vertical stripe -->
+  <rect x="0" y="0" width="4" height="60" rx="0 0 2 0" fill="url(#sdf-grad)"/>
+  <!-- Rounded border around SDF -->
+  <rect x="8" y="19" width="32" height="24" rx="6" fill="none" stroke="#6b6b6b" stroke-width="1.5"/>
+  <!-- SDF text – refined, smart document format style -->
+  <text x="24" y="36" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="600" letter-spacing="0.6" fill="#1a1a1a">SDF</text>
+  <!-- Etapsky mark (3 bars) – brand marker below SDF -->
+  <g transform="translate(18, 42) scale(0.14)">
+    <rect x="0" y="72" width="28" height="28" rx="4" fill="#F59E0B"/>
+    <rect x="36" y="44" width="28" height="56" rx="4" fill="#7C3AED"/>
+    <rect x="72" y="16" width="28" height="84" rx="4" fill="#F59E0B"/>
+  </g>
+  <defs>
+    <linearGradient id="sdf-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+  </defs>
+</svg>
