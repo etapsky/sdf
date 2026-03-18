@@ -15,7 +15,7 @@ const TABS = [
 
 function colorize(json: string): string {
   return json
-    .replace(/("(\u[a-zA-Z0-9]{4}|\[^u]|[^\"])*"(\s*:)?|(true|false|null)|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, (match) => {
+    .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\"])*"(\s*:)?|(true|false|null)|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, (match) => {
       let cls = 'color: var(--teal);'
       if (/^"/.test(match)) {
         if (/:$/.test(match)) {
@@ -56,8 +56,7 @@ export default function JsonPreview({ data, schema, meta }: Props) {
   const [activeTab, setActiveTab] = useState<'data' | 'schema' | 'meta'>('data')
 
   const activeContent = activeTab === 'data' ? data : activeTab === 'schema' ? schema : meta
-  const lineCount = JSON.stringify(activeContent, null, 2).split('
-').length
+  const lineCount = JSON.stringify(activeContent, null, 2).split('\n').length
 
   return (
     <div style={{
