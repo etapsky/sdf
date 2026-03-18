@@ -25,7 +25,8 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "@etapsky/sdf-kit": "^0.2.2"
+    "@etapsky/sdf-kit": "^0.2.2",
+    "@etapsky/sdf-schema-registry": "^0.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
