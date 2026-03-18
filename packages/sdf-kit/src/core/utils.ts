@@ -1,4 +1,5 @@
 // ─── SDF Utilities ────────────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 
 // Safely parse JSON — returns null on failure instead of throwing
 export function safeParseJSON(raw: string): unknown | null {

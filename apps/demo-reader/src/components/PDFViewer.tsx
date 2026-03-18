@@ -1,3 +1,4 @@
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 import { useEffect, useRef } from 'react'
 
 interface Props {

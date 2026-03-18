@@ -1,4 +1,5 @@
 // ─── Minimal PDF Generator ────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // Generates a simple human-readable PDF from structured data.
 // This is a POC-level implementation — not production quality.
 // In F2, this moves to packages/sdf-kit/src/producer/pdf.ts with

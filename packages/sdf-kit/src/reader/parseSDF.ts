@@ -1,4 +1,5 @@
 // ─── SDF Reader ───────────────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // Canonical consumer flow — SDF_FORMAT.md Section 6.
 // Step 1: open ZIP → Step 2: read meta → Step 3: validate data
 // → Step 4: route data → Step 5: present visual

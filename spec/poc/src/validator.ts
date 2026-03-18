@@ -1,4 +1,5 @@
 // ─── Schema Validator ─────────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // Uses ajv (Ajv v8) with JSON Schema Draft 2020-12.
 // SDF_FORMAT.md Section 7.3: Node.js / Browser → ajv (Ajv v8, JSON Schema 2020-12)
 

@@ -1,9 +1,9 @@
 {
     "name": "@etapsky/sdf-kit",
-    "version": "0.1.1",
+    "version": "0.1.0",
     "description": "SDF core library — producer, reader, validator",
     "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
-    "license": "MIT",
+    "license": "BUSL-1.1",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/etapsky/sdf.git",

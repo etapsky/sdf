@@ -1,4 +1,5 @@
 // ─── SDF Constants ────────────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 
 // Current spec version (SDF_FORMAT.md Section 10.2)
 export const SDF_VERSION = '0.1' as const;

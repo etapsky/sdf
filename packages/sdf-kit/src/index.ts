@@ -1,4 +1,5 @@
 // ─── @etapsky/sdf-kit ─────────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // SDF core library — producer, reader, validator.
 // SDF_FORMAT.md Section 13 — Reference Implementation.
 //

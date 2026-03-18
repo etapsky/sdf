@@ -1,4 +1,5 @@
 // ─── sdf inspect <file> ───────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // Full inspection report: meta, schema summary, data tree, layer sizes.
 
 import { readFile } from 'fs/promises'

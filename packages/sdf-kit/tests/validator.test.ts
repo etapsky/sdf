@@ -1,3 +1,4 @@
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 import { describe, it, expect } from 'vitest';
 import { validateMeta, validateSchema, validateSchemaOrThrow, checkVersion } from '../src/validator/index.js';
 import { SDFError, SDF_ERRORS, SDF_VERSION } from '../src/core/index.js';

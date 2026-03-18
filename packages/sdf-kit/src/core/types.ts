@@ -1,4 +1,5 @@
 // ─── SDF Core Types ───────────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // Canonical type definitions for @etapsky/sdf-kit.
 // SDF_FORMAT.md — authoritative source for all field semantics.
 

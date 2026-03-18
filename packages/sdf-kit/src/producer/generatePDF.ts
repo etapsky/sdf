@@ -1,4 +1,5 @@
 // ─── PDF Generator ────────────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // Generates visual.pdf from structured data.
 // SDF_FORMAT.md Section 4.3 — visual.pdf requirements:
 //   - MUST be PDF 1.4 or later

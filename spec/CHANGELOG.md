@@ -59,4 +59,4 @@ Versioning follows the rules defined in `SDF_FORMAT.md` Section 10.
 
 ---
 
-*SDF Format Specification · Etapsky Inc. · github.com/etapsky/sdf*
+*SDF Format Specification · © 2026 Yunus YILDIZ · github.com/etapsky/sdf*

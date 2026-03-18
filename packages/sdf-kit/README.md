@@ -4,7 +4,7 @@
 
 [![npm](https://img.shields.io/npm/v/@etapsky/sdf-kit)](https://www.npmjs.com/package/@etapsky/sdf-kit)
 [![CI](https://github.com/etapsky/sdf/actions/workflows/ci.yml/badge.svg)](https://github.com/etapsky/sdf/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License: BUSL-1.1](https://img.shields.io/badge/License-BUSL--1.1-blue.svg)](../../LICENSE)
 
 SDF is an open file format that combines a human-readable PDF layer with a machine-readable JSON layer in a single file. `@etapsky/sdf-kit` is the reference implementation of the [SDF specification](https://github.com/etapsky/sdf/blob/main/spec/SDF_FORMAT.md).
 
@@ -243,4 +243,7 @@ The normative format specification is at [`spec/SDF_FORMAT.md`](https://github.c
 
 ## License
 
-MIT — [Etapsky Inc.](https://github.com/etapsky)
+BUSL-1.1 — Copyright (c) 2026 Yunus YILDIZ
+
+This software is licensed under the [Business Source License 1.1](../../LICENSE).
+Non-production use is free. Commercial use requires a license from the author until the Change Date (2031-03-17), after which it converts to Apache License 2.0.

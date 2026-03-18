@@ -1,4 +1,5 @@
 // ─── Container Abstraction ────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // TODO: container-decision
 // This module wraps JSZip behind packContainer / unpackContainer.
 // If the container format changes (ZIP → PDF metadata, QR/token, etc.),

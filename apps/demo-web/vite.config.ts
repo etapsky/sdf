@@ -1,3 +1,4 @@
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 import path from 'path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'

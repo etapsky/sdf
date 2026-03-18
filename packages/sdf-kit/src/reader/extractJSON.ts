@@ -1,4 +1,5 @@
 // ─── Partial Read ─────────────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // Extracts meta + data + schema without reading visual.pdf.
 // SDF_FORMAT.md Section 12.3 — Partial Reads.
 // Use for high-throughput server-side ingestion where the PDF is never needed.

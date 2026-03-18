@@ -1,4 +1,5 @@
 // ─── Meta Validator ───────────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // Validates meta.json against the normative SDF Meta Schema.
 // SDF_FORMAT.md Section 4.6 and Appendix A.
 

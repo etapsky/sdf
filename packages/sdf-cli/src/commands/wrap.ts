@@ -1,4 +1,5 @@
 // ─── sdf wrap <file.pdf> ──────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // Wraps an existing PDF into a .sdf container.
 // The PDF becomes visual.pdf — no structured data is extracted from it.
 // data.json will contain a minimal stub indicating the file was wrapped.

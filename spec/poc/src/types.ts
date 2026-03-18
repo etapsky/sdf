@@ -1,4 +1,5 @@
 // ─── SDF Core Types ───────────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // These are the canonical type definitions for the F1 POC.
 // In F2, these move to packages/sdf-kit/src/core/types.ts
 

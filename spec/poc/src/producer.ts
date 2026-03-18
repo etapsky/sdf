@@ -1,4 +1,5 @@
 // ─── SDF Producer ─────────────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // Implements the canonical producer flow from SDF_FORMAT.md Section 5.
 // Steps: validate → generate PDF → assemble JSON files → pack ZIP → return buffer
 

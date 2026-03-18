@@ -63,4 +63,4 @@ runtime by the producer. The F1 proof-of-concept script will produce actual
 
 ---
 
-*SDF Format Specification · Etapsky Inc. · github.com/etapsky/sdf*
+*SDF Format Specification · © 2026 Yunus YILDIZ · github.com/etapsky/sdf*

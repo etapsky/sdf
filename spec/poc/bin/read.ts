@@ -1,5 +1,6 @@
 #!/usr/bin/env tsx
 // ─── SDF Read CLI ─────────────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // Usage:
 //   tsx bin/read.ts <example-name>
 //   tsx bin/read.ts invoice

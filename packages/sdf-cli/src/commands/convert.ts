@@ -1,4 +1,5 @@
 // ─── sdf convert <input> ──────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // Converts a JSON data file + schema + PDF into a .sdf archive.
 // Usage: sdf convert --data invoice.json --schema invoice.schema.json
 //                    --pdf invoice.pdf --issuer "Acme Corp" --out invoice.sdf

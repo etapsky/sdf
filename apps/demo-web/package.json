@@ -1,7 +1,10 @@
 {
-  "name": "demo-web",
+  "name": "@etapsky/demo-web",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "SDF demo form application — produce .sdf files from structured data",
+  "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
+  "license": "BUSL-1.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,7 +14,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@etapsky/sdf-kit": "^0.1.1",
+    "@etapsky/sdf-kit": "^0.1.0",
     "buffer": "^6.0.3",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"

@@ -1,4 +1,5 @@
 // ─── ZIP Container ────────────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // TODO: container-decision
 // Wraps JSZip behind packContainer / unpackContainer.
 // If the container format changes, only this file changes.

@@ -1,3 +1,4 @@
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 import { useState, useCallback, useEffect } from 'react'
 import { parseSDF } from '@etapsky/sdf-kit/reader'
 import { SDFError } from '@etapsky/sdf-kit'

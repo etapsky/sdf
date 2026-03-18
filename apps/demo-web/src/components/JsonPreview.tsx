@@ -1,3 +1,4 @@
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 import { useState } from 'react'
 
 interface Props {
@@ -14,7 +15,7 @@ const TABS = [
 
 function colorize(json: string): string {
   return json
-    .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, (match) => {
+    .replace(/("(\u[a-zA-Z0-9]{4}|\[^u]|[^\"])*"(\s*:)?|(true|false|null)|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, (match) => {
       let cls = 'color: var(--teal);'
       if (/^"/.test(match)) {
         if (/:$/.test(match)) {
@@ -55,7 +56,8 @@ export default function JsonPreview({ data, schema, meta }: Props) {
   const [activeTab, setActiveTab] = useState<'data' | 'schema' | 'meta'>('data')
 
   const activeContent = activeTab === 'data' ? data : activeTab === 'schema' ? schema : meta
-  const lineCount = JSON.stringify(activeContent, null, 2).split('\n').length
+  const lineCount = JSON.stringify(activeContent, null, 2).split('
+').length
 
   return (
     <div style={{

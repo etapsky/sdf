@@ -1,3 +1,4 @@
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 import { describe, it, expect } from 'vitest';
 import JSZip from 'jszip';
 import { buildSDF } from '../src/producer/buildSDF.js';

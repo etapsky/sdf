@@ -1,4 +1,5 @@
 // ─── SDF Error Codes ──────────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // Canonical error codes from SDF_FORMAT.md Section 12.1.
 // All conforming implementations MUST use these codes.
 

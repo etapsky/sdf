@@ -1,4 +1,5 @@
 // ─── sdf validate <file> ──────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // Fast validation — checks structure, meta, schema, data.
 // No output on success (exit 0). Errors to stderr (exit 1).
 // Machine-friendly: pipe into CI scripts.

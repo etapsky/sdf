@@ -5,7 +5,7 @@
   "private": true,
   "type": "module",
   "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
-  "license": "MIT",
+  "license": "BUSL-1.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/etapsky/sdf.git"

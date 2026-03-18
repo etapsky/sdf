@@ -1,5 +1,6 @@
 #!/usr/bin/env tsx
 // ─── SDF Build CLI ────────────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // Usage:
 //   tsx bin/build.ts <example-name>
 //   tsx bin/build.ts invoice

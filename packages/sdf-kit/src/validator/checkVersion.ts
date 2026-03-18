@@ -1,4 +1,5 @@
 // ─── Version Checker ──────────────────────────────────────────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // SDF_FORMAT.md Section 9.3 — Version Forward Compatibility
 
 import { SDFError, SDF_ERRORS, SDF_VERSION } from '../core/index.js';

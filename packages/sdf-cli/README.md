@@ -3,7 +3,7 @@
 > SDF command-line tool — inspect, validate, convert, and wrap `.sdf` files.
 
 [![npm](https://img.shields.io/npm/v/@etapsky/sdf-cli)](https://www.npmjs.com/package/@etapsky/sdf-cli)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License: BUSL-1.1](https://img.shields.io/badge/License-BUSL--1.1-blue.svg)](LICENSE)
 
 Part of the [Etapsky SDF](https://github.com/etapsky/sdf) monorepo · F3 deliverable.
 
@@ -274,4 +274,11 @@ The normative format specification is at [`spec/SDF_FORMAT.md`](https://github.c
 
 ---
 
-*@etapsky/sdf-cli · F3 · Etapsky Inc. · github.com/etapsky/sdf*
+## License
+
+BUSL-1.1 — Copyright (c) 2026 Yunus YILDIZ
+
+This software is licensed under the [Business Source License 1.1](../../LICENSE).
+Non-production use is free. Commercial use requires a license from the author until the Change Date (2031-03-17), after which it converts to Apache License 2.0.
+
+*@etapsky/sdf-cli · F3 · © 2026 Yunus YILDIZ · github.com/etapsky/sdf*

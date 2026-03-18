@@ -1,6 +1,6 @@
 # SDF — Smart Document Format · Spec
 
-> Version: v0.1 · Status: Draft · March 2026 · Etapsky Inc.
+> Version: v0.1 · Status: Draft · March 2026 · © Yunus YILDIZ
 
 This directory contains the normative specification for the SDF (Smart Document
 Format) file format, along with JSON Schema definitions and reference examples.
@@ -70,4 +70,14 @@ All breaking changes require a version bump and a `CHANGELOG.md` entry.
 
 ---
 
-*SDF Format Specification · Etapsky Inc. · github.com/etapsky/sdf*
+## License
+
+The SDF Format Specification (documents in this directory) is licensed under the
+**Business Source License 1.1 (BUSL-1.1)**. See [`spec/LICENSE`](./LICENSE) and the root [`LICENSE`](../LICENSE) for the full text. Change Date: 2031-03-17 → Apache License 2.0.
+
+The source code of the SDF project (`packages/`, `apps/`) is licensed under the
+**Business Source License 1.1 (BUSL-1.1)**. See the [`LICENSE`](../LICENSE) file in the repository root.
+
+---
+
+*SDF Format Specification · © 2026 Yunus YILDIZ · github.com/etapsky/sdf*

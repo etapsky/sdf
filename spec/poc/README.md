@@ -1,6 +1,6 @@
 # SDF POC — Proof of Concept
 
-> F1 deliverable · Phase 1 · Etapsky Inc.
+> F1 deliverable · Phase 1 · © 2026 Yunus YILDIZ
 
 This directory contains a minimal, self-contained proof of concept demonstrating
 that the SDF format works end-to-end: produce a `.sdf` file from structured
@@ -108,4 +108,4 @@ open /tmp/invoice-sdf/visual.pdf
 
 ---
 
-*SDF POC · F1 · Etapsky Inc. · github.com/etapsky/sdf*
+*SDF POC · F1 · © 2026 Yunus YILDIZ · github.com/etapsky/sdf*
