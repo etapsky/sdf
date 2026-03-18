@@ -1,0 +1,55 @@
+{
+  "name": "@etapsky/sdf-schema-registry",
+  "version": "0.1.0",
+  "description": "SDF Schema Registry — versioned schema publication, diff, and migration",
+  "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
+  "license": "BUSL-1.1",
+  "buslChangeDate": "2030-03-17",
+  "buslChangeLicense": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/etapsky/sdf.git",
+    "directory": "packages/sdf-schema-registry"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./registry": {
+      "import": "./dist/registry/index.js",
+      "types": "./dist/registry/index.d.ts"
+    },
+    "./diff": {
+      "import": "./dist/diff/index.js",
+      "types": "./dist/diff/index.d.ts"
+    },
+    "./migrate": {
+      "import": "./dist/migrate/index.js",
+      "types": "./dist/migrate/index.d.ts"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "dev": "tsc --project tsconfig.build.json --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@etapsky/sdf-kit": "^0.2.1",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@vitest/coverage-v8": "^3.0.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.0"
+  }
+}
