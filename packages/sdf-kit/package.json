@@ -1,6 +1,6 @@
 {
     "name": "@etapsky/sdf-kit",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "SDF core library — producer, reader, validator",
     "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
     "license": "BUSL-1.1",
