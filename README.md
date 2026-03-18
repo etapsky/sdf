@@ -8,8 +8,8 @@
 
 </div>
 
-**License:** Business Source License 1.1 (BUSL-1.1) — Copyright (c) 2026 Yunus YILDIZ
-**Change Date:** 2031-03-17 → Apache License 2.0
+**Spec License:** Creative Commons Attribution 4.0 (CC-BY 4.0) — `spec/` — © 2026 Yunus YILDIZ
+**Code License:** Business Source License 1.1 (BUSL-1.1) — `packages/`, `apps/` — Change Date: 2030-03-17 → Apache 2.0
 
 ---
 

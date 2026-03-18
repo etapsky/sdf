@@ -252,6 +252,6 @@ The form, live preview, and generate flow all work automatically — no other ch
 BUSL-1.1 — Copyright (c) 2026 Yunus YILDIZ
 
 This software is licensed under the [Business Source License 1.1](../../LICENSE).
-Non-production use is free. Commercial use requires a license from the author until the Change Date (2031-03-17), after which it converts to Apache License 2.0.
+Non-production use is free. Commercial use requires a license from the author until the Change Date (2030-03-17), after which it converts to Apache License 2.0.
 
 *@etapsky/demo-web · F3 · © 2026 Yunus YILDIZ · github.com/etapsky/sdf*

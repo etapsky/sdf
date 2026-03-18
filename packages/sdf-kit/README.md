@@ -246,4 +246,4 @@ The normative format specification is at [`spec/SDF_FORMAT.md`](https://github.c
 BUSL-1.1 — Copyright (c) 2026 Yunus YILDIZ
 
 This software is licensed under the [Business Source License 1.1](../../LICENSE).
-Non-production use is free. Commercial use requires a license from the author until the Change Date (2031-03-17), after which it converts to Apache License 2.0.
+Non-production use is free. Commercial use requires a license from the author until the Change Date (2030-03-17), after which it converts to Apache License 2.0.

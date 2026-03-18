@@ -1,8 +1,21 @@
-The SDF Format Specification (spec/) is part of the SDF project and is licensed
-under the Business Source License 1.1 (BUSL-1.1).
+The SDF Format Specification (spec/) is licensed under the
+Creative Commons Attribution 4.0 International License (CC-BY 4.0).
 
-See the LICENSE file in the repository root for the full license text.
+You are free to:
+  - Share — copy and redistribute the material in any medium or format
+  - Adapt — implement, build upon, and use the material for any purpose,
+    including commercially
+
+Under the following terms:
+  - Attribution — You must give appropriate credit to Yunus YILDIZ and the
+    SDF project (github.com/etapsky/sdf), provide a link to the license,
+    and indicate if changes were made.
 
 Copyright (c) 2026 Yunus YILDIZ
-Change Date: 2031-03-17
-Change License: Apache License 2.0
+License: Creative Commons Attribution 4.0 International (CC-BY 4.0)
+Full license text: https://creativecommons.org/licenses/by/4.0/
+
+---
+
+Note: The reference implementation (packages/, apps/) is licensed separately
+under the Business Source License 1.1 (BUSL-1.1). See the root LICENSE file.

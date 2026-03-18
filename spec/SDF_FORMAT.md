@@ -5,9 +5,8 @@
 **Date:** 2026-03
 **Authors:** Yunus YILDIZ
 **Repository:** github.com/etapsky/sdf
-**License:** Business Source License 1.1 (BUSL-1.1)
-**Copyright:** © 2026 Yunus YILDIZ. All rights reserved.
-**Change Date:** 2031-03-17 → Apache License 2.0
+**License:** Creative Commons Attribution 4.0 International (CC-BY 4.0)
+**Copyright:** © 2026 Yunus YILDIZ
 
 ---
 
@@ -1216,5 +1215,5 @@ The smallest possible valid SDF file conforming to v0.1:
 ---
 
 *SDF Format Specification · v0.1 · Draft · March 2026 · © Yunus YILDIZ*
-*This document is published under the Business Source License 1.1 (BUSL-1.1). Change Date 2031-03-17 → Apache License 2.0.*
+*This document is published under the [Creative Commons Attribution 4.0 International License (CC-BY 4.0)](https://creativecommons.org/licenses/by/4.0/). You are free to implement, adapt, and build upon this specification for any purpose, including commercially, with attribution.*
 *Contributions and feedback: github.com/etapsky/sdf*

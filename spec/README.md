@@ -73,9 +73,11 @@ All breaking changes require a version bump and a `CHANGELOG.md` entry.
 ## License
 
 The SDF Format Specification (documents in this directory) is licensed under the
-**Business Source License 1.1 (BUSL-1.1)**. See [`spec/LICENSE`](./LICENSE) and the root [`LICENSE`](../LICENSE) for the full text. Change Date: 2031-03-17 → Apache License 2.0.
+**Creative Commons Attribution 4.0 International License (CC-BY 4.0)**. See [`spec/LICENSE`](./LICENSE) for details.
 
-The source code of the SDF project (`packages/`, `apps/`) is licensed under the
+You are free to read, implement, adapt, and build upon this specification for any purpose — including commercially — with attribution to Yunus YILDIZ and the SDF project.
+
+The reference implementation (`packages/`, `apps/`) is licensed separately under the
 **Business Source License 1.1 (BUSL-1.1)**. See the [`LICENSE`](../LICENSE) file in the repository root.
 
 ---
