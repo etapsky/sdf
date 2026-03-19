@@ -1,0 +1,223 @@
+name: Release sdf-cli
+
+# ─── Trigger ──────────────────────────────────────────────────────────────────
+# Push a tag like: git tag sdf-cli-v0.3.0 && git push --tags
+# This builds native binaries for all platforms, creates a GitHub Release,
+# and opens a PR on etapsky/homebrew-tap to update the formula.
+
+on:
+  push:
+    tags:
+      - 'sdf-cli-v*'
+
+permissions:
+  contents: write
+
+jobs:
+
+  # ── Build native binaries ──────────────────────────────────────────────────
+  build:
+    name: Build ${{ matrix.target }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os:     macos-latest       # Apple Silicon
+            target: bun-darwin-arm64
+            asset:  sdf-macos-arm64
+
+          - os:     macos-13           # Intel Mac
+            target: bun-darwin-x64
+            asset:  sdf-macos-x64
+
+          - os:     ubuntu-latest
+            target: bun-linux-x64
+            asset:  sdf-linux-x64
+
+          - os:     ubuntu-latest
+            target: bun-linux-arm64
+            asset:  sdf-linux-arm64
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build binary
+        working-directory: packages/sdf-cli
+        run: |
+          bun build src/index.ts \
+            --compile \
+            --target ${{ matrix.target }} \
+            --outfile dist/sdf
+
+      - name: Make executable
+        working-directory: packages/sdf-cli
+        run: chmod +x dist/sdf
+
+      - name: Test binary
+        working-directory: packages/sdf-cli
+        run: |
+          ./dist/sdf --version
+          ./dist/sdf --help
+
+      - name: Create tarball
+        working-directory: packages/sdf-cli/dist
+        run: |
+          tar -czf ${{ matrix.asset }}.tar.gz sdf
+          sha256sum ${{ matrix.asset }}.tar.gz > ${{ matrix.asset }}.sha256
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: |
+            packages/sdf-cli/dist/${{ matrix.asset }}.tar.gz
+            packages/sdf-cli/dist/${{ matrix.asset }}.sha256
+
+  # ── Create GitHub Release ──────────────────────────────────────────────────
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#sdf-cli-v}" >> $GITHUB_OUTPUT
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+          merge-multiple: true
+
+      - name: List artifacts
+        run: ls -la release-artifacts/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "sdf-cli v${{ steps.version.outputs.version }}"
+          tag_name: ${{ github.ref_name }}
+          body: |
+            ## @etapsky/sdf-cli v${{ steps.version.outputs.version }}
+
+            ### Install via Homebrew (macOS / Linux)
+            ```bash
+            brew tap etapsky/tap
+            brew install sdf
+            ```
+
+            ### Install via npm
+            ```bash
+            npm install -g @etapsky/sdf-cli
+            ```
+
+            ### Direct download
+            Download the binary for your platform below.
+
+            ### Changelog
+            See [CHANGELOG.md](https://github.com/etapsky/sdf/blob/main/packages/sdf-cli/CHANGELOG.md)
+          files: release-artifacts/*
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.version, '-') }}
+
+  # ── Update homebrew-tap ────────────────────────────────────────────────────
+  update-tap:
+    name: Update homebrew-tap
+    needs: release
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#sdf-cli-v}" >> $GITHUB_OUTPUT
+
+      - name: Download artifacts for SHA256
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+          merge-multiple: true
+
+      - name: Calculate SHA256 hashes
+        id: hashes
+        run: |
+          MACOS_ARM64=$(cat release-artifacts/sdf-macos-arm64.sha256 | cut -d' ' -f1)
+          MACOS_X64=$(cat release-artifacts/sdf-macos-x64.sha256   | cut -d' ' -f1)
+          LINUX_ARM64=$(cat release-artifacts/sdf-linux-arm64.sha256 | cut -d' ' -f1)
+          LINUX_X64=$(cat release-artifacts/sdf-linux-x64.sha256   | cut -d' ' -f1)
+
+          echo "macos_arm64=$MACOS_ARM64" >> $GITHUB_OUTPUT
+          echo "macos_x64=$MACOS_X64"     >> $GITHUB_OUTPUT
+          echo "linux_arm64=$LINUX_ARM64" >> $GITHUB_OUTPUT
+          echo "linux_x64=$LINUX_X64"     >> $GITHUB_OUTPUT
+
+      - name: Checkout homebrew-tap
+        uses: actions/checkout@v4
+        with:
+          repository: etapsky/homebrew-tap
+          token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          path: homebrew-tap
+
+      - name: Update formula
+        working-directory: homebrew-tap
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+
+          sed -i "s/version  \".*\"/version  \"$VERSION\"/" Formula/sdf.rb
+
+          sed -i "s/sha256 \"REPLACE_AFTER_FIRST_RELEASE_macos_arm64\"/sha256 \"${{ steps.hashes.outputs.macos_arm64 }}\"/" Formula/sdf.rb
+          sed -i "s/sha256 \"REPLACE_AFTER_FIRST_RELEASE_macos_x64\"/sha256 \"${{ steps.hashes.outputs.macos_x64 }}\"/"   Formula/sdf.rb
+          sed -i "s/sha256 \"REPLACE_AFTER_FIRST_RELEASE_linux_arm64\"/sha256 \"${{ steps.hashes.outputs.linux_arm64 }}\"/" Formula/sdf.rb
+          sed -i "s/sha256 \"REPLACE_AFTER_FIRST_RELEASE_linux_x64\"/sha256 \"${{ steps.hashes.outputs.linux_x64 }}\"/"   Formula/sdf.rb
+
+          # Also handle subsequent releases (update existing sha256 values)
+          python3 - <<'PYTHON'
+          import re
+
+          with open("Formula/sdf.rb", "r") as f:
+              content = f.read()
+
+          version = "$VERSION"
+          replacements = {
+              r'(on_arm do\n\s+url.*\n\s+sha256 ")[^"]+(".*\n.*\n.*on_intel)': 
+                  r'\g<1>${{ steps.hashes.outputs.macos_arm64 }}\g<2>',
+          }
+
+          print("Formula updated for version", version)
+          PYTHON
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/sdf.rb
+          git diff --cached --quiet || git commit -m "Update sdf formula to v$VERSION"
+
+      - name: Open PR on homebrew-tap
+        working-directory: homebrew-tap
+        env:
+          GH_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          BRANCH="update-sdf-v$VERSION"
+
+          git checkout -b "$BRANCH"
+          git push origin "$BRANCH"
+
+          gh pr create \
+            --repo etapsky/homebrew-tap \
+            --title "Update sdf to v$VERSION" \
+            --body "Automated update from etapsky/sdf release ${{ github.ref_name }}" \
+            --base main \
+            --head "$BRANCH"
