@@ -46,13 +46,16 @@ It is not an npm library. It is a deployable application that runs inside your o
                     │    validate-sdf     sign-sdf            │
                     │    webhook-delivery                     │
                     │         │                               │
+                    │  ConnectorRegistry (per-tenant)         │
+                    │    SAPConnector   OracleConnector       │
+                    │         │                               │
                     └─────────┼───────────────────────────────┘
                               │
-              ┌───────────────┼───────────────┐
-              ▼               ▼               ▼
-         PostgreSQL        S3/MinIO         Redis
-         (metadata,       (.sdf files)    (queue)
-          audit log,
+              ┌───────────────┼───────────────┬───────────────┐
+              ▼               ▼               ▼               ▼
+         PostgreSQL        S3/MinIO         Redis         SAP / Oracle
+         (metadata,       (.sdf files)    (queue)        (ERP push,
+          audit log,                                      match, status)
           tenants,
           api keys)
 ```
@@ -70,6 +73,7 @@ It is not an npm library. It is a deployable application that runs inside your o
 | Validation | Zod | Environment config, request body validation |
 | SDF processing | `@etapsky/sdf-kit` | `parseSDF()`, `buildSDF()`, `signSDF()`, `verifySig()` |
 | Schema operations | `@etapsky/sdf-schema-registry` | Schema validation, diff, migration |
+| ERP connectors | Built-in (SAP, Oracle) | OData / REST push, nomination match, status query |
 
 ---
 
@@ -133,6 +137,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9...
 | `GET` | `/v1/auth/saml/:tenantId/metadata` | SP metadata XML — provide to your IdP |
 | `GET` | `/v1/auth/saml/:tenantId/login` | Initiate SSO login |
 | `POST` | `/v1/auth/saml/:tenantId/callback` | ACS — IdP posts response here, returns JWT |
+
+### ERP Connector endpoints
+
+| Method | Path | Description |
+|---|---|---|
+| `POST` | `/v1/connectors/configure` | Configure ERP connector for the tenant (SAP, Oracle, …) |
+| `GET` | `/v1/connectors/health` | Health check the tenant's active ERP connector |
+| `POST` | `/v1/connectors/match` | Match a `nomination_ref` against an ERP purchase order |
+| `GET` | `/v1/sdf/:id/erp-status` | Query ERP document status for an uploaded SDF file |
+| `POST` | `/v1/sdf/:id/push-to-erp` | Manually push an uploaded document to the ERP |
 
 ### Health endpoints (no auth)
 
@@ -320,7 +334,7 @@ Immutable append-only log of every operation. Never deleted.
 
 ```
 src/
-├── index.ts              ← Bootstrap: Redis connect, workers start, Fastify listen
+├── index.ts              ← Bootstrap: Redis → connectors → workers → Fastify
 ├── config/
 │   └── env.ts            ← Zod-validated environment config — fails fast on startup
 ├── db/
@@ -333,11 +347,25 @@ src/
 │   └── jobs.ts           ← Queue definitions + Worker processors
 ├── middleware/
 │   └── auth.ts           ← API key + JWT auth, generateApiKey(), signJWT(), verifyJWT()
+├── connectors/
+│   ├── index.ts          ← Barrel export + registerConnectors() startup call
+│   ├── base/
+│   │   ├── types.ts      ← IERPConnector interface, ERPConnectorConfig, result types
+│   │   ├── http.ts       ← Shared ERPHttpClient (auth, timeout, error handling)
+│   │   ├── mapper.ts     ← Field mapping engine, dot-notation get(), date formatters
+│   │   └── registry.ts   ← ConnectorRegistry — factory map + per-tenant instance cache
+│   ├── sap/
+│   │   ├── connector.ts  ← SAPConnector — S/4HANA OData (FI, MM), CSRF token
+│   │   └── mapper.ts     ← SAP field mappings: invoice → SupplierInvoice, nomination → NominationItem
+│   └── oracle/
+│       ├── connector.ts  ← OracleConnector — Fusion Cloud REST (AP, SCM)
+│       └── mapper.ts     ← Oracle field mappings: invoice → supplierInvoices, nomination → purchaseOrders
 ├── routes/
 │   ├── sdf.ts            ← Upload, download, list, delete, meta, data
 │   ├── sign.ts           ← Sign (async) + verify (sync)
 │   ├── validate.ts       ← Validate without persisting
 │   ├── schema.ts         ← Schema registry read endpoints
+│   ├── connectors.ts     ← ERP connector configure, health, match, push, status
 │   ├── admin.ts          ← Tenant + API key management
 │   └── saml.ts           ← SAML 2.0 SP — metadata, login, callback, IdP config
 └── api/
@@ -355,7 +383,7 @@ apps/sdf-server
     └── is NOT published to npm              ← deployed, not imported
 ```
 
-`sdf-server` lives in `packages/` but is a deployable application, not a reusable library. It shares the monorepo for workspace linking — local changes to `sdf-kit` are immediately available without publishing to npm.
+`sdf-server` lives in `apps/` because it is a deployable application, not a reusable library. It shares the monorepo for workspace linking — local changes to `sdf-kit` are immediately available without publishing to npm.
 
 ---
 

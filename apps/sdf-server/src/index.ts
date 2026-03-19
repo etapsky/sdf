@@ -1,10 +1,12 @@
 // ─── @etapsky/sdf-server ─────────────────────────────────────────────────────
 // Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 //
-// SDF REST API server — Fastify + BullMQ + S3/MinIO + PostgreSQL
+// SDF REST API server — Fastify + BullMQ + S3/MinIO + PostgreSQL + ERP Connectors
+// Startup sequence: Redis → ERP connectors → BullMQ workers → Fastify
 
 import { buildServer }   from './api/server.js'
 import { startWorkers }  from './queue/jobs.js'
+import { registerConnectors } from './connectors/index.js'
 import { redis }         from './queue/client.js'
 import { env }           from './config/env.js'
 
@@ -14,6 +16,10 @@ async function main() {
   // Connect Redis
   await redis.connect()
   console.log('✓ Redis connected')
+
+  // Register connectors
+  await registerConnectors()
+  console.log('✓ Connectors registered')
 
   // Start BullMQ workers
   startWorkers()
