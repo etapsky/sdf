@@ -53,7 +53,9 @@ jobs:
         run: bun install
 
       - name: Build workspace dependencies
-        run: bunx turbo build --filter=@etapsky/sdf-cli^...
+        run: |
+          bun run build --cwd packages/sdf-kit
+          bun run build --cwd packages/sdf-schema-registry
 
       - name: Build binary
         working-directory: packages/sdf-cli
