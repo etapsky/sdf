@@ -1,0 +1,16 @@
+// ─── @etapsky/sdf-server — Production Build Configuration ─────────────────────
+// Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
+// Extends tsconfig.json with output settings for the dist/ build artifact.
+// Emits declarations and source maps for downstream consumers.
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+      "outDir":          "dist",
+      "rootDir":         "src",
+      "declaration":     true,
+      "declarationMap":  true,
+      "sourceMap":       true
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist"]
+  }
