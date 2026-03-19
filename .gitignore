@@ -70,6 +70,9 @@ web_modules/
 .env.*
 !.env.example
 
+# PyPI credentials (token içerir — asla commit etme)
+.pypirc
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache
@@ -146,6 +149,7 @@ venv/
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.pypirc.example
 
 # Astro (sdf-cloud-marketing)
 .astro/
