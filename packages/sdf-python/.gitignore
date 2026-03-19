@@ -1,0 +1,20 @@
+# Build
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+
+# Virtual env (root .gitignore also has .venv/ venv/)
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# PyPI credentials
+.pypirc
