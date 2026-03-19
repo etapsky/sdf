@@ -23,6 +23,7 @@
     "Other"
   ],
   "activationEvents": [
+    "onStartupFinished",
     "onCommand:sdf.inspect",
     "onCommand:sdf.validate",
     "onCommand:sdf.preview",

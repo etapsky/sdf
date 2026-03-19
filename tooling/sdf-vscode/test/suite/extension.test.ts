@@ -4,7 +4,8 @@ import * as assert from 'assert';
 import * as vscode from 'vscode';
 
 suite('SDF VS Code Extension', () => {
-  test('Commands should be registered', async () => {
+  test('Commands should be registered', async function () {
+    this.timeout(5000);
     const commands = await vscode.commands.getCommands();
     assert.ok(commands.includes('sdf.inspect'), 'sdf.inspect should be registered');
     assert.ok(commands.includes('sdf.validate'), 'sdf.validate should be registered');
