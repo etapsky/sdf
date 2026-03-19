@@ -13,10 +13,14 @@ Part of the [Etapsky SDF](https://github.com/etapsky/sdf) monorepo.
 ```
 tooling/
 ├── README.md
-└── os-integration/          # Register .sdf as a known file type
+├── os-integration/          # Register .sdf as a known file type
+│   ├── README.md
+│   ├── macos/               # Quick Look plugin, install script, icon generator
+│   └── windows/             # Registry entries, install script, test script
+└── sdf-vscode/              # VS Code extension
     ├── README.md
-    ├── macos/               # Quick Look plugin, install script, icon generator
-    └── windows/             # Registry entries, install script, test script
+    ├── src/                 # extension, commands, providers, webview
+    └── test/                # extension tests
 ```
 
 ---
@@ -26,6 +30,7 @@ tooling/
 | Directory | Description |
 |-----------|-------------|
 | [**os-integration/**](os-integration/README.md) | Registers `.sdf` as a known file type on macOS and Windows — custom icons, Quick Look preview, right-click menu, MIME type |
+| [**sdf-vscode/**](sdf-vscode/README.md) | VS Code extension — inspect, validate, preview `.sdf` files in the editor |
 
 ---
 

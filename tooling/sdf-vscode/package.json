@@ -1,0 +1,127 @@
+{
+  "name": "@etapsky/sdf-vscode",
+  "displayName": "SDF — Smart Document Format",
+  "description": "VS Code extension for SDF — inspect, validate, preview .sdf files",
+  "version": "0.1.0",
+  "publisher": "etapsky",
+  "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
+  "license": "BUSL-1.1",
+  "buslChangeDate": "2030-03-17",
+  "buslChangeLicense": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/etapsky/sdf.git",
+    "directory": "tooling/sdf-vscode"
+  },
+  "bugs": { "url": "https://github.com/etapsky/sdf/issues" },
+  "homepage": "https://github.com/etapsky/sdf#readme",
+  "engines": {
+    "vscode": "^1.89.0"
+  },
+  "categories": [
+    "Formatters",
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:sdf.inspect",
+    "onCommand:sdf.validate",
+    "onCommand:sdf.preview",
+    "onCustomEditor:sdf.preview"
+  ],
+  "main": "./dist/src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "sdf.inspect",
+        "title": "SDF: Inspect File",
+        "icon": "$(search)"
+      },
+      {
+        "command": "sdf.validate",
+        "title": "SDF: Validate File",
+        "icon": "$(check)"
+      },
+      {
+        "command": "sdf.preview",
+        "title": "SDF: Open Preview",
+        "icon": "$(preview)"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "sdf.inspect",
+          "when": "resourceFilename =~ /\\\\.sdf$/",
+          "group": "SDF"
+        },
+        {
+          "command": "sdf.validate",
+          "when": "resourceFilename =~ /\\\\.sdf$/",
+          "group": "SDF"
+        },
+        {
+          "command": "sdf.preview",
+          "when": "resourceFilename =~ /\\\\.sdf$/",
+          "group": "SDF"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "sdf.preview",
+          "when": "resourceFilename =~ /\\\\.sdf$/",
+          "group": "navigation"
+        }
+      ]
+    },
+    "customEditors": [
+      {
+        "viewType": "sdf.preview",
+        "displayName": "SDF Preview",
+        "selector": [
+          { "filenamePattern": "*.sdf" }
+        ],
+        "priority": "default"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "sdf.explorer",
+          "name": "SDF Document",
+          "contextualTitle": "SDF Document"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "SDF",
+      "properties": {
+        "sdf.statusBar.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show SDF document info in the status bar when a .sdf file is active"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsc -p .",
+    "watch": "tsc -p . -w",
+    "lint": "tsc --noEmit",
+    "test": "node ./dist/test/runTest.js",
+    "package": "vsce package --no-dependencies"
+  },
+  "dependencies": {
+    "@etapsky/sdf-kit": "^0.2.2"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.0",
+    "@types/vscode": "^1.89.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.3",
+    "@vscode/test-electron": "^2.4.1",
+    "mocha": "^10.0.0"
+  },
+  "devEngines": {
+    "vscode": "^1.89.0"
+  }
+}

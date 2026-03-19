@@ -18,7 +18,8 @@
   "type": "module",
   "workspaces": [
     "packages/*",
-    "apps/*"
+    "apps/*",
+    "tooling/sdf-vscode"
   ],
   "scripts": {
     "build": "turbo build",
@@ -29,5 +30,8 @@
   "devDependencies": {
     "@changesets/cli": "^2.30.0",
     "turbo": "^2.8.17"
+  },
+  "overrides": {
+    "serialize-javascript": "^7.0.4"
   }
 }

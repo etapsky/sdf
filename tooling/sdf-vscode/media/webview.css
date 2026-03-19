@@ -1,0 +1,20 @@
+/* SDF Webview Styles — Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1 */
+
+:root {
+  --sdf-amber: #F59E0B;
+  --sdf-purple: #7C3AED;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+.sdf-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.sdf-meta-key {
+  color: var(--vscode-descriptionForeground);
+}
