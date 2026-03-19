@@ -1,0 +1,12 @@
+Windows Registry Editor Version 5.00
+
+; ─── SDF Windows Registry — Undo ─────────────────────────────────────────────
+; Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
+; Removes all SDF file type registrations from Windows.
+; Run as Administrator: reg import undo-sdf-association.reg
+
+[-HKEY_CLASSES_ROOT\.sdf]
+[-HKEY_CLASSES_ROOT\SDFDocument]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Classes\MIME\Database\Content Type\application/vnd.sdf]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Classes\.sdf]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Etapsky]

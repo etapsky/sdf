@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  SDFQuickLook.entitlements
+  Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
+
+  Quick Look plugins run in a sandboxed XPC process.
+  We need read-only access to the file system to open .sdf archives
+  and write access to the temp directory to extract visual.pdf.
+-->
+<plist version="1.0">
+<dict>
+  <!-- Required: read the .sdf file passed to the plugin -->
+  <key>com.apple.security.files.user-selected.read-only</key>
+  <true/>
+
+  <!-- Required: write to temp dir for unzip extraction -->
+  <key>com.apple.security.temporary-exception.files.absolute-path.read-write</key>
+  <array>
+    <string>/private/tmp/</string>
+  </array>
+
+  <!-- Required for XPC Quick Look process -->
+  <key>com.apple.security.app-sandbox</key>
+  <true/>
+
+  <!-- Allow running /usr/bin/unzip as subprocess -->
+  <key>com.apple.security.temporary-exception.sbpl</key>
+  <string>(allow process-exec (literal "/usr/bin/unzip"))</string>
+</dict>
+</plist>

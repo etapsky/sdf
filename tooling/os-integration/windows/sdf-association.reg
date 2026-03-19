@@ -1,0 +1,98 @@
+Windows Registry Editor Version 5.00
+
+; ─── SDF Windows Registry Integration ────────────────────────────────────────
+; Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
+; Registers .sdf as a known file type on Windows.
+;
+; What this registers:
+;   - .sdf extension → MIME type: application/vnd.sdf
+;   - .sdf extension → "Smart Document Format" friendly name
+;   - .sdf extension → custom icon (SDFDocument.ico)
+;   - .sdf extension → opens with SDF Reader (demo-reader via Electron)
+;   - Right-click menu: "Inspect with SDF CLI"
+;
+; Usage:
+;   Double-click sdf-association.reg  OR
+;   Run as Administrator:  reg import sdf-association.reg
+;
+; To undo:
+;   Run undo-sdf-association.reg  OR
+;   reg delete HKCR\.sdf /f
+;   reg delete HKCR\SDFDocument /f
+
+; ── File extension registration ───────────────────────────────────────────────
+
+[HKEY_CLASSES_ROOT\.sdf]
+@="SDFDocument"
+"Content Type"="application/vnd.sdf"
+"PerceivedType"="document"
+
+[HKEY_CLASSES_ROOT\.sdf\OpenWithProgids]
+"SDFDocument"=""
+
+; ── Document type registration ────────────────────────────────────────────────
+
+[HKEY_CLASSES_ROOT\SDFDocument]
+@="Smart Document Format"
+"FriendlyTypeName"="Smart Document Format (SDF)"
+
+[HKEY_CLASSES_ROOT\SDFDocument\DefaultIcon]
+@="%LOCALAPPDATA%\\Programs\\SDF Reader\\resources\\SDFDocument.ico,0"
+
+; ── Open action ───────────────────────────────────────────────────────────────
+
+[HKEY_CLASSES_ROOT\SDFDocument\shell]
+@="open"
+
+[HKEY_CLASSES_ROOT\SDFDocument\shell\open]
+@="Open in SDF Reader"
+"Icon"="%LOCALAPPDATA%\\Programs\\SDF Reader\\SDF Reader.exe,0"
+
+[HKEY_CLASSES_ROOT\SDFDocument\shell\open\command]
+@="\"%LOCALAPPDATA%\\Programs\\SDF Reader\\SDF Reader.exe\" \"%1\""
+
+; ── Right-click context menu ──────────────────────────────────────────────────
+
+[HKEY_CLASSES_ROOT\SDFDocument\shell\inspect]
+@="Inspect with SDF CLI"
+"Icon"="%LOCALAPPDATA%\\Programs\\SDF Reader\\resources\\SDFDocument.ico,0"
+
+[HKEY_CLASSES_ROOT\SDFDocument\shell\inspect\command]
+@="cmd.exe /c \"npx @etapsky/sdf-cli inspect \"%1\" && pause\""
+
+[HKEY_CLASSES_ROOT\SDFDocument\shell\validate]
+@="Validate SDF"
+
+[HKEY_CLASSES_ROOT\SDFDocument\shell\validate\command]
+@="cmd.exe /c \"npx @etapsky/sdf-cli validate \"%1\" && echo. && echo VALID - Press any key && pause\""
+
+; ── MIME type registration ────────────────────────────────────────────────────
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\MIME\Database\Content Type\application/vnd.sdf]
+"Extension"=".sdf"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\.sdf]
+@="SDFDocument"
+"Content Type"="application/vnd.sdf"
+
+; ── Shell thumbnail/preview handler ──────────────────────────────────────────
+; Tells Windows Explorer to use the PDF thumbnail from visual.pdf
+; Requires SDF Shell Extension (sdf-shell-ext.dll) — see install-windows.ps1
+
+[HKEY_CLASSES_ROOT\SDFDocument\shellex\{e357fccd-a995-4576-b01f-234630154e96}]
+@="{DC6EFB56-9CFA-464D-8880-44885D7DC193}"
+
+; ── App registration ──────────────────────────────────────────────────────────
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\RegisteredApplications]
+"SDF Reader"="SOFTWARE\\Etapsky\\SDF Reader\\Capabilities"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Etapsky\SDF Reader\Capabilities]
+"ApplicationName"="SDF Reader"
+"ApplicationDescription"="Smart Document Format inspector — view visual and data layers"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Etapsky\SDF Reader\Capabilities\FileAssociations]
+".sdf"="SDFDocument"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Etapsky\SDF Reader\Capabilities\MimeAssociations]
+"application/vnd.sdf"="SDFDocument"

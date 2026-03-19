@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  SDFQuickLook.qlgenerator — Info.plist
+  Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
+
+  Registers the .sdf extension with macOS Quick Look.
+  When a user presses Space on a .sdf file in Finder, this plugin
+  extracts visual.pdf from the ZIP archive and renders it as the preview.
+  
+  Build: xcodebuild -project SDFQuickLook.xcodeproj -target SDFQuickLook
+  Install: cp -r SDFQuickLook.qlgenerator ~/Library/QuickLook/
+           qlmanage -r
+-->
+<plist version="1.0">
+<dict>
+  <key>CFBundleDevelopmentRegion</key>
+  <string>en</string>
+
+  <key>CFBundleExecutable</key>
+  <string>SDFQuickLook</string>
+
+  <key>CFBundleIdentifier</key>
+  <string>com.etapsky.SDFQuickLook</string>
+
+  <key>CFBundleInfoDictionaryVersion</key>
+  <string>6.0</string>
+
+  <key>CFBundleName</key>
+  <string>SDF Quick Look Plugin</string>
+
+  <key>CFBundleShortVersionString</key>
+  <string>1.0.0</string>
+
+  <key>CFBundleVersion</key>
+  <string>1</string>
+
+  <key>CFBundlePackageType</key>
+  <string>XPC!</string>
+
+  <!-- Register .sdf extension and MIME type -->
+  <key>CFBundleDocumentTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleTypeExtensions</key>
+      <array>
+        <string>sdf</string>
+      </array>
+      <key>CFBundleTypeMIMETypes</key>
+      <array>
+        <string>application/vnd.sdf</string>
+      </array>
+      <key>CFBundleTypeName</key>
+      <string>Smart Document Format</string>
+      <key>CFBundleTypeRole</key>
+      <string>Viewer</string>
+      <key>LSTypeIsPackage</key>
+      <false/>
+    </dict>
+  </array>
+
+  <!-- UTI declaration for .sdf -->
+  <key>UTExportedTypeDeclarations</key>
+  <array>
+    <dict>
+      <key>UTTypeIdentifier</key>
+      <string>com.etapsky.sdf</string>
+      <key>UTTypeDescription</key>
+      <string>Smart Document Format</string>
+      <key>UTTypeConformsTo</key>
+      <array>
+        <string>public.data</string>
+        <string>public.archive</string>
+      </array>
+      <key>UTTypeTagSpecification</key>
+      <dict>
+        <key>public.filename-extension</key>
+        <array>
+          <string>sdf</string>
+        </array>
+        <key>public.mime-type</key>
+        <array>
+          <string>application/vnd.sdf</string>
+        </array>
+      </dict>
+      <key>UTTypeIconFile</key>
+      <string>SDFDocument</string>
+    </dict>
+  </array>
+
+  <!-- Quick Look specific -->
+  <key>QLNeedsToBeRunInMainThread</key>
+  <false/>
+
+  <key>QLPreviewWidth</key>
+  <real>800</real>
+
+  <key>QLPreviewHeight</key>
+  <real>1100</real>
+
+  <key>QLSupportsConcurrentRequests</key>
+  <true/>
+
+  <key>QLThumbnailMinimumSize</key>
+  <integer>17</integer>
+</dict>
+</plist>
