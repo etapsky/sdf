@@ -4,11 +4,9 @@
 // SDF REST API server — Fastify + BullMQ + S3/MinIO + PostgreSQL + ERP Connectors
 // Startup sequence: Redis → ERP connectors → BullMQ workers → Fastify
 
-import { buildServer }   from './api/server.js'
-import { startWorkers }  from './queue/jobs.js'
-import { registerConnectors } from './connectors/index.js'
-import { redis }         from './queue/client.js'
-import { env }           from './config/env.js'
+import { buildServer, startWorkers, registerConnectors } from '@etapsky/sdf-server-core'
+import { redis }         from '@etapsky/sdf-server-core/queue'
+import { env }           from '@etapsky/sdf-server-core/config'
 
 async function main() {
   console.log(`Starting @etapsky/sdf-server (${env.NODE_ENV})`)
