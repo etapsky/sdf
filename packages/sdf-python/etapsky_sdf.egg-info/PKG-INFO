@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
-Name: sdf-python
-Version: 0.1.0
+Name: etapsky-sdf
+Version: 0.1.1
 Summary: SDF (Smart Document Format) — producer, reader, validator, signer
 Author-email: Yunus YILDIZ <yunus.yildiz@etapsky.com>
 License: BUSL-1.1
@@ -26,20 +26,20 @@ Requires-Dist: pytest>=8.0.0; extra == "dev"
 Requires-Dist: pytest-cov>=4.1.0; extra == "dev"
 Dynamic: license-file
 
-# sdf-python
+# etapsky-sdf
 
 > SDF (Smart Document Format) Python reference implementation — producer, reader, validator, signer.
 
 [![License: BUSL-1.1](https://img.shields.io/badge/License-BUSL--1.1-blue.svg)](../../LICENSE)
 
-SDF is an open file format that combines a human-readable PDF layer with a machine-readable JSON layer in a single file. `sdf-python` is the Python reference implementation of the [SDF specification](https://github.com/etapsky/sdf/blob/main/spec/SDF_FORMAT.md).
+SDF is an open file format that combines a human-readable PDF layer with a machine-readable JSON layer in a single file. `etapsky-sdf` is the Python reference implementation of the [SDF specification](https://github.com/etapsky/sdf/blob/main/spec/SDF_FORMAT.md).
 
 ---
 
 ## Installation
 
 ```bash
-pip install sdf-python
+pip install etapsky-sdf
 ```
 
 Or from source (monorepo):

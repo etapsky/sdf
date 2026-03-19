@@ -1132,7 +1132,7 @@ decisions that would conflict with them.
 | Streaming / chunked SDF for large documents | v0.4 |
 | SDF Diff — structured change tracking between document versions | v0.4 |
 | URL reference for visual layer (lightweight mode) | v0.3 |
-| Python SDK (`sdf-python`) | Phase 3 |
+| Python SDK (`etapsky-sdf`) | Phase 3 |
 | VS Code extension for SDF inspection | Phase 4 |
 
 ---

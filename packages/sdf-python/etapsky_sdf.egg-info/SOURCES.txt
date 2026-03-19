@@ -2,6 +2,11 @@ LICENSE
 README.md
 pyproject.toml
 setup.py
+etapsky_sdf.egg-info/PKG-INFO
+etapsky_sdf.egg-info/SOURCES.txt
+etapsky_sdf.egg-info/dependency_links.txt
+etapsky_sdf.egg-info/requires.txt
+etapsky_sdf.egg-info/top_level.txt
 sdf/__init__.py
 sdf/_constants.py
 sdf/_pdf.py
@@ -11,11 +16,6 @@ sdf/reader.py
 sdf/signer.py
 sdf/types.py
 sdf/validator.py
-sdf_python.egg-info/PKG-INFO
-sdf_python.egg-info/SOURCES.txt
-sdf_python.egg-info/dependency_links.txt
-sdf_python.egg-info/requires.txt
-sdf_python.egg-info/top_level.txt
 tests/test_producer.py
 tests/test_reader.py
 tests/test_signer.py

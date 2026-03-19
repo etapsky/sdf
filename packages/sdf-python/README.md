@@ -1,17 +1,17 @@
-# sdf-python
+# etapsky-sdf
 
 > SDF (Smart Document Format) Python reference implementation — producer, reader, validator, signer.
 
 [![License: BUSL-1.1](https://img.shields.io/badge/License-BUSL--1.1-blue.svg)](../../LICENSE)
 
-SDF is an open file format that combines a human-readable PDF layer with a machine-readable JSON layer in a single file. `sdf-python` is the Python reference implementation of the [SDF specification](https://github.com/etapsky/sdf/blob/main/spec/SDF_FORMAT.md).
+SDF is an open file format that combines a human-readable PDF layer with a machine-readable JSON layer in a single file. `etapsky-sdf` is the Python reference implementation of the [SDF specification](https://github.com/etapsky/sdf/blob/main/spec/SDF_FORMAT.md).
 
 ---
 
 ## Installation
 
 ```bash
-pip install sdf-python
+pip install etapsky-sdf
 ```
 
 Or from source (monorepo):
