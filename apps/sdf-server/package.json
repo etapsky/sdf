@@ -14,6 +14,17 @@
     "type": "module",
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
+    "exports": {
+      ".": "./src/index.ts",
+      "./server": "./src/api/server.ts",
+      "./db": "./src/db/client.ts",
+      "./schema": "./src/db/schema.ts",
+      "./middleware/auth": "./src/middleware/auth.ts",
+      "./queue/client": "./src/queue/client.ts",
+      "./queue/jobs": "./src/queue/jobs.ts",
+      "./connectors": "./src/connectors/index.ts",
+      "./config/env": "./src/config/env.ts"
+    },
     "scripts": {
         "build": "tsc --project tsconfig.build.json",
         "dev": "tsx watch --env-file=.env --ignore='**/node_modules/**' src/index.ts",

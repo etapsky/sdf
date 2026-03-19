@@ -18,7 +18,14 @@ import { db }             from '../db/client.js'
 import { tenants }        from '../db/schema.js'
 import { eq }             from 'drizzle-orm'
 
-export async function buildServer() {
+import type { FastifyInstance } from 'fastify'
+
+export interface BuildServerOptions {
+  /** Optional: register additional routes (e.g. billing, onboarding) — used by sdf-cloud-api */
+  registerExtraRoutes?: (fastify: FastifyInstance) => Promise<void>
+}
+
+export async function buildServer(options?: BuildServerOptions) {
   const fastify = Fastify({
     logger: {
       level:     env.LOG_LEVEL,
@@ -111,6 +118,10 @@ export async function buildServer() {
   await fastify.register(schemaRoutes,   { prefix: API_PREFIX })
   await fastify.register(adminRoutes,    { prefix: API_PREFIX })
   await fastify.register(samlRoutes,     { prefix: API_PREFIX })
+
+  if (options?.registerExtraRoutes) {
+    await options.registerExtraRoutes(fastify)
+  }
 
   // ── Global error handler ──────────────────────────────────────────────────
 

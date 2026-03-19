@@ -9,9 +9,8 @@ Parameters
 
 Licensor: Yunus YILDIZ
 
-Licensed Work: SDF (Smart Document Format)
+Licensed Work: SDF (Smart Document Format) — @etapsky/cloud-sdk
 The Licensed Work is (c) 2026 Yunus YILDIZ.
-Includes: spec/SDF_FORMAT.md, packages/sdf-kit, packages/sdf-cli, packages/sdf-python, packages/cloud-sdk, apps/demo-web, apps/demo-reader, apps/sdf-server, apps/sdf-cloud-api, apps/sdf-cloud-portal, apps/sdf-cloud-marketing, spec/poc, infra/sdf-cloud, and all related source code, documentation, and schema definitions.
 
 Additional Use Grant: None
 
