@@ -178,27 +178,44 @@ jobs:
         run: |
           VERSION="${{ steps.version.outputs.version }}"
 
-          sed -i "s/version  \".*\"/version  \"$VERSION\"/" Formula/sdf.rb
+          python3 - "$VERSION" \
+            "${{ steps.hashes.outputs.macos_arm64 }}" \
+            "${{ steps.hashes.outputs.macos_x64 }}" \
+            "${{ steps.hashes.outputs.linux_arm64 }}" \
+            "${{ steps.hashes.outputs.linux_x64 }}" \
+            <<'PYTHON'
+          import re, sys
 
-          sed -i "s/sha256 \"REPLACE_AFTER_FIRST_RELEASE_macos_arm64\"/sha256 \"${{ steps.hashes.outputs.macos_arm64 }}\"/" Formula/sdf.rb
-          sed -i "s/sha256 \"REPLACE_AFTER_FIRST_RELEASE_macos_x64\"/sha256 \"${{ steps.hashes.outputs.macos_x64 }}\"/"   Formula/sdf.rb
-          sed -i "s/sha256 \"REPLACE_AFTER_FIRST_RELEASE_linux_arm64\"/sha256 \"${{ steps.hashes.outputs.linux_arm64 }}\"/" Formula/sdf.rb
-          sed -i "s/sha256 \"REPLACE_AFTER_FIRST_RELEASE_linux_x64\"/sha256 \"${{ steps.hashes.outputs.linux_x64 }}\"/"   Formula/sdf.rb
+          version     = sys.argv[1]
+          macos_arm64 = sys.argv[2]
+          macos_x64   = sys.argv[3]
+          linux_arm64 = sys.argv[4]
+          linux_x64   = sys.argv[5]
 
-          # Also handle subsequent releases (update existing sha256 values)
-          python3 - <<'PYTHON'
-          import re
-
-          with open("Formula/sdf.rb", "r") as f:
+          with open("Formula/sdf.rb") as f:
               content = f.read()
 
-          version = "$VERSION"
-          replacements = {
-              r'(on_arm do\n\s+url.*\n\s+sha256 ")[^"]+(".*\n.*\n.*on_intel)': 
-                  r'\g<1>${{ steps.hashes.outputs.macos_arm64 }}\g<2>',
-          }
+          # Update version line
+          content = re.sub(r'version\s+"[^"]+"', f'version  "{version}"', content)
 
-          print("Formula updated for version", version)
+          # Update sha256 by matching the asset name in the preceding url line.
+          # Works for both first release (placeholder) and subsequent releases (real hash).
+          for asset, sha in {
+              "sdf-macos-arm64": macos_arm64,
+              "sdf-macos-x64":   macos_x64,
+              "sdf-linux-arm64": linux_arm64,
+              "sdf-linux-x64":   linux_x64,
+          }.items():
+              content = re.sub(
+                  rf'(url "[^"]*{re.escape(asset)}[^"]*"\n\s+sha256 ")[^"]+(")',
+                  rf'\g<1>{sha}\g<2>',
+                  content,
+              )
+
+          with open("Formula/sdf.rb", "w") as f:
+              f.write(content)
+
+          print(f"Formula/sdf.rb updated to v{version}")
           PYTHON
 
           git config user.name  "github-actions[bot]"
