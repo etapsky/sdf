@@ -26,7 +26,8 @@ jobs:
             target: bun-darwin-arm64
             asset:  sdf-macos-arm64
 
-          - os:     macos-13           # Intel Mac
+          # macos-13 retired (2025); use Intel image until GitHub drops it (~2027).
+          - os:     macos-15-intel
             target: bun-darwin-x64
             asset:  sdf-macos-x64
 
@@ -34,7 +35,8 @@ jobs:
             target: bun-linux-x64
             asset:  sdf-linux-x64
 
-          - os:     ubuntu-latest
+          # ubuntu-latest is x86_64 — ARM binary cannot run in "Test binary" step there.
+          - os:     ubuntu-24.04-arm
             target: bun-linux-arm64
             asset:  sdf-linux-arm64
 
