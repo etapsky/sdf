@@ -38,6 +38,7 @@
 
 <p>
 <a href="https://www.npmjs.com/~yunusyildiz"><img src="https://img.shields.io/badge/npm-CB3837?style=flat-square&logo=npm&logoColor=white" alt="npm" /></a>
+<a href="https://pypi.org/user/yunusyildiz/"><img src="https://img.shields.io/badge/PyPI-3775A9?style=flat-square&logo=pypi&logoColor=white" alt="PyPI" /></a>
 <a href="https://yunusyildiz.dev"><img src="https://img.shields.io/badge/Website-000000?style=flat-square&logo=google-chrome&logoColor=white" alt="Website" /></a>
 <a href="mailto:mail@yunusyildiz.dev"><img src="https://img.shields.io/badge/Email-D14836?style=flat-square&logo=gmail&logoColor=white" alt="Email" /></a>
 <a href="https://github.com/etapsky"><img src="https://img.shields.io/badge/GitHub-etapsky-181717?style=flat-square&logo=github" alt="GitHub etapsky" /></a>
