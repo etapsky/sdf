@@ -146,3 +146,9 @@ venv/
 __pycache__/
 *.py[cod]
 .pytest_cache/
+
+# Astro (sdf-cloud-marketing)
+.astro/
+
+# Vite dependency cache (node_modules/.vite)
+**/node_modules/.vite/
