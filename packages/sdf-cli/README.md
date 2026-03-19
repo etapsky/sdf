@@ -1,11 +1,11 @@
 # @etapsky/sdf-cli
 
-> SDF command-line tool — inspect, validate, convert, and wrap `.sdf` files.
+> SDF command-line tool — inspect, validate, convert, wrap, sign, verify, and schema operations.
 
 [![npm](https://img.shields.io/npm/v/@etapsky/sdf-cli)](https://www.npmjs.com/package/@etapsky/sdf-cli)
 [![License: BUSL-1.1](https://img.shields.io/badge/License-BUSL--1.1-blue.svg)](LICENSE)
 
-Part of the [Etapsky SDF](https://github.com/etapsky/sdf) monorepo · F3 deliverable.
+Part of the [Etapsky SDF](https://github.com/etapsky/sdf) monorepo.
 
 ---
 
@@ -27,7 +27,7 @@ npx @etapsky/sdf-cli inspect invoice.sdf
 
 ### `sdf inspect <file.sdf>`
 
-Full inspection report — meta, schema summary, data tree, layer sizes.
+Full inspection report — meta, schema summary, data tree, layer sizes. Data values are color-coded: UUIDs in magenta, dates in amber, numbers in teal, monetary amounts inline (`24.00 EUR`).
 
 ```bash
 sdf inspect invoice.sdf
@@ -57,7 +57,7 @@ sdf inspect invoice.sdf
   document_type         invoice
   schema_id             https://etapsky.github.io/sdf/schemas/invoice/v0.1.json
   tags                  q1-2026, key-account
-  signature             [none — Phase 4]
+  signature             [none]
 
   SCHEMA.JSON
 ────────────────────────────────────────────────────────────
@@ -115,7 +115,7 @@ sdf validate invoice.sdf --quiet && echo "valid" || echo "invalid"
 
 ### `sdf convert`
 
-Converts a JSON data file and JSON Schema into a `.sdf` archive, generating `visual.pdf` automatically.
+Converts a JSON data file + JSON Schema into a `.sdf` archive, generating `visual.pdf` automatically.
 
 ```bash
 sdf convert \
@@ -200,7 +200,140 @@ sdf wrap document.pdf \
      Open in SDF Reader to view the PDF. Structured data panel will show a notice.
 ```
 
-**Note:** `sdf wrap` is also available directly in `demo-reader` — drop a `.pdf` file and click `↓ sdf` in the header.
+---
+
+### `sdf keygen`
+
+Generates an SDF signing key pair and writes two files to disk:
+- `<out>.private.b64` — Base64-encoded PKCS#8 private key (keep secret)
+- `<out>.public.b64` — Base64-encoded SPKI public key (distribute to recipients)
+
+```bash
+sdf keygen --algorithm ECDSA --out mykey
+# → mykey.private.b64
+# → mykey.public.b64
+```
+
+| Flag | Required | Description |
+|---|---|---|
+| `--algorithm` | | `ECDSA` (default, P-256) or `RSASSA-PKCS1-v1_5` (RSA-2048) |
+| `--out` | ✓ | Base path for output files |
+
+**Never commit `*.private.b64` to version control.**
+
+---
+
+### `sdf sign <file.sdf>`
+
+Signs an SDF archive with a private key. Adds `signature.sig` to the archive and updates `meta.json` with `signature_algorithm` and `signed_at`.
+
+```bash
+sdf sign invoice.sdf \
+  --key  mykey.private.b64 \
+  --out  invoice.signed.sdf
+```
+
+| Flag | Required | Description |
+|---|---|---|
+| `<file.sdf>` | ✓ | SDF archive to sign |
+| `--key` | ✓ | Path to Base64 private key file |
+| `--out` | ✓ | Output `.sdf` path |
+| `--algorithm` | | `ECDSA` (default) or `RSASSA-PKCS1-v1_5` |
+| `--include-pdf` | | Include `visual.pdf` in signed content |
+
+**Signed content** covers `data.json` + `schema.json` + `meta.json` by default. Use `--include-pdf` to also sign `visual.pdf` — note that this means replacing the PDF will invalidate the signature.
+
+---
+
+### `sdf verify <file.sdf>`
+
+Verifies the digital signature of an SDF archive. CI-friendly — exits 0 on valid, 1 on invalid.
+
+```bash
+sdf verify invoice.signed.sdf --key mykey.public.b64
+sdf verify invoice.signed.sdf --key mykey.public.b64 --quiet && echo "verified"
+```
+
+| Flag | Required | Description |
+|---|---|---|
+| `<file.sdf>` | ✓ | Signed SDF archive |
+| `--key` | ✓ | Path to Base64 public key file |
+| `--algorithm` | | `ECDSA` (default) or `RSASSA-PKCS1-v1_5` |
+| `--quiet` | | Exit code only, no output |
+
+**Tamper detection:** If `data.json`, `schema.json`, or `meta.json` has been modified after signing, the content digest mismatch is detected and reported before even attempting signature verification.
+
+---
+
+### `sdf schema`
+
+Schema registry operations — list registered schemas, compare versions, validate data.
+
+#### `sdf schema list`
+
+Lists all schemas in the local registry.
+
+```bash
+sdf schema list
+sdf schema list --type invoice
+sdf schema list --registry registry.json
+```
+
+#### `sdf schema versions`
+
+Lists all versions for a specific document type, newest first.
+
+```bash
+sdf schema versions --type invoice
+sdf schema versions --type invoice --registry registry.json
+```
+
+#### `sdf schema diff`
+
+Computes the structural diff between two JSON Schema files or URLs. Classifies each change as breaking or non-breaking per SDF_FORMAT.md Section 7.2. Exits 1 if any breaking change is detected — useful in CI to gate schema releases.
+
+```bash
+sdf schema diff --from v0.1.schema.json --to v0.2.schema.json
+sdf schema diff \
+  --from https://etapsky.github.io/sdf/schemas/invoice/v0.1.json \
+  --to   https://etapsky.github.io/sdf/schemas/invoice/v0.2.json
+```
+
+**Exit codes:** `0` = no breaking changes · `1` = breaking changes detected
+
+**CI gate example:**
+
+```yaml
+- name: Schema compatibility check
+  run: sdf schema diff --from schemas/invoice.v0.1.json --to schemas/invoice.v0.2.json
+```
+
+**Breaking change types detected:**
+
+| Change | Breaking |
+|---|---|
+| Required field added | ✓ |
+| Field removed | ✓ |
+| Field type changed | ✓ |
+| `minLength` tightened | ✓ |
+| `const` changed | ✓ |
+| `additionalProperties` closed | ✓ |
+| Optional field added | ✗ |
+| Required field made optional | ✗ |
+| `minLength` relaxed | ✗ |
+| Title changed | ✗ |
+
+#### `sdf schema validate`
+
+Validates a `data.json` file against a `schema.json`. CI-friendly — exits 0 on valid, 1 on invalid.
+
+```bash
+sdf schema validate \
+  --data   invoice.json \
+  --schema invoice.schema.json
+
+sdf schema validate --data invoice.json --schema invoice.schema.json --quiet
+```
 
 ---
 
@@ -210,7 +343,7 @@ sdf wrap document.pdf \
 |---|---|---|
 | `--help` | `-h` | Print help and exit |
 | `--version` | `-v` | Print version and exit |
-| `--quiet` | `-q` | Suppress output — exit code only (`validate` only) |
+| `--quiet` | `-q` | Suppress output — exit code only (`validate`, `verify`, `schema validate`) |
 
 ---
 
@@ -226,6 +359,7 @@ All errors follow the canonical SDF error code registry from `SDF_FORMAT.md` Sec
 | `SDF_ERROR_SCHEMA_MISMATCH` | `data.json` fails validation against `schema.json` |
 | `SDF_ERROR_INVALID_SCHEMA` | `schema.json` is not a valid JSON Schema document |
 | `SDF_ERROR_UNSUPPORTED_VERSION` | `sdf_version` exceeds the supported maximum |
+| `SDF_ERROR_INVALID_SIGNATURE` | `signature.sig` is absent or corrupt |
 | `SDF_ERROR_INVALID_ARCHIVE` | Archive contains path traversal or unexpected files |
 | `SDF_ERROR_ARCHIVE_TOO_LARGE` | Archive exceeds size limits |
 
@@ -239,12 +373,16 @@ All errors follow the canonical SDF error code registry from `SDF_FORMAT.md` Sec
 src/
 ├── index.ts              ← Entry point, arg parser, command router
 ├── commands/
-│   ├── inspect.ts        ← Full report — calls parseSDF(), formats output
-│   ├── validate.ts       ← CI-friendly — calls parseSDF(), exits 0 or 1
-│   ├── convert.ts        ← Reads JSON files, calls buildSDF(), writes .sdf
-│   └── wrap.ts           ← Reads PDF, packs stub .sdf with JSZip directly
+│   ├── inspect.ts        ← parseSDF() → formatted report
+│   ├── validate.ts       ← parseSDF() → exit 0/1
+│   ├── convert.ts        ← buildSDF() → .sdf file
+│   ├── wrap.ts           ← JSZip → stub .sdf from plain PDF
+│   ├── keygen.ts         ← generateSDFKeyPair() → key files
+│   ├── sign.ts           ← signSDF() → signed .sdf
+│   ├── verify.ts         ← verifySig() → exit 0/1
+│   └── schema.ts         ← SchemaRegistry + diffSchemas → schema ops
 └── ui/
-    ├── print.ts          ← ANSI color helpers, no external dependency
+    ├── print.ts          ← ANSI colors — no external dependency
     └── table.ts          ← Terminal table renderer
 ```
 
@@ -259,11 +397,10 @@ src/
 ```bash
 cd packages/sdf-cli
 npm install
-npm run build          # compile TypeScript → dist/
+npm run build
 node dist/index.js --help
 
-# During development — watch mode
-npm run dev
+npm run dev  # watch mode
 ```
 
 ---
@@ -280,5 +417,3 @@ BUSL-1.1 — Copyright (c) 2026 Yunus YILDIZ
 
 This software is licensed under the [Business Source License 1.1](../../LICENSE).
 Non-production use is free. Commercial use requires a license from the author until the Change Date (2030-03-17), after which it converts to Apache License 2.0.
-
-*@etapsky/sdf-cli · F3 · © 2026 Yunus YILDIZ · github.com/etapsky/sdf*
