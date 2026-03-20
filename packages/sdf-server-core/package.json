@@ -1,6 +1,6 @@
 {
     "name": "@etapsky/sdf-server-core",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "SDF server-side business logic — Fastify, BullMQ, S3/MinIO, PostgreSQL, ERP Connectors",
     "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
     "license": "BUSL-1.1",
@@ -17,55 +17,55 @@
     "exports": {
         ".": {
             "import": "./dist/index.js",
-            "types":  "./dist/index.d.ts"
+            "types": "./dist/index.d.ts"
         },
         "./queue": {
             "import": "./dist/queue/client.js",
-            "types":  "./dist/queue/client.d.ts"
+            "types": "./dist/queue/client.d.ts"
         },
         "./queue/jobs": {
             "import": "./dist/queue/jobs.js",
-            "types":  "./dist/queue/jobs.d.ts"
+            "types": "./dist/queue/jobs.d.ts"
         },
         "./config": {
             "import": "./dist/config/env.js",
-            "types":  "./dist/config/env.d.ts"
+            "types": "./dist/config/env.d.ts"
         },
         "./db": {
             "import": "./dist/db/client.js",
-            "types":  "./dist/db/client.d.ts"
+            "types": "./dist/db/client.d.ts"
         },
         "./db/schema": {
             "import": "./dist/db/schema.js",
-            "types":  "./dist/db/schema.d.ts"
+            "types": "./dist/db/schema.d.ts"
         },
         "./storage": {
             "import": "./dist/storage/s3.js",
-            "types":  "./dist/storage/s3.d.ts"
+            "types": "./dist/storage/s3.d.ts"
         },
         "./middleware/auth": {
             "import": "./dist/middleware/auth.js",
-            "types":  "./dist/middleware/auth.d.ts"
+            "types": "./dist/middleware/auth.d.ts"
         },
         "./connectors": {
             "import": "./dist/connectors/index.js",
-            "types":  "./dist/connectors/index.d.ts"
+            "types": "./dist/connectors/index.d.ts"
         },
         "./api": {
             "import": "./dist/api/server.js",
-            "types":  "./dist/api/server.d.ts"
+            "types": "./dist/api/server.d.ts"
         }
     },
     "files": [
         "dist"
     ],
     "scripts": {
-        "build":          "tsc --project tsconfig.build.json",
-        "dev":            "tsc --project tsconfig.build.json --watch",
+        "build": "tsc --project tsconfig.build.json",
+        "dev": "tsc --project tsconfig.build.json --watch",
         "prepublishOnly": "npm run build",
-        "typecheck":      "tsc --noEmit",
-        "db:push":        "drizzle-kit push",
-        "db:studio":      "drizzle-kit studio"
+        "typecheck": "tsc --noEmit",
+        "db:push": "drizzle-kit push",
+        "db:studio": "drizzle-kit studio"
     },
     "dependencies": {
         "@etapsky/sdf-kit": "^0.2.2",
