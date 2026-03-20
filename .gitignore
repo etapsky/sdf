@@ -156,3 +156,6 @@ __pycache__/
 
 # Vite dependency cache (node_modules/.vite)
 **/node_modules/.vite/
+
+# Generated icon PNGs (source of truth is assets/sdf_icon_v2.svg)
+tooling/os-integration/macos/icon-pngs/
