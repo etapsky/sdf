@@ -17,7 +17,7 @@ export { redis }                      from './queue/client.js'
 export { env }                        from './config/env.js'
 export type { Env }                   from './config/env.js'
 
-export { db, writeAudit }             from './db/client.js'
+export { db, writeAudit, connectDb }  from './db/client.js'
 export type { Database }              from './db/client.js'
 export * from './db/schema.js'
 

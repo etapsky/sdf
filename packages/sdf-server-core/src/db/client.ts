@@ -23,6 +23,14 @@ export const db = drizzle(pool, { schema })
 
 export type Database = typeof db
 
+// ─── Startup connectivity check ───────────────────────────────────────────────
+// Acquires one connection from the pool and immediately releases it.
+// Call once at startup to fail fast if DATABASE_URL is wrong or unreachable.
+export async function connectDb(): Promise<void> {
+  const client = await pool.connect()
+  client.release()
+}
+
 // ─── Audit helper ─────────────────────────────────────────────────────────────
 
 import { auditLog, type NewAuditEntry } from './schema.js'
