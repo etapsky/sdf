@@ -33,6 +33,7 @@
     "turbo": "^2.8.17"
   },
   "overrides": {
-    "serialize-javascript": "^7.0.4"
+    "serialize-javascript": "^7.0.4",
+    "zod": "3.24.4"
   }
 }

@@ -103,7 +103,8 @@ export async function buildServer(options?: BuildServerOptions) {
     try {
       await db.select().from(tenants).limit(1)
       return reply.send({ status: 'ready', db: 'ok' })
-    } catch {
+    } catch (err) {
+      fastify.log.error({ err }, 'DB readiness check failed')
       return reply.code(503).send({ status: 'not_ready', db: 'error' })
     }
   })
