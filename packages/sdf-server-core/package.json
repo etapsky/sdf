@@ -1,6 +1,6 @@
 {
     "name": "@etapsky/sdf-server-core",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "SDF server-side business logic — Fastify, BullMQ, S3/MinIO, PostgreSQL, ERP Connectors",
     "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
     "license": "BUSL-1.1",
