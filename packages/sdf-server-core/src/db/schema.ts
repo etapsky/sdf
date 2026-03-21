@@ -5,7 +5,7 @@
 
 import {
   pgTable, text, integer, bigint, boolean,
-  timestamp, jsonb, uuid, index, pgEnum,
+  timestamp, jsonb, uuid, index,
 } from 'drizzle-orm/pg-core'
 
 // ─── Tenants ──────────────────────────────────────────────────────────────────
@@ -13,6 +13,7 @@ import {
 export const tenants = pgTable('tenants', {
   id:            uuid('id').primaryKey().defaultRandom(),
   name:          text('name').notNull(),
+  slug:          text('slug').unique(),          // URL-safe unique identifier (e.g. "acme-corp-a1b2c3")
   rateLimit:     integer('rate_limit').notNull().default(100),
   webhookUrl:    text('webhook_url'),
   webhookSecret: text('webhook_secret'),
