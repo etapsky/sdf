@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SDF Live Demos — Etapsky</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0c0a12;
+        --ink: #f4f4f5;
+        --muted: #a1a1aa;
+        --line: rgba(255, 255, 255, 0.08);
+        --amber: #f59e0b;
+        --violet: #8b5cf6;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: 'IBM Plex Sans', system-ui, sans-serif;
+        background: radial-gradient(1200px 600px at 50% -10%, rgba(139, 92, 246, 0.18), transparent),
+          radial-gradient(800px 400px at 80% 60%, rgba(245, 158, 11, 0.1), transparent), var(--bg);
+        color: var(--ink);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1.25rem;
+      }
+      .card {
+        width: 100%;
+        max-width: 520px;
+        border: 1px solid var(--line);
+        border-radius: 1rem;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(12px);
+      }
+      h1 {
+        margin: 0 0 0.5rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+      p {
+        margin: 0 0 1.5rem;
+        color: var(--muted);
+        line-height: 1.55;
+        font-size: 0.95rem;
+      }
+      .links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+      a:hover {
+        transform: translateY(-1px);
+      }
+      a.primary {
+        background: linear-gradient(90deg, var(--amber), #7c3aed);
+        color: #fff;
+        box-shadow: 0 2px 14px rgba(124, 58, 237, 0.35);
+      }
+      a.secondary {
+        border: 1px solid var(--line);
+        color: var(--ink);
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .back {
+        margin-top: 1.5rem;
+        text-align: center;
+      }
+      .back a {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--muted);
+        background: none;
+        box-shadow: none;
+        padding: 0.25rem;
+      }
+      .back a:hover {
+        color: var(--ink);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>SDF live demos</h1>
+      <p>
+        Build a sample <strong>.sdf</strong> document in the producer, then open it in the reader to inspect
+        visual, data, schema, and meta layers.
+      </p>
+      <div class="links">
+        <a class="primary" href="/producer/">Open SDF Producer</a>
+        <a class="secondary" href="/reader/">Open SDF Reader</a>
+      </div>
+      <div class="back">
+        <a href="https://etapsky.com/">← etapsky.com</a>
+      </div>
+    </div>
+  </body>
+</html>

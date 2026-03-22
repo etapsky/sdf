@@ -1,0 +1,14 @@
+{
+  "name": "@etapsky/demo-site",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Combined static output for demo.etapsky.com (producer + reader + landing)",
+  "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
+  "license": "BUSL-1.1",
+  "buslChangeDate": "2030-03-17",
+  "buslChangeLicense": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  }
+}
