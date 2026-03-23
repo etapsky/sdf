@@ -155,7 +155,7 @@ export default function App() {
   ]
 
   return (
-    <div className="reader-app" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+    <div className="reader-app" style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       <Header filename={filename} meta={result.meta} pdfBytes={result.pdfBytes} onReset={reset} theme={theme} onToggleTheme={toggleTheme} isPlainPDF={isPlainPDF} />
 
       <div
