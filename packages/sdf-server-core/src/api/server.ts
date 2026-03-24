@@ -39,8 +39,9 @@ export async function buildServer(options?: BuildServerOptions) {
   // ── Plugins ───────────────────────────────────────────────────────────────
 
   await fastify.register(cors, {
-    origin:  env.CORS_ORIGIN === '*' ? true : env.CORS_ORIGIN.split(','),
-    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    origin:      env.CORS_ORIGIN === '*' ? true : env.CORS_ORIGIN.split(','),
+    methods:     ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    credentials: true,
   })
 
   await fastify.register(multipart, {
