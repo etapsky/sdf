@@ -61,7 +61,7 @@ export class S3Client {
 
     const response = await fetch(url, {
       method:  'PUT',
-      headers: { ...headers, 'Content-Type': contentType },
+      headers,
       body:    Buffer.from(body),
     })
 
