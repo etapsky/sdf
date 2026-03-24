@@ -157,7 +157,7 @@ export class S3Client {
       .map(([k, v]) => `${k}:${v}`)
       .join('\n') + '\n'
 
-    const canonicalUri    = `/${key}`
+    const canonicalUri    = this.pathStyle ? `/${this.bucket}/${key}` : `/${key}`
     const canonicalQuery  = ''
     const canonicalRequest = [
       method, canonicalUri, canonicalQuery,
