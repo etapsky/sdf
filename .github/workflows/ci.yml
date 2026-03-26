@@ -13,62 +13,56 @@ concurrency:
 jobs:
   # ── sdf-kit ────────────────────────────────────────────────────────────────
   sdf-kit:
-    name: sdf-kit — Node ${{ matrix.node-version }}
+    name: sdf-kit — Bun ${{ matrix.bun-version }}
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [20, 22]
+        bun-version: [latest]
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          bun-version: ${{ matrix.bun-version }}
 
       - name: Install dependencies
-        run: npm ci
-        working-directory: packages/sdf-kit
+        run: bun install
 
       - name: Typecheck
-        run: npm run typecheck
+        run: bun run typecheck
         working-directory: packages/sdf-kit
 
       - name: Test
-        run: npm test
+        run: bun run test
         working-directory: packages/sdf-kit
 
       - name: Build
-        run: npm run build
+        run: bun run build
         working-directory: packages/sdf-kit
 
   # ── sdf-server-core ────────────────────────────────────────────────────────
   sdf-server-core:
-    name: sdf-server-core — Node ${{ matrix.node-version }}
+    name: sdf-server-core — Bun latest
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [20, 22]
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          bun-version: latest
 
       - name: Install dependencies
-        run: npm ci
-        working-directory: packages/sdf-server-core
+        run: bun install
 
       - name: Typecheck
-        run: npm run typecheck
+        run: bun run typecheck
         working-directory: packages/sdf-server-core
 
       - name: Build
-        run: npm run build
+        run: bun run build
         working-directory: packages/sdf-server-core
 
   # ── Coverage ───────────────────────────────────────────────────────────────
@@ -80,16 +74,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: 20
+          bun-version: latest
 
       - name: Install dependencies
-        run: npm ci
-        working-directory: packages/sdf-kit
+        run: bun install
 
       - name: Test with coverage
-        run: npm run test:coverage
+        run: bun run test:coverage
         working-directory: packages/sdf-kit
 
       - name: Upload coverage report
