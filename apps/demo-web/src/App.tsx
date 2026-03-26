@@ -140,7 +140,7 @@ export default function App() {
       >
         <div className="app-header-logo" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
           <a href="https://etapsky.com" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: 'inherit' }}>
-            <img src={`${import.meta.env.BASE_URL}fennec-fox.svg`} alt="Etapsky Inc." width="28" height="28" className="etk-brand-logo" style={{ display: 'block' }} />
+            <img src={`${import.meta.env.BASE_URL}fennec-fox.svg`} alt="Etapsky Inc." width="34" height="34" className="etk-brand-logo" style={{ display: 'block' }} />
           </a>
           <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--border2)', fontWeight: 400 }}>|</span>
           <span style={{
