@@ -44,7 +44,7 @@ export default function DropZone({ onFile }: Props) {
       {/* Wordmark */}
       <div style={{ textAlign: 'center' }}>
         <a href="https://etapsky.com" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginBottom: '8px', lineHeight: 0 }}>
-          <img src={`${import.meta.env.BASE_URL}etapsky_mark.svg`} alt="Etapsky Inc." width="40" height="40" />
+          <img src={`${import.meta.env.BASE_URL}fennec-fox.svg`} alt="Etapsky Inc." className="etk-brand-logo etk-fox-mark" />
         </a>
         <div style={{
           fontFamily: 'var(--mono)',

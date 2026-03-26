@@ -88,8 +88,7 @@ export default function Header({ filename, meta, pdfBytes, onReset, theme, onTog
 
       <div className="reader-header-logo" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
         <a href="https://etapsky.com" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: 'inherit' }}>
-          <img src={`${import.meta.env.BASE_URL}etapsky_mark.svg`} alt="Etapsky Inc." width="24" height="24" style={{ verticalAlign: 'middle' }} />
-          <span style={{ fontFamily: 'var(--mono)', fontSize: '12px', color: 'var(--text3)', fontWeight: 500 }}>Etapsky Inc.</span>
+          <img src={`${import.meta.env.BASE_URL}etapsky_horizonral_logo.svg`} alt="Etapsky Inc." height="20" className="etk-brand-logo" style={{ verticalAlign: 'middle', width: 'auto' }} />
         </a>
         <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--border2)', fontWeight: 400 }}>|</span>
         <span style={{ fontFamily: 'var(--mono)', fontSize: '14px', fontWeight: 500, color: 'var(--text)', letterSpacing: '-0.3px' }}>

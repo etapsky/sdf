@@ -222,3 +222,6 @@ input::placeholder {
     display: none;
   }
 }
+[data-theme="dark"] .etk-brand-logo {
+  filter: invert(1);
+}

@@ -208,3 +208,16 @@ body {
     padding: 8px 0 !important;
   }
 }
+/* Brand logo: default dark theme → invert to #EADDBF; light theme → default #152240 */
+.etk-brand-logo {
+  filter: invert(1);
+}
+[data-theme="light"] .etk-brand-logo {
+  filter: none;
+}
+
+/* Fennec fox mark in DropZone — scales with viewport, never overflows */
+.etk-fox-mark {
+  width: clamp(64px, 10vw, 96px);
+  height: clamp(64px, 10vw, 96px);
+}
