@@ -57,6 +57,14 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Build sdf-kit
+        run: bun run build
+        working-directory: packages/sdf-kit
+
+      - name: Build sdf-schema-registry
+        run: bun run build
+        working-directory: packages/sdf-schema-registry
+
       - name: Typecheck
         run: bun run typecheck
         working-directory: packages/sdf-server-core
