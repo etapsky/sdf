@@ -10,5 +10,8 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs"
+  },
+  "dependencies": {
+    "@etapsky/sdf-kit": "^0.2.0"
   }
 }
