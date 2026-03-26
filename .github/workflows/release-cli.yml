@@ -75,10 +75,19 @@ jobs:
           ./dist/sdf --version
           ./dist/sdf --help
 
+      - name: Copy macOS icon into dist
+        if: runner.os == 'macOS'
+        run: |
+          cp tooling/os-integration/macos/SDFDocument.icns packages/sdf-cli/dist/SDFDocument.icns
+
       - name: Create tarball
         working-directory: packages/sdf-cli/dist
         run: |
-          tar -czf ${{ matrix.asset }}.tar.gz sdf
+          if [ -f SDFDocument.icns ]; then
+            tar -czf ${{ matrix.asset }}.tar.gz sdf SDFDocument.icns
+          else
+            tar -czf ${{ matrix.asset }}.tar.gz sdf
+          fi
           sha256sum ${{ matrix.asset }}.tar.gz > ${{ matrix.asset }}.sha256
 
       - name: Upload artifact
