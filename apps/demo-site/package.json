@@ -12,6 +12,6 @@
     "build": "node scripts/build.mjs"
   },
   "dependencies": {
-    "@etapsky/sdf-kit": "^0.2.0"
+    "@etapsky/sdf-kit": "^0.2.2"
   }
 }
