@@ -1,6 +1,6 @@
 {
   "name": "@etapsky/sdf-cli",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "SDF command-line tool — inspect, validate, convert .sdf files",
   "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
   "license": "BUSL-1.1",
@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@etapsky/sdf-kit": "^0.2.2",
-    "@etapsky/sdf-schema-registry": "^0.1.0"
+    "@etapsky/sdf-schema-registry": "^0.1.1"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

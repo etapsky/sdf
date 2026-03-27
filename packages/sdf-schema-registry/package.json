@@ -1,6 +1,6 @@
 {
   "name": "@etapsky/sdf-schema-registry",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "SDF Schema Registry — versioned schema publication, diff, and migration",
   "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
   "license": "BUSL-1.1",
@@ -42,7 +42,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@etapsky/sdf-kit": "^0.2.1",
+    "@etapsky/sdf-kit": "^0.2.2",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1"
   },
