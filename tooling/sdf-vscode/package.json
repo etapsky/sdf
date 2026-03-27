@@ -2,7 +2,7 @@
   "name": "etapsky-sdf",
   "displayName": "SDF — Smart Document Format",
   "description": "VS Code extension for SDF — inspect, validate, preview .sdf files",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "etapsky",
   "icon": "assets/icon.png",
   "galleryBanner": {
@@ -102,13 +102,6 @@
         }
       ]
     },
-    "iconThemes": [
-      {
-        "id": "sdf-icons",
-        "label": "SDF Icons",
-        "path": "./assets/sdf-icons.json"
-      }
-    ],
     "configuration": {
       "title": "SDF",
       "properties": {
