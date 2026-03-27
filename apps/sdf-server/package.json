@@ -36,7 +36,7 @@
     "dependencies": {
         "@etapsky/sdf-server-core": "workspace:*",
         "@etapsky/sdf-kit": "^0.2.2",
-        "@etapsky/sdf-schema-registry": "^0.1.0",
+        "@etapsky/sdf-schema-registry": "^0.1.1",
         "@fastify/cors": "^10.0.1",
         "@fastify/multipart": "^9.0.1",
         "@fastify/rate-limit": "^10.2.1",
