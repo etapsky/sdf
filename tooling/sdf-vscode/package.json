@@ -1,9 +1,14 @@
 {
-  "name": "@etapsky/sdf-vscode",
+  "name": "etapsky-sdf",
   "displayName": "SDF — Smart Document Format",
   "description": "VS Code extension for SDF — inspect, validate, preview .sdf files",
   "version": "0.1.0",
   "publisher": "etapsky",
+  "icon": "assets/icon.png",
+  "galleryBanner": {
+    "color": "#1a1a2e",
+    "theme": "dark"
+  },
   "author": "Yunus YILDIZ <yunus.yildiz@etapsky.com>",
   "license": "BUSL-1.1",
   "buslChangeDate": "2030-03-17",

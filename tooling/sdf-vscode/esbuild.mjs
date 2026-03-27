@@ -9,6 +9,10 @@ import path from 'path';
 const req = createRequire(fileURLToPath(import.meta.url));
 const pdfDistBuild = path.dirname(req.resolve('pdfjs-dist/build/pdf.js'));
 
+// 0. Clean dist/
+fs.rmSync('dist', { recursive: true, force: true });
+fs.mkdirSync('dist', { recursive: true });
+
 // 1. Extension main — CJS bundle for VS Code extension host
 await build({
   entryPoints: ['src/extension.ts'],
