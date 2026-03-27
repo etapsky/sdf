@@ -13,7 +13,9 @@
     "url": "https://github.com/etapsky/sdf.git",
     "directory": "tooling/sdf-vscode"
   },
-  "bugs": { "url": "https://github.com/etapsky/sdf/issues" },
+  "bugs": {
+    "url": "https://github.com/etapsky/sdf/issues"
+  },
   "homepage": "https://github.com/etapsky/sdf#readme",
   "engines": {
     "vscode": "^1.89.0"
@@ -79,7 +81,9 @@
         "viewType": "sdf.preview",
         "displayName": "SDF Preview",
         "selector": [
-          { "filenamePattern": "*.sdf" }
+          {
+            "filenamePattern": "*.sdf"
+          }
         ],
         "priority": "default"
       }
@@ -93,6 +97,13 @@
         }
       ]
     },
+    "iconThemes": [
+      {
+        "id": "sdf-icons",
+        "label": "SDF Icons",
+        "path": "./assets/sdf-icons.json"
+      }
+    ],
     "configuration": {
       "title": "SDF",
       "properties": {
@@ -105,22 +116,24 @@
     }
   },
   "scripts": {
-    "build": "tsc -p .",
-    "watch": "tsc -p . -w",
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
     "lint": "tsc --noEmit",
     "test": "node ./dist/test/runTest.js",
     "package": "vsce package --no-dependencies"
   },
   "dependencies": {
-    "@etapsky/sdf-kit": "^0.2.2"
+    "@etapsky/sdf-kit": "^0.2.2",
+    "pdfjs-dist": "3.11.174"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.0",
-    "@types/vscode": "^1.89.0",
     "@types/node": "^22.0.0",
-    "typescript": "^5.7.3",
+    "@types/vscode": "^1.89.0",
     "@vscode/test-electron": "^2.4.1",
-    "mocha": "^10.0.0"
+    "esbuild": "^0.27.4",
+    "mocha": "^10.0.0",
+    "typescript": "^5.7.3"
   },
   "devEngines": {
     "vscode": "^1.89.0"

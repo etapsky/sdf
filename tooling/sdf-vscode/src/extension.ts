@@ -15,7 +15,7 @@ import { initStatusBar } from './utils/statusBar';
  * Commands and providers are registered here.
  */
 export function activate(context: vscode.ExtensionContext): void {
-  const documentProvider = new SDFDocumentProvider();
+  const documentProvider = new SDFDocumentProvider(context.extensionUri);
   const treeProvider = new SDFTreeProvider();
 
   context.subscriptions.push(

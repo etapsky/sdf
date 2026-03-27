@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="SDF – Smart Document Format">
+  <title>SDF – Smart Document Format</title>
+  <defs>
+
+    <!-- ── Drop shadow ─────────────────────────────────────────── -->
+    <filter id="drop-shadow" x="-20%" y="-15%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10"
+                    flood-color="#1e1b4b" flood-opacity="0.38"/>
+    </filter>
+
+    <!-- ── Document body: violet-500 → violet-900 ──────────────── -->
+    <linearGradient id="body-grad" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%"   stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#4C1D95"/>
+    </linearGradient>
+
+    <!-- ── Fold corner: amber-200 → amber-600 ─────────────────── -->
+    <linearGradient id="fold-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#FDE68A"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+
+    <!-- ── Specular shine: white highlight top-left → transparent ─ -->
+    <linearGradient id="shine-grad" x1="0.1" y1="0" x2="0.9" y2="0.9">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="50%"  stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- ── Clip path: document silhouette ─────────────────────── -->
+    <clipPath id="doc-clip">
+      <path d="M 42,24 L 176,24 L 228,76 L 228,226
+               Q 228,240 214,240 L 42,240
+               Q 28,240 28,226 L 28,38
+               Q 28,24 42,24 Z"/>
+    </clipPath>
+
+  </defs>
+
+  <!-- 1 · DOCUMENT BODY -->
+  <path d="M 42,24 L 176,24 L 228,76 L 228,226
+           Q 228,240 214,240 L 42,240
+           Q 28,240 28,226 L 28,38
+           Q 28,24 42,24 Z"
+        fill="url(#body-grad)"
+        filter="url(#drop-shadow)"/>
+
+  <!-- Specular shine (clipped to document shape) -->
+  <g clip-path="url(#doc-clip)">
+    <rect x="28" y="24" width="200" height="216" fill="url(#shine-grad)"/>
+  </g>
+
+  <!-- 2 · FOLD CORNER -->
+  <path d="M 176,24 L 228,76 L 176,76 Z"
+        fill="url(#fold-grad)"/>
+
+  <!-- Crease shadow -->
+  <path d="M 176,24 L 176,76 L 228,76"
+        fill="none"
+        stroke="#5B21B6"
+        stroke-width="1.2"
+        stroke-opacity="0.38"
+        stroke-linejoin="round"/>
+
+  <!-- 3 · ETAPSKY BAR-CHART MARK -->
+  <rect x="76"  y="150" width="28" height="28" rx="5" fill="#F59E0B"/>
+  <rect x="114" y="122" width="28" height="56" rx="5" fill="#ffffff" opacity="0.88"/>
+  <rect x="152" y="94"  width="28" height="84" rx="5" fill="#F59E0B"/>
+
+  <polyline points="90,150 90,136 128,136 128,122 166,122 166,94"
+            fill="none"
+            stroke="#FDE68A"
+            stroke-width="2"
+            stroke-dasharray="4 3"
+            stroke-opacity="0.52"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
+
+  <!-- 4 · SDF LABEL -->
+  <text x="128" y="222"
+        font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif"
+        font-size="44"
+        font-weight="800"
+        fill="#ffffff"
+        text-anchor="middle"
+        letter-spacing="-1">SDF</text>
+
+  <!-- Amber underline accent -->
+  <rect x="86" y="228" width="84" height="3.5" rx="1.75" fill="#F59E0B"/>
+
+</svg>
