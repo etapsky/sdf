@@ -24,7 +24,7 @@ import io
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 SVG_PATH   = os.path.normpath(
-    os.path.join(SCRIPT_DIR, "..", "..", "..", "assets", "sdf_icon_v2.svg")
+    os.path.join(SCRIPT_DIR, "..", "..", "..", "me", "assets", "sdf_icon_v2.svg")
 )
 
 if not os.path.exists(SVG_PATH):
