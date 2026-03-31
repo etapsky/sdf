@@ -4,21 +4,24 @@
 // Exposes key management, signing, and verification utilities.
 
 export type {
-    SDFSigningAlgorithm,
-    SDFKeyPair,
-    SDFSignatureResult,
-    SDFVerifyResult,
-    SDFSignOptions,
-    SDFVerifyOptions,
-  } from './types.js'
-  
-  export {
-    generateSDFKeyPair,
-    exportSDFPublicKey,
-    exportSDFPrivateKey,
-    importSDFPublicKey,
-    importSDFPrivateKey,
-    signSDF,
-  } from './sign.js'
-  
-  export { verifySig } from './verify.js'
+  SDFSigningAlgorithm,
+  SDFSignatureEncoding,
+  SDFKeyPair,
+  SDFSignerSubject,
+  SDFSignerInfo,
+  SDFSignatureResult,
+  SDFVerifyResult,
+  SDFSignOptions,
+  SDFVerifyOptions,
+} from './types.js'
+
+export {
+  generateSDFKeyPair,
+  exportSDFPublicKey,
+  exportSDFPrivateKey,
+  importSDFPublicKey,
+  importSDFPrivateKey,
+  signSDF,
+} from './sign.js'
+
+export { verifySig } from './verify.js'

@@ -2,11 +2,20 @@
 // Copyright (c) 2026 Yunus YILDIZ — SPDX-License-Identifier: BUSL-1.1
 // Key generation, import/export, and detached signing for SDF archives.
 // SDF_FORMAT.md Section 11 — Digital Signatures.
+//
 // Canonical signed content: data.json + schema.json + meta.json (+ visual.pdf
-// if includePDF is set). Signature is stored as signature.sig inside the ZIP.
+// if includePDF is set). Signature stored as signature.sig inside the ZIP.
+//
+// signature.sig schema (JSON):
+//   algorithm, signed_at, content_digest, include_pdf, signature, meta_snapshot
+//   signer_info — optional identity block (SDFSignerInfo)
+//
+// Signature encoding for ECDSA (signer_info.signature_encoding):
+//   "p1363"  — IEEE P1363 r||s (Web Crypto output — this file)
+//   "der"    — ASN.1 DER SEQUENCE{r,s} (OS native — set by Rust signer)
 import JSZip from 'jszip'
 import { SDFError, SDF_ERRORS } from '../core/errors.js'
-import type { SDFSignOptions, SDFSignatureResult } from './types.js'
+import type { SDFSignOptions, SDFSignatureResult, SDFSignerInfo } from './types.js'
 
 // ─── Key Management ───────────────────────────────────────────────────────────
 
@@ -57,10 +66,11 @@ export async function importSDFPrivateKey(
 }
 
 // ─── signSDF ──────────────────────────────────────────────────────────────────
-// Produces a detached signature over canonical content and embeds it in the
-// archive as signature.sig. meta.json is updated with signature_algorithm and
-// signed_at AFTER the canonical content is hashed, so the original meta bytes
-// are snapshotted inside signature.sig for deterministic re-verification.
+// Produces a detached P1363-encoded (Web Crypto) ECDSA or RSASSA-PKCS1-v1_5
+// signature over canonical content and embeds it as signature.sig in the ZIP.
+// meta.json is updated with signature_algorithm and signed_at AFTER the
+// canonical bytes are hashed; the original meta bytes are snapshotted inside
+// signature.sig so that verify.ts can deterministically reconstruct them.
 
 export async function signSDF(
   buffer: Uint8Array,
@@ -83,8 +93,8 @@ export async function signSDF(
   }
 
   // Canonical content uses original meta.json — before signature_algorithm update.
-  // meta_snapshot is stored in signature.sig so verify.ts can reconstruct
-  // exactly the same canonical bytes.
+  // meta_snapshot is stored in signature.sig so verify.ts can reconstruct the
+  // exact same canonical bytes deterministically.
   const canonical = buildCanonicalContent(dataRaw, schemaRaw, metaRaw, pdfRaw)
 
   const digestBuffer  = await globalThis.crypto.subtle.digest('SHA-256', canonical.buffer as ArrayBuffer)
@@ -104,18 +114,25 @@ export async function signSDF(
   const signedAt  = new Date().toISOString()
   const signature = bufferToBase64(sigBuffer)
 
-  // Store original metaRaw so verify.ts can reconstruct the exact canonical content
+  // Build signer_info — merge caller-supplied fields with self_signed defaults.
+  const signerInfo: SDFSignerInfo = {
+    mode: 'self_signed',
+    signature_encoding: 'p1363',
+    ...(options.signerInfo ?? {}),
+  }
+
   const sigPayload = JSON.stringify({
-    algorithm:     options.algorithm,
-    signed_at:     signedAt,
+    algorithm:      options.algorithm,
+    signed_at:      signedAt,
     content_digest: contentDigest,
-    include_pdf:   options.includePDF ?? false,
+    include_pdf:    options.includePDF ?? false,
     signature,
-    meta_snapshot: metaRaw,
+    meta_snapshot:  metaRaw,
+    signer_info:    signerInfo,
   }, null, 2)
 
   // Update meta.json with signature info AFTER signing
-  const meta = JSON.parse(metaRaw)
+  const meta = JSON.parse(metaRaw) as Record<string, unknown>
   meta.signature_algorithm = options.algorithm
   meta.signed_at = signedAt
 
@@ -128,7 +145,13 @@ export async function signSDF(
 
   return {
     buffer: outBuffer,
-    result: { signature, algorithm: options.algorithm, signed_at: signedAt, content_digest: contentDigest },
+    result: {
+      signature,
+      algorithm:      options.algorithm,
+      signed_at:      signedAt,
+      content_digest: contentDigest,
+      signer_info:    signerInfo,
+    },
   }
 }
 
