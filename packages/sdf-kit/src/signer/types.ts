@@ -51,6 +51,12 @@ export interface SDFSignerInfo {
   tsa_signed_at?: string;
   /** Encoding of the raw `signature` bytes. Absent → "p1363" (Web Crypto default). */
   signature_encoding?: SDFSignatureEncoding;
+  /**
+   * SPKI public key (base64) used when mode is "self_signed".
+   * Embedded so the file is self-verifiable without keychain access.
+   * The private key stays in the OS keychain; only the public half is stored here.
+   */
+  public_key_spki_b64?: string;
 }
 
 // ─── Sign / Verify Results ────────────────────────────────────────────────────
