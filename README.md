@@ -23,7 +23,16 @@
 
 <p>Creator of <img src="./assets/sdf_icon.svg" width="16" height="20" alt="SDF" style="vertical-align:middle;" /> SDF &nbsp;·&nbsp; Full Stack Developer</p>
 
-<p><a href="https://etapsky.com" style="display:inline-flex;align-items:center;gap:0.35em;text-decoration:none;"><img src="./assets/etapsky_mark.svg" width="18" height="18" alt="" align="middle" /><span>etapsky.com</span></a></p>
+<p>
+<a href="https://etapsky.com" style="text-decoration:none;">
+<table style="display:inline-table;border-collapse:collapse;margin:0;padding:0;border:0;">
+  <tbody><tr>
+    <td style="vertical-align:middle;border:0;padding:0;line-height:0;"><img src="./assets/etapsky_mark.svg" width="18" height="18" alt="" /></td>
+    <td style="vertical-align:middle;border:0;padding:0 0 0 6px;line-height:1;"><span>etapsky.com</span></td>
+  </tr></tbody>
+</table>
+</a>
+</p>
 
 <p><em>Always learning. Always building.</em></p>
 
@@ -45,7 +54,7 @@
 </p>
 
 <p>
-<a href="https://buymeacoffee.com/yunusyildiz.dev"><img src="https://img.shields.io/badge/Buy_me_a_coffee-FFDD00?style=flat-square&logo=buy-me-a-coffee&logoColor=black" alt="Buy me a coffee" /></a>
+<a href="https://buymeacoffee.com/yunusyildiz.dev"><img src="https://img.shields.io/badge/Buy_me_a_coffee-FFDD00?style=flat-square&logo=buy-me-a-coffee&logoColor=black" alt="Buy me a coffee" style="border:1px solid #000000;border-radius:0;vertical-align:middle;" /></a>
 </p>
 
 <p><sub>Built with ☕ and ❤️ · Geneva, Switzerland · March 2026</sub></p>
